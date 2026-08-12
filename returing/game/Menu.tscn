@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c8krpqbcnmn1v"]
+
+[ext_resource type="Script" uid="uid://df2g3da5lw3av" path="res://game/menu.gd" id="1_42fjs"]
+
+[node name="Menu" type="Node2D" unique_id=792550384]
+script = ExtResource("1_42fjs")
+
+[node name="Control" type="Control" parent="." unique_id=447861506]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
