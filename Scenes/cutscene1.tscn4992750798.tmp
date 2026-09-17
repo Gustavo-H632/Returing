@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://ck20t463e6yfm"]
+
+[ext_resource type="Script" uid="uid://cb47ohjtami6f" path="res://Scenes/Global.gd" id="1_nb80i"]
+[ext_resource type="Script" uid="uid://d0p3fecedxhq8" path="res://Scenes/Back_cut1.gd" id="2_dy4cx"]
+[ext_resource type="Script" uid="uid://dpmvvpcupu4db" path="res://Scenes/text.scene.gd" id="2_sctvt"]
+[ext_resource type="Script" uid="uid://dp0vt7dn572eb" path="res://Scenes/button_cut1.gd" id="4_dy4cx"]
+
+[node name="Control" type="Control" unique_id=392409372]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nb80i")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2089391364]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 1151.0
+offset_bottom = 648.0
+script = ExtResource("2_dy4cx")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1656801072]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 521.0
+offset_right = 916.0
+offset_bottom = 613.0
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=205323747]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 537.0
+offset_right = 899.0
+offset_bottom = 596.0
+script = ExtResource("2_sctvt")
+
+[node name="Button" type="Button" parent="." unique_id=1980959814]
+layout_mode = 0
+offset_left = 957.0
+offset_top = 548.0
+offset_right = 1045.0
+offset_bottom = 585.0
+text = "Avançar"
+script = ExtResource("4_dy4cx")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
