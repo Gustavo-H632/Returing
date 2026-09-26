@@ -28,4 +28,4 @@ func _on_button_pressed() -> void: #Botão avançar pressionado
 		
 	else : #Acabou a cena
 		
-		get_tree().change_scene_to_file("res://Scenes/fase_1.tscn") #Vai para a cena da fase 1
+		get_tree().change_scene_to_file("res://Scenes/Fase1/fase_1.tscn") #Vai para a cena da fase 1

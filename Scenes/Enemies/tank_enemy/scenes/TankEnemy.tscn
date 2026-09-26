@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://57nno838j2lg"]
+
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/tank_enemy.gd" id="1_tank"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/components/health_component.gd" id="2_health"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/components/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/components/hitbox.gd" id="4_hitbox"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/states/state_machine.gd" id="5_statemachine"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/states/state_idle.gd" id="6_idle"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/states/state_chase.gd" id="7_chase"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/states/state_attack.gd" id="8_attack"]
+[ext_resource type="Script" path="res://enemies/tank_enemy/scripts/states/state_special_attack.gd" id="9_special"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 420.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
+radius = 90.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dash"]
+radius = 34.0
+
+[node name="TankEnemy" type="CharacterBody2D" unique_id=596008768]
+collision_layer = 4
+script = ExtResource("1_tank")
+
+[node name="VisualSprite" type="Sprite2D" parent="." unique_id=265120558]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1292995965]
+shape = SubResource("CircleShape2D_body")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=943980812]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=869232669]
+shape = SubResource("CircleShape2D_detection")
+
+[node name="AttackRangeArea" type="Area2D" parent="." unique_id=123128085]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRangeArea" unique_id=1175029507]
+shape = SubResource("CircleShape2D_attack")
+
+[node name="TankHurtbox" type="Area2D" parent="." unique_id=329535340]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TankHurtbox" unique_id=283434053]
+shape = SubResource("CircleShape2D_body")
+
+[node name="StompHitbox" type="Area2D" parent="." unique_id=2045151568]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("4_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StompHitbox" unique_id=1203041418]
+shape = SubResource("CircleShape2D_attack")
+disabled = true
+
+[node name="DashHitbox" type="Area2D" parent="." unique_id=1617885649]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("4_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DashHitbox" unique_id=1958414543]
+shape = SubResource("CircleShape2D_dash")
+disabled = true
+
+[node name="TankHealthComponent" type="Node" parent="." unique_id=1289097294]
+script = ExtResource("2_health")
+
+[node name="TankStateMachine" type="Node" parent="." unique_id=2131896442]
+script = ExtResource("5_statemachine")
+
+[node name="Idle" type="Node" parent="TankStateMachine" unique_id=1800054285]
+script = ExtResource("6_idle")
+
+[node name="Chase" type="Node" parent="TankStateMachine" unique_id=667214651]
+script = ExtResource("7_chase")
+
+[node name="Attack" type="Node" parent="TankStateMachine" unique_id=671003807]
+script = ExtResource("8_attack")
+
+[node name="Special_Attack" type="Node" parent="TankStateMachine" unique_id=2096789858]
+script = ExtResource("9_special")
+
+[node name="Timers" type="Node" parent="." unique_id=1291126658]
+
+[node name="IdleWanderTimer" type="Timer" parent="Timers" unique_id=2115367704]
+one_shot = true
+
+[node name="AttackPulseTimer" type="Timer" parent="Timers" unique_id=928356956]
+one_shot = true
+
+[node name="DashPrepareTimer" type="Timer" parent="Timers" unique_id=1565697321]
+one_shot = true
+
+[node name="DashDurationTimer" type="Timer" parent="Timers" unique_id=158535633]
+one_shot = true

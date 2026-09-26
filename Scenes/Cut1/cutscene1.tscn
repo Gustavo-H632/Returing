@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ck20t463e6yfm"]
 
-[ext_resource type="Script" uid="uid://cb47ohjtami6f" path="res://Scenes/Global.gd" id="1_nb80i"]
-[ext_resource type="Script" uid="uid://d0p3fecedxhq8" path="res://Scenes/Back_cut1.gd" id="2_dy4cx"]
-[ext_resource type="Script" uid="uid://dpmvvpcupu4db" path="res://Scenes/text.scene.gd" id="2_sctvt"]
-[ext_resource type="Script" uid="uid://dp0vt7dn572eb" path="res://Scenes/button_cut1.gd" id="4_dy4cx"]
+[ext_resource type="Script" uid="uid://cb47ohjtami6f" path="res://Scenes/Cut1/Global.gd" id="1_qhnog"]
+[ext_resource type="Script" uid="uid://d0p3fecedxhq8" path="res://Scenes/Cut1/Back_cut1.gd" id="2_160h8"]
+[ext_resource type="Script" uid="uid://dpmvvpcupu4db" path="res://Scenes/Cut1/text.scene.gd" id="3_ghuy2"]
+[ext_resource type="Script" uid="uid://dp0vt7dn572eb" path="res://Scenes/Cut1/button_cut1.gd" id="4_eubcm"]
 
 [node name="Control" type="Control" unique_id=392409372]
 layout_mode = 3
@@ -14,14 +14,15 @@ offset_top = 2.0
 offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_nb80i")
+script = ExtResource("1_qhnog")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=2089391364]
 layout_mode = 0
-offset_top = -4.0
-offset_right = 1151.0
-offset_bottom = 648.0
-script = ExtResource("2_dy4cx")
+offset_left = 13.0
+offset_top = -9.0
+offset_right = 1164.0
+offset_bottom = 643.0
+script = ExtResource("2_160h8")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1656801072]
 layout_mode = 0
@@ -37,7 +38,7 @@ offset_left = 229.0
 offset_top = 537.0
 offset_right = 899.0
 offset_bottom = 596.0
-script = ExtResource("2_sctvt")
+script = ExtResource("3_ghuy2")
 
 [node name="Button" type="Button" parent="." unique_id=1980959814]
 layout_mode = 0
@@ -46,7 +47,7 @@ offset_top = 548.0
 offset_right = 1045.0
 offset_bottom = 585.0
 text = "Avançar"
-script = ExtResource("4_dy4cx")
+script = ExtResource("4_eubcm")
 
 [connection signal="pressed" from="Button" to="TextureRect" method="_on_button_pressed"]
 [connection signal="pressed" from="Button" to="RichTextLabel" method="_on_button_pressed"]

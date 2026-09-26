@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://b6x70jdyexnty"]
 
-[ext_resource type="Texture2D" uid="uid://bkvfyrgyw8jcu" path="res://Sprites/Menu/bg.png" id="1_6af1h"]
-[ext_resource type="Texture2D" uid="uid://c04sm5ocr2i1l" path="res://Sprites/Menu/Title.png" id="2_k6mqe"]
-[ext_resource type="Texture2D" uid="uid://dw6yry0wgc5gi" path="res://Sprites/Menu/Start_button.png" id="3_kihoa"]
-[ext_resource type="Script" uid="uid://b2hnp8mrrbujv" path="res://Scenes/start_button.gd" id="4_xplyj"]
-[ext_resource type="Texture2D" uid="uid://bspsf5rosedof" path="res://Sprites/Menu/Exit_button.png" id="5_xplyj"]
-[ext_resource type="Script" uid="uid://cajtemeptlkmr" path="res://Scenes/quit_button.gd" id="6_kihoa"]
+[ext_resource type="Texture2D" uid="uid://bkvfyrgyw8jcu" path="res://Sprites/Menu/bg.png" id="1_bx00l"]
+[ext_resource type="Texture2D" uid="uid://c04sm5ocr2i1l" path="res://Sprites/Menu/Title.png" id="2_hwhik"]
+[ext_resource type="Texture2D" uid="uid://dw6yry0wgc5gi" path="res://Sprites/Menu/Start_button.png" id="3_8i4ye"]
+[ext_resource type="Script" uid="uid://b2hnp8mrrbujv" path="res://Scenes/Start/start_button.gd" id="4_bx00l"]
+[ext_resource type="Texture2D" uid="uid://bspsf5rosedof" path="res://Sprites/Menu/Exit_button.png" id="5_m1ljs"]
+[ext_resource type="Script" uid="uid://cajtemeptlkmr" path="res://Scenes/Start/quit_button.gd" id="6_bx00l"]
 
 [node name="Menu_Start" type="Control" unique_id=1156034083]
 layout_mode = 3
@@ -23,7 +23,7 @@ offset_left = -404.0
 offset_top = -202.0
 offset_right = 1516.0
 offset_bottom = 878.0
-texture = ExtResource("1_6af1h")
+texture = ExtResource("1_bx00l")
 
 [node name="TextureRect2" type="TextureRect" parent="." unique_id=827663250]
 layout_mode = 0
@@ -31,7 +31,7 @@ offset_left = 78.0
 offset_top = 34.0
 offset_right = 1102.0
 offset_bottom = 317.0
-texture = ExtResource("2_k6mqe")
+texture = ExtResource("2_hwhik")
 
 [node name="Start_button" type="Button" parent="." unique_id=1983595924]
 layout_mode = 0
@@ -40,8 +40,8 @@ offset_top = 346.0
 offset_right = 1485.0
 offset_bottom = 798.0
 scale = Vector2(0.25, 0.25)
-icon = ExtResource("3_kihoa")
-script = ExtResource("4_xplyj")
+icon = ExtResource("3_8i4ye")
+script = ExtResource("4_bx00l")
 
 [node name="Quit_button" type="Button" parent="." unique_id=2058065059]
 layout_mode = 0
@@ -50,8 +50,8 @@ offset_top = 480.0
 offset_right = 1487.0
 offset_bottom = 832.0
 scale = Vector2(0.25, 0.25)
-icon = ExtResource("5_xplyj")
-script = ExtResource("6_kihoa")
+icon = ExtResource("5_m1ljs")
+script = ExtResource("6_bx00l")
 
 [connection signal="pressed" from="Start_button" to="Start_button" method="_on_pressed"]
 [connection signal="pressed" from="Quit_button" to="Start_button" method="_on_quit_button_pressed"]
