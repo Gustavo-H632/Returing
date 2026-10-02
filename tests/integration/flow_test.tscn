@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://drjmqidyy6114"]
-
-[ext_resource type="Script" uid="uid://bkx7uvy1ykdfv" path="res://tests/integration/flow_test.gd" id="1_flow"]
-
-[node name="FlowTest" type="Node"]
-script = ExtResource("1_flow")
