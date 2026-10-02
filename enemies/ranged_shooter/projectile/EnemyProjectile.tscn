@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b7eqqees83wu5"]
+
+[ext_resource type="Script" uid="uid://c1ukfwaw5tm5s" path="res://enemies/ranged_shooter/projectile/projectile.gd" id="1_proj"]
+[ext_resource type="Script" uid="uid://fkk0pofewwp5" path="res://enemies/ranged_shooter/combat/hitbox.gd" id="2_hitbox"]
+[ext_resource type="Texture2D" uid="uid://dxy20bg18ir7l" path="res://icon.svg" id="3_icon"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 6.0
+
+[node name="EnemyProjectile" type="Area2D" node_paths=PackedStringArray("hitbox")]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_proj")
+hitbox = NodePath("ShooterHitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="ShooterHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShooterHitbox"]
+shape = SubResource("CircleShape2D_hit")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.35, 0.35, 1)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("3_icon")

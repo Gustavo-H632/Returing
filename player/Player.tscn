@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://ciny3eb1ssgrs"]
+
+[ext_resource type="Script" uid="uid://cd0gec2yownmv" path="res://player/Player.gd" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://vxgyoe0bpg8c" path="res://player/player_hurtbox.gd" id="2_hurtbox"]
+[ext_resource type="Texture2D" uid="uid://dfq5nqfa40ijw" path="res://Sprites/Cutscenes/pxArt.png" id="2_wnvi2"]
+[ext_resource type="PackedScene" uid="uid://c5cyff2hd4p3f" path="res://player/player_projectile.tscn" id="3_proj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xhfnw"]
+radius = 10.0
+height = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
+radius = 12.0
+height = 34.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kne1u"]
+radius = 22.0
+
+[node name="Player" type="CharacterBody2D" unique_id=2040568385 node_paths=PackedStringArray("attack_pivot", "melee_hitbox", "projectile_spawn", "hurtbox", "anim_tree")]
+position = Vector2(315, 181)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_xhfnw")
+projectile_scene = ExtResource("3_proj")
+attack_pivot = NodePath("AttackPivot")
+melee_hitbox = NodePath("AttackPivot/MeleeHitbox")
+projectile_spawn = NodePath("AttackPivot/ProjectileSpawn")
+hurtbox = NodePath("Hurtbox")
+anim_tree = NodePath("AnimationTree")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=672822164]
+position = Vector2(-3.9339066e-06, 0)
+scale = Vector2(0.4194631, 0.4054054)
+texture = ExtResource("2_wnvi2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1213845482]
+shape = SubResource("CapsuleShape2D_xhfnw")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=176695697 node_paths=PackedStringArray("actor")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_hurtbox")
+actor = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1506182602]
+shape = SubResource("CapsuleShape2D_kpjcp")
+
+[node name="AttackPivot" type="Marker2D" parent="." unique_id=1318322165]
+
+[node name="MeleeHitbox" type="Area2D" parent="AttackPivot" unique_id=1484851821]
+position = Vector2(26, 0)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/MeleeHitbox" unique_id=419595678]
+shape = SubResource("CircleShape2D_kne1u")
+
+[node name="ProjectileSpawn" type="Marker2D" parent="AttackPivot" unique_id=695273096]
+position = Vector2(30, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1732448547]
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=823282332]

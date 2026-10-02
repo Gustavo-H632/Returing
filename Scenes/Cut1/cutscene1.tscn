@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://ck20t463e6yfm"]
+
+[ext_resource type="Script" uid="uid://c5sv85iu7bycs" path="res://Scenes/Cut1/cutscene_controller.gd" id="1_ctrl"]
+[ext_resource type="Script" uid="uid://d0p3fecedxhq8" path="res://Scenes/Cut1/Back_cut1.gd" id="2_160h8"]
+[ext_resource type="Script" uid="uid://dpmvvpcupu4db" path="res://Scenes/Cut1/text.scene.gd" id="3_ghuy2"]
+[ext_resource type="Script" uid="uid://dp0vt7dn572eb" path="res://Scenes/Cut1/button_cut1.gd" id="4_eubcm"]
+
+[node name="Control" type="Control" unique_id=392409372]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ctrl")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2089391364]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+script = ExtResource("2_160h8")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1656801072]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = -140.0
+offset_right = -120.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=205323747]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 144.0
+offset_top = -128.0
+offset_right = -260.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_ghuy2")
+
+[node name="Button" type="Button" parent="." unique_id=1980959814]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -236.0
+offset_top = -104.0
+offset_right = -140.0
+offset_bottom = -56.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Avançar"
+script = ExtResource("4_eubcm")

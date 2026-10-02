@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://byien5iwg4jim"]
+
+[ext_resource type="Script" uid="uid://bvyqb5ngw5vw0" path="res://enemies/ranged_shooter/melee_telegraph/melee_telegraph.gd" id="1_tele"]
+[ext_resource type="Script" uid="uid://fkk0pofewwp5" path="res://enemies/ranged_shooter/combat/hitbox.gd" id="2_hitbox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 80.0
+
+[node name="MeleeTelegraph" type="Node2D" node_paths=PackedStringArray("hitbox", "hitbox_shape")]
+script = ExtResource("1_tele")
+hitbox = NodePath("ShooterHitbox")
+hitbox_shape = NodePath("ShooterHitbox/CollisionShape2D")
+
+[node name="ShooterHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShooterHitbox"]
+shape = SubResource("CircleShape2D_hit")

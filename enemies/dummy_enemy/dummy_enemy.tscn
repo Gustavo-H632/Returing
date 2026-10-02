@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://pv38t6g28xhp"]
+
+[ext_resource type="Script" uid="uid://cnha0vomy64no" path="res://enemies/dummy_enemy/dummy_enemy.gd" id="1_dummy"]
+[ext_resource type="Script" uid="uid://bu7mdf3ogd4gu" path="res://common/components/hurtbox.gd" id="2_hurtbox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 16.0
+
+[node name="DummyEnemy" type="Node2D" node_paths=PackedStringArray("hurtbox", "timer_projetil", "timer_onda") groups=["dummy_enemy"]]
+script = ExtResource("1_dummy")
+hurtbox = NodePath("Hurtbox")
+timer_projetil = NodePath("TimerProjetil")
+timer_onda = NodePath("TimerOnda")
+
+[node name="TimerProjetil" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="TimerOnda" type="Timer" parent="."]
+one_shot = true
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("actor")]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("2_hurtbox")
+actor = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hurtbox")

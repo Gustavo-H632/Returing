@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ch11n2bni327p"]
+
+[ext_resource type="Script" uid="uid://dvr2qj11bdv75" path="res://enemies/ranged_shooter/death_trap/electric_trap.gd" id="1_trap"]
+[ext_resource type="Script" uid="uid://fkk0pofewwp5" path="res://enemies/ranged_shooter/combat/hitbox.gd" id="2_hitbox"]
+[ext_resource type="Texture2D" uid="uid://dxy20bg18ir7l" path="res://icon.svg" id="3_icon"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 70.0
+
+[node name="ElectricTrap" type="Node2D" node_paths=PackedStringArray("hitbox", "hitbox_shape")]
+script = ExtResource("1_trap")
+hitbox = NodePath("ShooterHitbox")
+hitbox_shape = NodePath("ShooterHitbox/CollisionShape2D")
+
+[node name="Visual" type="Sprite2D" parent="."]
+modulate = Color(0.4, 0.75, 1, 0.35)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("3_icon")
+
+[node name="ShooterHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShooterHitbox"]
+shape = SubResource("CircleShape2D_hit")

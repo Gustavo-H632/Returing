@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://byfviuslid78j"]
+
+[ext_resource type="PackedScene" uid="uid://pv38t6g28xhp" path="res://enemies/dummy_enemy/dummy_enemy.tscn" id="1_dummy"]
+[ext_resource type="PackedScene" uid="uid://ciny3eb1ssgrs" path="res://player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://daabj86pfq8fl" path="res://ui/debug/painel_dummy.tscn" id="3_painel"]
+[ext_resource type="PackedScene" uid="uid://cmpof527q12gg" path="res://ui/hud/hud.tscn" id="4_hud"]
+
+[node name="TesteDummy" type="Node2D"]
+
+[node name="DummyEnemy" parent="." instance=ExtResource("1_dummy")]
+position = Vector2(576, 360)
+
+[node name="Visual" type="ColorRect" parent="DummyEnemy"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+color = Color(0.55, 0.35, 0.2, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(760, 360)
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="PainelDummy" parent="UI" node_paths=PackedStringArray("dummy") instance=ExtResource("3_painel")]
+dummy = NodePath("../../DummyEnemy")
+offset_top = 120.0
+offset_bottom = 160.0
+
+[node name="Ajuda" type="Label" parent="UI"]
+offset_left = 16.0
+offset_top = 168.0
+offset_right = 760.0
+offset_bottom = 194.0
+text = "WASD/setas: mover | Espaço: dash | Botão esq.: golpe | Botão dir.: tiro carregado | Painel: aciona o dummy"

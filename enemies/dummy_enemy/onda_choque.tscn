@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://mywewomoipkg"]
+
+[ext_resource type="Script" uid="uid://bxp6jkypdqmh" path="res://enemies/dummy_enemy/onda_choque.gd" id="1_onda"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onda"]
+radius = 1.0
+
+[node name="OndaChoque" type="Area2D" node_paths=PackedStringArray("collision_shape")]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_onda")
+collision_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_onda")

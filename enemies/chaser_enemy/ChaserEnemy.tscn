@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://cddmgxecbtugg"]
+
+[ext_resource type="Script" uid="uid://cb54hn7ibyarg" path="res://enemies/chaser_enemy/enemy.gd" id="1_enemy"]
+[ext_resource type="Texture2D" uid="uid://6tdkpj4itjhd" path="res://Sprites/Enemies/MiniBoy.png" id="2_mini"]
+[ext_resource type="Script" uid="uid://dvdci1ft8efx0" path="res://enemies/chaser_enemy/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" uid="uid://bnyt6tbf5uidg" path="res://enemies/chaser_enemy/hitbox.gd" id="4_hitbox"]
+[ext_resource type="Script" uid="uid://bktuuxvl0uch7" path="res://common/components/health_component.gd" id="5_health"]
+[ext_resource type="Script" uid="uid://dlo0r8e3h24ri" path="res://enemies/chaser_enemy/state_machine.gd" id="6_sm"]
+[ext_resource type="Script" uid="uid://b1wdnfric0ml2" path="res://enemies/chaser_enemy/states/idle_state.gd" id="7_idle"]
+[ext_resource type="Script" uid="uid://bln32tm2my0ck" path="res://enemies/chaser_enemy/states/chase_state.gd" id="8_chase"]
+[ext_resource type="Script" uid="uid://cgo7py0yd3etb" path="res://enemies/chaser_enemy/states/attack_state.gd" id="9_attack"]
+[ext_resource type="Script" uid="uid://b8a284hac1h0k" path="res://enemies/chaser_enemy/states/energy_wave_state.gd" id="10_wave"]
+[ext_resource type="PackedScene" uid="uid://b52ifvw5qm7be" path="res://enemies/chaser_enemy/EnergyWave.tscn" id="11_wavescene"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mini"]
+atlas = ExtResource("2_mini")
+region = Rect2(0, 0, 240, 240)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_chaser"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mini")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 150.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_range"]
+radius = 34.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 30.0
+
+[node name="ChaserEnemy" type="CharacterBody2D" unique_id=1352728656 node_paths=PackedStringArray("state_machine", "health", "hurtbox", "hitbox", "detection_area", "detection_shape", "attack_range", "sprite")]
+collision_layer = 4
+script = ExtResource("1_enemy")
+energy_wave_scene = ExtResource("11_wavescene")
+state_machine = NodePath("ChaserStateMachine")
+health = NodePath("HealthComponent")
+hurtbox = NodePath("ChaserHurtbox")
+hitbox = NodePath("ChaserHitbox")
+detection_area = NodePath("DetectionArea")
+detection_shape = NodePath("DetectionArea/CollisionShape2D")
+attack_range = NodePath("AttackRange")
+sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=921815944]
+position = Vector2(0, -6)
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_chaser")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1126654587]
+shape = SubResource("CircleShape2D_body")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1157305568]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1374128078]
+shape = SubResource("CircleShape2D_detection")
+
+[node name="AttackRange" type="Area2D" parent="." unique_id=453414563]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1164165569]
+shape = SubResource("CircleShape2D_range")
+
+[node name="ChaserHurtbox" type="Area2D" parent="." unique_id=79075746 node_paths=PackedStringArray("actor")]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_hurtbox")
+actor = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaserHurtbox" unique_id=218929588]
+shape = SubResource("CircleShape2D_hurt")
+
+[node name="ChaserHitbox" type="Area2D" parent="." unique_id=523473438 node_paths=PackedStringArray("source")]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("4_hitbox")
+source = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaserHitbox" unique_id=2100898874]
+shape = SubResource("CircleShape2D_hit")
+disabled = true
+
+[node name="HealthComponent" type="Node" parent="." unique_id=614031481]
+script = ExtResource("5_health")
+
+[node name="ChaserStateMachine" type="Node" parent="." unique_id=191208192 node_paths=PackedStringArray("initial_state", "actor")]
+script = ExtResource("6_sm")
+initial_state = NodePath("IdleState")
+actor = NodePath("..")
+
+[node name="IdleState" type="Node" parent="ChaserStateMachine" unique_id=52611204]
+script = ExtResource("7_idle")
+
+[node name="ChaseState" type="Node" parent="ChaserStateMachine" unique_id=1619945672]
+script = ExtResource("8_chase")
+
+[node name="AttackState" type="Node" parent="ChaserStateMachine" unique_id=740754066]
+script = ExtResource("9_attack")
+
+[node name="EnergyWaveState" type="Node" parent="ChaserStateMachine" unique_id=1619256459]
+script = ExtResource("10_wave")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b6fesrrawpbxg"]
+
+[ext_resource type="Script" uid="uid://nb18401srixk" path="res://tests/audit/architecture_audit.gd" id="1_audit"]
+
+[node name="ArchitectureAudit" type="Node"]
+script = ExtResource("1_audit")

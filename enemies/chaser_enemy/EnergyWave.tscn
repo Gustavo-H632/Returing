@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b52ifvw5qm7be"]
+
+[ext_resource type="Script" uid="uid://drk2xmstpcrby" path="res://enemies/chaser_enemy/energy_wave.gd" id="1_wave"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wave"]
+radius = 1.0
+
+[node name="EnergyWave" type="Area2D" node_paths=PackedStringArray("collision_shape")]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_wave")
+collision_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wave")
