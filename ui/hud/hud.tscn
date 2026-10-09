@@ -1,0 +1,153 @@
+[gd_scene format=3 uid="uid://cmpof527q12gg"]
+
+[ext_resource type="Script" uid="uid://b3ai3me5qay2i" path="res://ui/hud/hud.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("player_hp_bar", "player_hp_label", "charge_bar", "enemies_label", "wave_label", "enemy_panel", "enemy_name_label", "enemy_health_bar", "game_over_panel", "retry_button", "game_over_menu_button", "complete_panel", "continue_button", "complete_menu_button")]
+layer = 10
+script = ExtResource("1_hud")
+player_hp_bar = NodePath("Root/PlayerBox/PlayerHpBar")
+player_hp_label = NodePath("Root/PlayerBox/PlayerHpLabel")
+charge_bar = NodePath("Root/PlayerBox/ChargeBar")
+enemies_label = NodePath("Root/PlayerBox/EnemiesLabel")
+wave_label = NodePath("Root/PlayerBox/WaveLabel")
+enemy_panel = NodePath("Root/EnemyPanel")
+enemy_name_label = NodePath("Root/EnemyPanel/EnemyBox/EnemyNameLabel")
+enemy_health_bar = NodePath("Root/EnemyPanel/EnemyBox/EnemyHealthBar")
+game_over_panel = NodePath("Root/GameOverPanel")
+retry_button = NodePath("Root/GameOverPanel/GameOverBox/RetryButton")
+game_over_menu_button = NodePath("Root/GameOverPanel/GameOverBox/GameOverMenuButton")
+complete_panel = NodePath("Root/LevelCompletePanel")
+continue_button = NodePath("Root/LevelCompletePanel/CompleteBox/ContinueButton")
+complete_menu_button = NodePath("Root/LevelCompletePanel/CompleteBox/CompleteMenuButton")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerBox" type="VBoxContainer" parent="Root"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 236.0
+offset_bottom = 96.0
+mouse_filter = 2
+
+[node name="PlayerHpLabel" type="Label" parent="Root/PlayerBox"]
+layout_mode = 2
+text = "HP 100 / 100"
+
+[node name="PlayerHpBar" type="ProgressBar" parent="Root/PlayerBox"]
+custom_minimum_size = Vector2(220, 18)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="ChargeBar" type="ProgressBar" parent="Root/PlayerBox"]
+custom_minimum_size = Vector2(220, 8)
+layout_mode = 2
+max_value = 1.0
+show_percentage = false
+
+[node name="EnemiesLabel" type="Label" parent="Root/PlayerBox"]
+layout_mode = 2
+text = "Inimigos: 0"
+
+[node name="WaveLabel" type="Label" parent="Root/PlayerBox"]
+visible = false
+layout_mode = 2
+text = "Onda 0 / 0"
+
+[node name="EnemyPanel" type="PanelContainer" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 16.0
+offset_right = 160.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="EnemyBox" type="VBoxContainer" parent="Root/EnemyPanel"]
+layout_mode = 2
+
+[node name="EnemyNameLabel" type="Label" parent="Root/EnemyPanel/EnemyBox"]
+layout_mode = 2
+text = "Inimigo"
+horizontal_alignment = 1
+
+[node name="EnemyHealthBar" type="ProgressBar" parent="Root/EnemyPanel/EnemyBox"]
+custom_minimum_size = Vector2(300, 16)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="GameOverPanel" type="PanelContainer" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -80.0
+offset_right = 140.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverBox" type="VBoxContainer" parent="Root/GameOverPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="Root/GameOverPanel/GameOverBox"]
+layout_mode = 2
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="Root/GameOverPanel/GameOverBox"]
+layout_mode = 2
+text = "Tentar de novo"
+
+[node name="GameOverMenuButton" type="Button" parent="Root/GameOverPanel/GameOverBox"]
+layout_mode = 2
+text = "Menu principal"
+
+[node name="LevelCompletePanel" type="PanelContainer" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -80.0
+offset_right = 140.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CompleteBox" type="VBoxContainer" parent="Root/LevelCompletePanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="CompleteLabel" type="Label" parent="Root/LevelCompletePanel/CompleteBox"]
+layout_mode = 2
+text = "Fase concluída!"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="Root/LevelCompletePanel/CompleteBox"]
+layout_mode = 2
+text = "Continuar"
+
+[node name="CompleteMenuButton" type="Button" parent="Root/LevelCompletePanel/CompleteBox"]
+layout_mode = 2
+text = "Menu principal"
