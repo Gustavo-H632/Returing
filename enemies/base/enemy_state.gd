@@ -1,8 +1,9 @@
 class_name EnemyState
 extends BaseState
-## Estado base dos inimigos: expõe o EnemyBase tipado e o nome da animação do estado.
-## Regra anti-bug: enter() toca a animação, exit() SEMPRE desliga o que o estado ligou
-## (hitboxes, velocidade). Assim qualquer transição (inclusive a morte) fica limpa.
+## Estado base dos inimigos.
+
+## Margem de alcance para o inimigo não ficar trocando de estado na borda.
+const RANGE_HYSTERESIS: float = 1.15
 
 ## Animação tocada ao entrar no estado (vazio = não troca).
 @export var animation: StringName = &""
@@ -31,3 +32,14 @@ func enter() -> void:
 
 func _on_enter() -> void:
 	pass
+
+
+## Avisa a rede de segurança do StateWarden que o ataque em loop ainda está progredindo.
+func report_progress() -> void:
+	if state_machine is StateWarden:
+		(state_machine as StateWarden).report_progress()
+
+
+## Sem alvo: volta a patrulhar (ou ao Idle, se a cena não tiver o estado Patrol).
+func request_no_target_state() -> void:
+	request_transition(&"Patrol" if state_machine.has_state(&"Patrol") else &"Idle")

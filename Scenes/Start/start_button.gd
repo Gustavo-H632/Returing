@@ -2,7 +2,7 @@ extends Button
 ## Botão Start: pede a troca para a cutscene pelo EventBus.
 
 @export_file("*.tscn") var target_scene: String = "res://Scenes/Cut1/cutscene1.tscn"
-## Se a troca falhar, o botão volta depois deste tempo
+## Se a troca falhar, o botão volta depois deste tempo.
 @export_range(0.1, 5.0, 0.1) var reenable_delay: float = 1.0
 
 

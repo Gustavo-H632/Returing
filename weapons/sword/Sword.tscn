@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b24iuid27obhy" path="res://sprites/sword_slash.png" id="3_ob3ux"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pw1xk"]
-radius = 18.0
+radius = 28.0
 
 [sub_resource type="Animation" id="Animation_0kmfh"]
 length = 0.001
@@ -67,14 +67,15 @@ _data = {
 &"slash": SubResource("Animation_imxlg")
 }
 
-[node name="Sword" type="Node2D" unique_id=1608186448 node_paths=PackedStringArray("hitbox", "slash_sprite", "animation_player")]
+[node name="Sword" type="Node2D" unique_id=1608186448 node_paths=PackedStringArray("hitbox", "hitbox_shape", "slash_sprite", "animation_player")]
 script = ExtResource("1_116mf")
 hitbox = NodePath("Hitbox")
+hitbox_shape = NodePath("Hitbox/CollisionShape2D")
 slash_sprite = NodePath("SlashSprite")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1808158871]
-position = Vector2(22, 0)
+position = Vector2(34, 0)
 collision_layer = 0
 collision_mask = 16
 monitorable = false
@@ -87,8 +88,8 @@ disabled = true
 
 [node name="SlashSprite" type="Sprite2D" parent="." unique_id=99278761]
 visible = false
-position = Vector2(22, 0)
-scale = Vector2(0.11956522, 0.11956522)
+position = Vector2(34, 0)
+scale = Vector2(0.186, 0.186)
 texture = ExtResource("3_ob3ux")
 hframes = 3
 vframes = 3

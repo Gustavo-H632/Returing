@@ -16,7 +16,7 @@ func _on_enter() -> void:
 func physics_update(delta: float) -> void:
 	if not robo.has_target():
 		robo.drop_target()
-		request_transition(&"Idle")
+		request_no_target_state()
 		return
 	robo.stop_moving()
 	_timer -= delta
@@ -37,13 +37,13 @@ func physics_update(delta: float) -> void:
 
 
 func _start_telegraph() -> void:
+	report_progress()
 	_phase = Phase.CHARGING
 	_timer = robo.melee_telegraph_time
 	robo.play_anim(animation, true)
 	if robo.melee_telegraph_scene == null:
 		push_warning("RoboAttackMelee: melee_telegraph_scene não configurada.")
 		return
-	var telegraph := CombatUtils.spawn(robo.melee_telegraph_scene, robo, robo.global_position, MeleeTelegraph) as MeleeTelegraph
+	var telegraph := PoolHub.acquire(robo.melee_telegraph_scene, robo, MeleeTelegraph) as MeleeTelegraph
 	if telegraph != null:
-		telegraph.setup(robo.melee_telegraph_time, robo.melee_damage)
-		telegraph.source = robo
+		telegraph.launch(robo.global_position, robo.melee_telegraph_time, robo.melee_damage, robo)

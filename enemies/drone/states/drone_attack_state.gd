@@ -1,7 +1,6 @@
 class_name DroneAttackState
 extends DroneState
-## Golpe em 3 fases por cronômetro de física (determinístico, sem corrotina):
-## WINDUP -> ACTIVE (hitbox ligada) -> COOLDOWN. exit() sempre desliga a hitbox.
+## Golpe em 3 fases por cronômetro de física (determinístico, sem corrotina).
 
 enum Phase { WINDUP, ACTIVE, COOLDOWN }
 
@@ -40,6 +39,7 @@ func physics_update(delta: float) -> void:
 
 
 func _begin_windup() -> void:
+	report_progress()
 	drone.face_target()
 	_phase = Phase.WINDUP
 	_time_left = drone.attack_windup_time
@@ -48,7 +48,7 @@ func _begin_windup() -> void:
 
 func _decide_next() -> void:
 	if not drone.has_target():
-		request_transition(&"Idle")
+		request_no_target_state()
 	elif not drone.target_in_attack_range:
 		request_transition(&"Chase")
 	else:

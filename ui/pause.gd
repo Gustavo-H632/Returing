@@ -1,55 +1,60 @@
 extends CanvasLayer
+## Menu de pausa.
 
-var _modo_mouse_anterior: Input.MouseMode = Input.MOUSE_MODE_VISIBLE
+const ACTION_PAUSE: StringName = &"Pause"
+
+@onready var _continue_button: Button = $Continue_button
+@onready var _reset_button: Button = $Reset_button
+@onready var _bye_button: Button = $Bye_button
+
+var _previous_mouse_mode: Input.MouseMode = Input.MOUSE_MODE_VISIBLE
+## True só quando foi ESTE menu que pausou a árvore.
+var _paused_by_menu: bool = false
+
 
 func _ready() -> void:
 	layer = 100
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = Node.PROCESS_MODE_ALWAYS  # continua ouvindo a tecla com o jogo pausado
 	visible = false
-	_preparar_filhos(self)
+	_continue_button.pressed.connect(resume)
+	_reset_button.pressed.connect(_on_reset_pressed)
+	_bye_button.pressed.connect(_on_menu_pressed)
 
-	$Continue_button.pressed.connect(resume)
-	$Reset_button.pressed.connect(restart)
-	$Bye_button.pressed.connect(go_to_menu)
 
-func _preparar_filhos(no: Node) -> void:
-	
-	for filho in no.get_children():
-		
-		filho.process_mode = Node.PROCESS_MODE_INHERIT
-		if filho is Control and not filho is BaseButton:
-			filho.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_preparar_filhos(filho)
+## Alterna a pausa pela tecla.
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed(ACTION_PAUSE):
+		return
+	if get_tree().paused and not _paused_by_menu:
+		return  # pausa de outra tela (quiz): a tecla não mexe nela
+	get_viewport().set_input_as_handled()
+	if _paused_by_menu:
+		resume()
+	else:
+		pause()
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Pause"):
-		if get_tree().paused:
-			resume()
-		else:
-			pause()
 
 func pause() -> void:
-	
 	get_tree().paused = true
+	_paused_by_menu = true
 	visible = true
-	_modo_mouse_anterior = Input.mouse_mode
+	_previous_mouse_mode = Input.mouse_mode
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	$Continue_button.grab_focus()
+	_continue_button.grab_focus()
+
 
 func resume() -> void:
-
 	get_tree().paused = false
+	_paused_by_menu = false
 	visible = false
-	Input.mouse_mode = _modo_mouse_anterior
+	Input.mouse_mode = _previous_mouse_mode
 
-func restart() -> void:
-	
-	get_tree().paused = false
-	Input.mouse_mode = _modo_mouse_anterior
-	get_tree().reload_current_scene()
 
-func go_to_menu() -> void:
+func _on_reset_pressed() -> void:
+	resume()
+	EventBus.level_restart_requested.emit()
 
-	get_tree().paused = false
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	get_tree().change_scene_to_file("res://Scenes/Start/menu_start.tscn")
+
+func _on_menu_pressed() -> void:
+	resume()
+	EventBus.main_menu_requested.emit()

@@ -10,6 +10,7 @@ radius = 5.0
 collision_layer = 0
 collision_mask = 17
 script = ExtResource("1_0gc0p")
+monitor_while_active = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1924092066]
 shape = SubResource("CircleShape2D_proj")

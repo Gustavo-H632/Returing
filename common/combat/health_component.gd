@@ -1,7 +1,6 @@
 class_name HealthComponent
 extends Node
-## Vida reutilizável. Fonte única de verdade do HP de inimigos.
-## Sinais: health_changed (barras), damaged (flash/HUD), died (morte).
+## Vida reutilizável.
 
 signal health_changed(current_health: int, max_health: int)
 signal damaged(amount: int)

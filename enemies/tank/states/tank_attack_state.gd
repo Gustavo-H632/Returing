@@ -1,9 +1,6 @@
 class_name TankAttackState
 extends TankState
-## Pisoteio: prepara (windup) e então pulsa dano em área a cada stomp_pulse_interval.
-
-## Margem para não alternar Chase/Attack na borda do raio.
-const RANGE_HYSTERESIS: float = 1.1
+## Pisoteio: prepara (windup) e golpeia em pulsos enquanto o player está no raio.
 
 var _windup_left: float = 0.0
 
@@ -23,7 +20,7 @@ func exit() -> void:
 func physics_update(delta: float) -> void:
 	tank.brake(delta)
 	if not tank.has_target():
-		request_transition(&"Idle")
+		request_no_target_state()  # Patrol se a cena tiver; senão Idle
 		return
 	var leave_radius: float = tank.stomp_radius * RANGE_HYSTERESIS
 	if tank.distance_sq_to_target() > leave_radius * leave_radius:
@@ -38,3 +35,4 @@ func physics_update(delta: float) -> void:
 		tank.play_anim(animation, true)
 		hitbox.pulse()
 		tank.start_stomp_cooldown()
+		report_progress()

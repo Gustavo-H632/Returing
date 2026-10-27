@@ -6,7 +6,11 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
 radius = 80.0
 
-[node name="MeleeTelegraph" type="Node2D" node_paths=PackedStringArray("hitbox", "hitbox_shape")]
+[node name="MeleeTelegraph" type="Area2D" node_paths=PackedStringArray("hitbox", "hitbox_shape")]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 script = ExtResource("1_tele")
 hitbox = NodePath("Hitbox")
 hitbox_shape = NodePath("Hitbox/CollisionShape2D")
@@ -15,6 +19,7 @@ hitbox_shape = NodePath("Hitbox/CollisionShape2D")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("2_hitbox")
+active_on_start = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_hit")

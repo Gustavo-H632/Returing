@@ -1,16 +1,14 @@
 class_name Sword
 extends Weapon
 ## Espada: golpe em 3 fases controladas por corrotina (await).
-##   WINDUP   -> preparação (hitbox desligada)
-##   ACTIVE   -> janela de acerto (hitbox ligada, 1 acerto por alvo)
-##   RECOVERY -> recuperação (hitbox desligada)
-## Cada golpe recebe um token (_swing_id). cancel() incrementa o token, então
-## uma corrotina antiga que acorde depois do cancelamento simplesmente encerra:
-## nada de hitbox "fantasma" ligada ou attack_finished duplicado.
 
 enum Phase { IDLE, WINDUP, ACTIVE, RECOVERY }
 
 const SLASH_ANIMATION: StringName = &"slash"
+## Raio da hitbox do golpe (px). O chefão Guide usa um múltiplo dele.
+const HITBOX_RADIUS: float = 28.0
+## Distância do centro da arma ao centro da hitbox e do efeito visual (px).
+const HITBOX_DISTANCE: float = 34.0
 
 @export_group("Tempo do golpe")
 @export_range(0.0, 1.0, 0.01) var windup_time: float = 0.08
@@ -19,6 +17,7 @@ const SLASH_ANIMATION: StringName = &"slash"
 
 @export_group("Referências (já ligadas na cena)")
 @export var hitbox: Hitbox
+@export var hitbox_shape: CollisionShape2D
 @export var slash_sprite: Sprite2D
 @export var animation_player: AnimationPlayer
 
@@ -28,9 +27,11 @@ var _swing_id: int = 0
 
 
 func _ready() -> void:
+	super._ready()
 	if hitbox == null:
 		push_warning("Sword '%s': 'hitbox' não atribuída." % name)
 		return
+	_apply_hitbox_size()
 	hitbox.active_on_start = false
 	hitbox.one_hit_per_target = true
 	hitbox.damage_on_contact = true
@@ -40,6 +41,14 @@ func _ready() -> void:
 		slash_sprite.visible = false
 
 
+## Aplica o tamanho do golpe (HITBOX_RADIUS) na forma de colisão e no efeito visual.
+func _apply_hitbox_size() -> void:
+	CombatUtils.set_unique_circle_radius(hitbox_shape, HITBOX_RADIUS)
+	hitbox.position.x = HITBOX_DISTANCE
+	if slash_sprite != null:
+		slash_sprite.position.x = HITBOX_DISTANCE
+
+
 func get_attack_duration() -> float:
 	return windup_time + active_time + recovery_time
 
@@ -47,6 +56,14 @@ func get_attack_duration() -> float:
 func _on_equipped() -> void:
 	if hitbox != null:
 		hitbox.source = wielder  # nunca acerta a Hurtbox de quem empunha
+
+
+## Gira a espada para a nova mira.
+func aim_at(direction: Vector2) -> void:
+	if direction == Vector2.ZERO:
+		return
+	if phase == Phase.WINDUP or phase == Phase.ACTIVE:
+		rotation = direction.angle()
 
 
 func _start_attack(direction: Vector2) -> void:
@@ -68,7 +85,7 @@ func _stop_attack() -> void:
 		slash_sprite.visible = false
 
 
-## Corrotina do golpe. Retorna cedo se o token mudar (cancelamento).
+## Corrotina do golpe.
 func _run_swing(id: int) -> void:
 	phase = Phase.WINDUP
 	if not await _wait(windup_time, id):
@@ -88,7 +105,7 @@ func _run_swing(id: int) -> void:
 	_finish(true)
 
 
-## Espera em tempo de física respeitando a pausa. false = golpe cancelado/arma removida.
+## Espera em tempo de física respeitando a pausa.
 func _wait(seconds: float, id: int) -> bool:
 	if seconds > 0.0:
 		if not is_inside_tree():

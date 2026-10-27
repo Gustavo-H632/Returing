@@ -10,7 +10,7 @@ signal acertou(corpo: Node)
 @export var vida: float = 3.0
 @export var cor: Color = Color(1.0, 0.3, 0.3)
 
-## CollisionShape2D filho
+## CollisionShape2D filho.
 @export var collision_shape: CollisionShape2D
 
 var _usado: bool = false

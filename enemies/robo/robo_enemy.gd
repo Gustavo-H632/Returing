@@ -1,8 +1,10 @@
 class_name RoboEnemy
 extends EnemyBase
 ## Projétil (Ranged) — sprite robo.png.
-## Persegue até a distância de tiro e atira. Perto demais, usa o ataque em área
-## telegrafado. Ao morrer deixa uma armadilha elétrica. Aggro permanente.
+
+## Instâncias de projétil e de aviso criadas com antecedência no pool.
+const PROJECTILE_PREWARM: int = 4
+const TELEGRAPH_PREWARM: int = 2
 
 @export_group("Ataque à Distância")
 @export var projectile_scene: PackedScene
@@ -17,6 +19,10 @@ extends EnemyBase
 @export var melee_damage: int = 25
 @export var melee_attack_cooldown: float = 1.8
 
+@export_group("Percepção")
+## True = aggro permanente: depois de ver o player, o Robo nunca mais o esquece.
+@export var permanent_aggro: bool = false
+
 @export_group("Morte")
 @export var electric_trap_scene: PackedScene
 
@@ -28,14 +34,17 @@ var target_in_melee_range: bool = false
 
 
 func _on_enemy_ready() -> void:
+	PoolHub.prewarm(projectile_scene, self, PROJECTILE_PREWARM)
+	PoolHub.prewarm(melee_telegraph_scene, self, TELEGRAPH_PREWARM)
 	if melee_range_area != null:
 		CombatUtils.connect_once(melee_range_area.body_entered, _on_melee_range_body_entered)
 		CombatUtils.connect_once(melee_range_area.body_exited, _on_melee_range_body_exited)
 
 
-## Aggro permanente: sair da área de detecção não faz o Robo esquecer o player.
-func _on_detection_body_exited(_body: Node2D) -> void:
-	pass
+## Com aggro permanente, o Robo não esquece o player.
+func _on_detection_body_exited(body: Node2D) -> void:
+	if not permanent_aggro:
+		super._on_detection_body_exited(body)
 
 
 func drop_target() -> void:

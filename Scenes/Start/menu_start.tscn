@@ -43,6 +43,7 @@ offset_bottom = 798.0
 scale = Vector2(0.25, 0.25)
 icon = ExtResource("3_8i4ye")
 script = ExtResource("4_bx00l")
+target_scene = "res://Scenes/Cut1/cutscene1.tscn"
 
 [node name="Quit_button" type="Button" parent="." unique_id=2058065059]
 layout_mode = 0
@@ -57,4 +58,3 @@ script = ExtResource("6_bx00l")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=787933953]
 stream = ExtResource("7_hwhik")
 autoplay = true
-stream_paused = true

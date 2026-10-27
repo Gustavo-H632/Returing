@@ -1,7 +1,6 @@
 class_name TankSpecialAttackState
 extends TankState
-## Investida em linha reta: TELEGRAPH (parado, piscando) -> DASHING (hitbox ligada).
-## Termina ao colidir ou no tempo; exit() sempre desliga a hitbox.
+## Investida em linha reta.
 
 enum Phase { TELEGRAPH, DASHING }
 
@@ -51,4 +50,7 @@ func _start_dash() -> void:
 
 func _end_dash() -> void:
 	tank.start_dash_cooldown()
-	request_transition(&"Chase" if tank.has_target() else &"Idle")
+	if tank.has_target():
+		request_transition(&"Chase")
+	else:
+		request_no_target_state()

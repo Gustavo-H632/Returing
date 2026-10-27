@@ -1,12 +1,6 @@
 class_name Weapon
 extends Node2D
 ## Base de armas empunhadas por personagens.
-## Contrato com o portador (wielder):
-##   1. equip(portador)          -> a arma passa a ignorar a Hurtbox do portador
-##   2. attack(direção) -> bool  -> inicia um ataque (false = ocupado / em recarga)
-##   3. attack_finished(ok)      -> SEMPRE emitido uma vez por ataque iniciado,
-##                                  inclusive quando cancel() interrompe o golpe
-##   4. hit_landed(alvo, dano)   -> cada acerto confirmado
 
 signal attack_started
 signal attack_finished(completed: bool)
@@ -19,7 +13,19 @@ signal hit_landed(target: Node, damage_dealt: int)
 var wielder: Node = null
 
 var _attacking: bool = false
-var _cooldown_until_msec: int = 0
+## Recarga restante em segundos de jogo.
+var _cooldown_left: float = 0.0
+
+
+func _ready() -> void:
+	set_physics_process(false)  # só conta enquanto houver recarga pendente
+
+
+## Desconta a recarga; desliga o processamento assim que ela termina.
+func _physics_process(delta: float) -> void:
+	_cooldown_left = maxf(_cooldown_left - delta, 0.0)
+	if _cooldown_left <= 0.0:
+		set_physics_process(false)
 
 
 ## Associa a arma ao portador.
@@ -33,10 +39,10 @@ func is_attacking() -> bool:
 
 
 func can_attack() -> bool:
-	return not _attacking and Time.get_ticks_msec() >= _cooldown_until_msec
+	return not _attacking and _cooldown_left <= 0.0
 
 
-## Inicia um ataque na direção dada. Subclasses implementam _start_attack().
+## Inicia um ataque na direção dada.
 func attack(direction: Vector2) -> bool:
 	if not can_attack():
 		return false
@@ -46,7 +52,12 @@ func attack(direction: Vector2) -> bool:
 	return true
 
 
-## Interrompe o ataque atual (morte, stun, dash...). Seguro chamar a qualquer momento.
+## Reorienta a arma durante o ataque (ex.: acompanhar o cursor do mouse).
+func aim_at(_direction: Vector2) -> void:
+	pass
+
+
+## Interrompe o ataque atual (morte, stun, dash...).
 func cancel() -> void:
 	if not _attacking:
 		return
@@ -64,7 +75,8 @@ func _finish(completed: bool) -> void:
 	if not _attacking:
 		return
 	_attacking = false
-	_cooldown_until_msec = Time.get_ticks_msec() + roundi(cooldown * 1000.0)
+	_cooldown_left = maxf(cooldown, 0.0)
+	set_physics_process(_cooldown_left > 0.0)
 	attack_finished.emit(completed)
 
 

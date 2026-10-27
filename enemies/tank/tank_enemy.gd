@@ -1,9 +1,6 @@
 class_name TankEnemy
 extends EnemyBase
 ## Tank (Pesado) — sprite tank.png.
-## Lento e resistente. Pisoteio em área quando perto e investida (bull dash) quando longe.
-## Ataques PROPORCIONAIS AO TAMANHO: dano e raio escalam com size_factor, calculado a
-## partir do raio do corpo (derivado do tamanho real do sprite).
 
 ## Raio de corpo considerado "tamanho 1.0".
 const REFERENCE_BODY_RADIUS: float = 16.0
@@ -22,13 +19,9 @@ const REFERENCE_BODY_RADIUS: float = 16.0
 @export var dash_base_damage: int = 30
 @export var min_distance_for_dash: float = 260.0
 @export var dash_prepare_time: float = 0.8
-@export var dash_duration: float = 0.75  ## 520 px/s × 0.75 s ≈ 390 px: cobre a faixa de investida.
+@export var dash_duration: float = 0.75  # 520 px/s × 0.75 s ≈ 390 px: cobre a faixa de investida.
 @export var dash_speed: float = 520.0
 @export var special_attack_cooldown: float = 2.0
-
-@export_group("Vagar")
-@export var wander_radius: float = 110.0
-@export var wander_speed_multiplier: float = 0.35
 
 @export_group("Referências (já ligadas na cena)")
 @export var stomp_hitbox: Hitbox

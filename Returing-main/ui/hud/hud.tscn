@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://cmpof527q12gg"]
+
+[ext_resource type="Script" uid="uid://b3ai3me5qay2i" path="res://ui/hud/hud.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://c4n8wq2h5tkre" path="res://ui/hud/sprite_bar.gd" id="2_hpbar"]
+[ext_resource type="Texture2D" path="res://sprites/HUD/Barra-Carga_sprite.png" id="4_chargesheet"]
+[ext_resource type="Script" uid="uid://dq3x7kp2mw5ne" path="res://ui/hud/end_game_banner.gd" id="3_banner"]
+
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("player_health_bar", "charge_bar", "game_over_panel", "retry_button", "game_over_menu_button", "complete_panel", "complete_label", "complete_banner", "continue_button", "complete_menu_button")]
+layer = 10
+script = ExtResource("1_hud")
+player_health_bar = NodePath("Root/PlayerHealthBar")
+charge_bar = NodePath("Root/ChargeBar")
+game_over_panel = NodePath("Root/GameOverPanel")
+retry_button = NodePath("Root/GameOverPanel/GameOverBox/RetryButton")
+game_over_menu_button = NodePath("Root/GameOverPanel/GameOverBox/GameOverMenuButton")
+complete_panel = NodePath("Root/LevelCompletePanel")
+complete_label = NodePath("Root/LevelCompletePanel/CompleteBox/CompleteLabel")
+complete_banner = NodePath("Root/LevelCompletePanel/CompleteBox/CompleteBanner")
+continue_button = NodePath("Root/LevelCompletePanel/CompleteBox/ContinueButton")
+complete_menu_button = NodePath("Root/LevelCompletePanel/CompleteBox/CompleteMenuButton")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerHealthBar" type="TextureRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -160.0
+offset_right = 280.0
+offset_bottom = -80.0
+grow_vertical = 0
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_hpbar")
+
+[node name="ChargeBar" type="TextureRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -76.0
+offset_right = 214.0
+offset_bottom = -16.0
+grow_vertical = 0
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_hpbar")
+sheet = ExtResource("4_chargesheet")
+
+[node name="GameOverPanel" type="Control" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="Root/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="GameOverBanner" type="TextureRect" parent="Root/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_banner")
+
+[node name="GameOverBox" type="HBoxContainer" parent="Root/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -96.0
+offset_right = 240.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="Root/GameOverPanel/GameOverBox"]
+visible = false
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Tentar de novo"
+
+[node name="GameOverMenuButton" type="Button" parent="Root/GameOverPanel/GameOverBox"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Menu principal"
+
+[node name="LevelCompletePanel" type="PanelContainer" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -250.0
+offset_right = 180.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CompleteBox" type="VBoxContainer" parent="Root/LevelCompletePanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="CompleteLabel" type="Label" parent="Root/LevelCompletePanel/CompleteBox"]
+layout_mode = 2
+text = "Fase concluída!"
+horizontal_alignment = 1
+
+[node name="CompleteBanner" type="TextureRect" parent="Root/LevelCompletePanel/CompleteBox"]
+visible = false
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 2
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_banner")
+
+[node name="ContinueButton" type="Button" parent="Root/LevelCompletePanel/CompleteBox"]
+layout_mode = 2
+text = "Continuar"
+
+[node name="CompleteMenuButton" type="Button" parent="Root/LevelCompletePanel/CompleteBox"]
+layout_mode = 2
+text = "Menu principal"

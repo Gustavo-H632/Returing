@@ -5,27 +5,9 @@ Returing é um jogo topdown de ação e puzzles, onde você joga com Alan Turing
 
 Projeto feito por: Gustavo Henrique, Alice Bettin, Eduarda Moniz, Icaro Francioni e Ana Beatriz.
 
-
-
-
-## Estrutura (refatoração Godot 4.7)
-
-```
-res://
-├── autoload/            EventBus e Global
-├── common/
-│   ├── combat/          Hitbox, Hurtbox, HealthComponent, CombatUtils, EnemyEvents
-│   └── state_machine/   BaseState, BaseStateMachine, StateWarden
-├── characters/turing/   Player (Alan Turing) + projétil carregado
-├── weapons/             Weapon (base) e sword/ (Sword.tscn)
-├── enemies/
-│   ├── base/            EnemyBase e EnemyState
-│   ├── drone/           Perseguidor melee (drone.png)
-│   ├── tank/            Tank pesado (tank.png)
-│   ├── robo/            Atirador (robo.png) + projétil, telegraph e armadilha
-│   └── dummy_enemy/     Alvo de treino
-├── ui/                  HUD, barra de vida dos inimigos, pausa, debug
-├── levels/              LevelManager e WaveManager
-├── Scenes/              Menu, cutscenes e Fase 1
-└── sprites/             drone.png, tank.png, turing.png, turing_attack.png, robo.png, sword_slash.png
-```
+## Fases
+1. **Fase 1** (`Scenes/Fase1/fase_1.tscn`): 3 ondas de inimigos (WaveManager).
+2. **Fase 2** (`Scenes/Fase2/Fase2.tscn`): terminal com quiz.
+3. **Fase 3** (`Scenes/Fase3/fase_3.tscn`): chefão **Guide** (`enemies/guide/`), 1000 HP e 2 fases.
+   Aos 50% de vida ele fica invulnerável, levanta paredes em volta de si e chama uma wave
+   (2 Tank, 3 Drones, 3 Robôs); ao eliminá-la, as paredes somem e começa a fase 2.

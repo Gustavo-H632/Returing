@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://cegsuft8vmgb1"]
+
+[ext_resource type="Script" uid="uid://dmy00hcrrqhis" path="res://weapons/sword/sword.gd" id="1_116mf"]
+[ext_resource type="Script" uid="uid://c28hqbjsfdsos" path="res://common/combat/hitbox.gd" id="2_c87e4"]
+[ext_resource type="Texture2D" uid="uid://b24iuid27obhy" path="res://sprites/sword_slash.png" id="3_ob3ux"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pw1xk"]
+radius = 28.0
+
+[sub_resource type="Animation" id="Animation_0kmfh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlashSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlashSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_imxlg"]
+length = 0.22000000000000003
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlashSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.22),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlashSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.024444444, 0.04888889, 0.07333333, 0.09777778, 0.12222222, 0.14666666, 0.1711111, 0.19555555),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nfknh"]
+_data = {
+&"RESET": SubResource("Animation_0kmfh"),
+&"slash": SubResource("Animation_imxlg")
+}
+
+[node name="Sword" type="Node2D" unique_id=1608186448 node_paths=PackedStringArray("hitbox", "hitbox_shape", "slash_sprite", "animation_player")]
+script = ExtResource("1_116mf")
+hitbox = NodePath("Hitbox")
+hitbox_shape = NodePath("Hitbox/CollisionShape2D")
+slash_sprite = NodePath("SlashSprite")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1808158871]
+position = Vector2(34, 0)
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+script = ExtResource("2_c87e4")
+active_on_start = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1681138410]
+shape = SubResource("CircleShape2D_pw1xk")
+disabled = true
+
+[node name="SlashSprite" type="Sprite2D" parent="." unique_id=99278761]
+visible = false
+position = Vector2(34, 0)
+scale = Vector2(0.186, 0.186)
+texture = ExtResource("3_ob3ux")
+hframes = 3
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1654422356]
+libraries/ = SubResource("AnimationLibrary_nfknh")

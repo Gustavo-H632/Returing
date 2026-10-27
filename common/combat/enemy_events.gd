@@ -1,8 +1,8 @@
 class_name EnemyEvents
 extends RefCounted
-## Liga um inimigo ao EventBus e ao grupo enemy
+## Liga um inimigo ao EventBus e ao grupo `enemy`.
 
-## Grupo enemy + sinais de dano/morte no EventBus.
+## Entra no grupo `enemy` e repassa dano/morte ao EventBus.
 static func bind(enemy: Node2D, kind: StringName, health: HealthComponent) -> void:
 	if not CombatUtils.is_valid(enemy):
 		return

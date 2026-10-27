@@ -4,13 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://cw8jmoblii0gm" path="res://sprites/tank.png" id="2_1lukw"]
 [ext_resource type="Script" uid="uid://bu7mdf3ogd4gu" path="res://common/combat/hurtbox.gd" id="3_q4d71"]
 [ext_resource type="Script" uid="uid://bktuuxvl0uch7" path="res://common/combat/health_component.gd" id="4_yso8n"]
-[ext_resource type="PackedScene" uid="uid://bbqwdrhgb5pcu" path="res://ui/enemy_health_bar/EnemyHealthBar.tscn" id="5_xpy8a"]
 [ext_resource type="Script" uid="uid://bjeo0rmmjcrj7" path="res://common/state_machine/state_warden.gd" id="6_4hiru"]
 [ext_resource type="Script" uid="uid://b8fmq21usvfcn" path="res://enemies/tank/states/tank_idle_state.gd" id="7_0ofdg"]
 [ext_resource type="Script" uid="uid://c8gyuh151ugpg" path="res://enemies/tank/states/tank_chase_state.gd" id="8_qd2dh"]
 [ext_resource type="Script" uid="uid://c8ehh8j876j2p" path="res://enemies/tank/states/tank_attack_state.gd" id="9_2ps4q"]
 [ext_resource type="Script" uid="uid://c56ofos1bx42d" path="res://enemies/tank/states/tank_special_attack_state.gd" id="10_xkq5j"]
 [ext_resource type="Script" uid="uid://c28hqbjsfdsos" path="res://common/combat/hitbox.gd" id="11_fevun"]
+[ext_resource type="Script" uid="uid://duhn5srbwias3" path="res://enemies/base/enemy_patrol_state.gd" id="97_patrol"]
+[ext_resource type="Script" uid="uid://bm5k2xw7q4rhd" path="res://enemies/base/enemy_dead_state.gd" id="99_dead"]
 
 [sub_resource type="Animation" id="Animation_0dkw7"]
 length = 0.001
@@ -484,28 +485,13 @@ radius = 29.758694
 [sub_resource type="CircleShape2D" id="CircleShape2D_sdt7s"]
 radius = 420.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sul6y"]
-bg_color = Color(0.08, 0.08, 0.1, 0.85)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3c8j"]
-bg_color = Color(0.98, 0.62, 0.12, 1)
-expand_margin_left = -1.0
-expand_margin_top = -1.0
-expand_margin_right = -1.0
-expand_margin_bottom = -1.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_23jb7"]
 radius = 55.02052
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5x3mj"]
 radius = 25.161737
 
-[node name="TankEnemy" type="CharacterBody2D" unique_id=1917867748 node_paths=PackedStringArray("stomp_hitbox", "stomp_shape", "dash_hitbox", "detection_shape", "sprite", "animation_player", "body_collision", "health", "hurtbox", "detection_area", "state_machine", "health_bar")]
+[node name="TankEnemy" type="CharacterBody2D" unique_id=1917867748 node_paths=PackedStringArray("stomp_hitbox", "stomp_shape", "dash_hitbox", "detection_shape", "sprite", "animation_player", "body_collision", "health", "hurtbox", "detection_area", "state_machine")]
 collision_layer = 4
 collision_mask = 7
 motion_mode = 1
@@ -523,7 +509,6 @@ health = NodePath("HealthComponent")
 hurtbox = NodePath("Hurtbox")
 detection_area = NodePath("DetectionArea")
 state_machine = NodePath("StateMachine")
-health_bar = NodePath("HealthBar")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1470022399]
 texture_filter = 1
@@ -560,26 +545,21 @@ shape = SubResource("CircleShape2D_sdt7s")
 script = ExtResource("4_yso8n")
 max_health = 500
 
-[node name="HealthBar" parent="." unique_id=1283809560 instance=ExtResource("5_xpy8a")]
-offset_left = -28.0
-offset_top = -45.0
-offset_right = 28.0
-offset_bottom = -18.0
-theme_override_styles/background = SubResource("StyleBoxFlat_sul6y")
-theme_override_styles/fill = SubResource("StyleBoxFlat_d3c8j")
-max_value = 500.0
-value = 500.0
-fill_color = Color(0.98, 0.62, 0.12, 1)
-
 [node name="StateMachine" type="Node" parent="." unique_id=1375332403 node_paths=PackedStringArray("initial_state", "actor")]
 script = ExtResource("6_4hiru")
-initial_state = NodePath("Idle")
+initial_state = NodePath("Patrol")
 auto_start = false
 actor = NodePath("..")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=1494114507]
 script = ExtResource("7_0ofdg")
 animation = &"idle"
+
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("97_patrol")
+animation = &"move"
+patrol_radius = 110.0
+speed_multiplier = 0.35
 
 [node name="Chase" type="Node" parent="StateMachine" unique_id=303516229]
 script = ExtResource("8_qd2dh")
@@ -592,6 +572,9 @@ animation = &"attack"
 [node name="SpecialAttack" type="Node" parent="StateMachine" unique_id=1440327998]
 script = ExtResource("10_xkq5j")
 animation = &"special"
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("99_dead")
 
 [node name="StompHitbox" type="Area2D" parent="." unique_id=664652401 node_paths=PackedStringArray("source")]
 collision_layer = 0
@@ -621,4 +604,3 @@ disabled = true
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="died" from="HealthComponent" to="." method="_on_health_died"]
-[connection signal="health_changed" from="HealthComponent" to="HealthBar" method="set_health"]

@@ -1,26 +1,33 @@
 class_name BaseStateMachine
 extends Node
-##  State Machine genérica
+## Máquina de estados genérica: registra os filhos `BaseState` e executa o atual.
 
 signal state_changed(previous_state: StringName, new_state: StringName)
+
+## Máximo de trocas em cadeia.
+const MAX_CHAINED_TRANSITIONS: int = 8
 
 @export var initial_state: BaseState
 ## Inicia sozinha quando o ator termina o _ready.
 @export var auto_start: bool = true
-## Chama update() dos estados em _process
+## Chama update() dos estados em _process.
 @export var run_process_update: bool = false
 
-## Dono da state se vazio usa o nó pai.
+## Dono da máquina; se vazio, usa o nó pai.
 @export var actor: Node = null
 
 var current_state: BaseState = null
-## Quando true, nenhuma transição é aceita
+## Quando true, nenhuma transição é aceita.
 var locked: bool = false
 
-var _states: Dictionary[StringName, BaseState] = {}  #  minúsculas == estado
+var _states: Dictionary[StringName, BaseState] = {}  # Nome em minúsculas -> estado
+## Chaves já avisadas (ver _warn_once).
+var _warned: Dictionary[StringName, bool] = {}
 var _started: bool = false
 var _transitioning: bool = false
 var _pending_state: StringName = &""
+## Trocas em cadeia já resolvidas a partir da chamada em curso.
+var _chain_depth: int = 0
 
 
 ## Registra os estados filhos e inicia depois do ator.
@@ -47,7 +54,7 @@ func _ready() -> void:
 			actor.ready.connect(start, CONNECT_ONE_SHOT)
 
 
-## starta a state machine chamadas extras são ignoradas.
+## Inicia a máquina no estado inicial; chamadas extras são ignoradas.
 func start() -> void:
 	if _started or actor == null:
 		return
@@ -69,7 +76,7 @@ func start() -> void:
 	_flush_pending()
 
 
-## Encerra a state Chama exit() no estado atual.
+## Encerra a máquina: chama `exit()` do estado atual e bloqueia novas transições.
 func stop() -> void:
 	if current_state != null:
 		current_state.exit()
@@ -92,29 +99,46 @@ func _process(delta: float) -> void:
 		current_state.update(delta)
 
 
-## Estado pelo nome.
+## Estado pelo nome (sem diferenciar maiúsculas) ou null.
 func get_state(state_name: StringName) -> BaseState:
 	var key := _key(state_name)
 	return _states[key] if _states.has(key) else null
 
 
-## Existe o estado.
+## True se existe um estado com este nome.
 func has_state(state_name: StringName) -> bool:
 	return _states.has(_key(state_name))
 
 
-## Está neste estado.
+## Nomes dos nós de estado registrados (para mensagens de diagnóstico).
+func get_state_names() -> PackedStringArray:
+	var names: PackedStringArray = []
+	for state: BaseState in _states.values():
+		names.append(state.name)
+	return names
+
+
+## Avisa uma única vez por chave.
+func _warn_once(key: StringName, message: String) -> void:
+	if _warned.has(key):
+		return
+	_warned[key] = true
+	push_warning(message)
+
+
+## True se o estado atual tem este nome.
 func is_in_state(state_name: StringName) -> bool:
 	return current_state != null and _key(current_state.name) == _key(state_name)
 
 
-## Troca o state. Retorna true se a troca ocorreu
+## Troca de estado.
 func transition_to(state_name: StringName) -> bool:
 	if locked or not _started:
 		return false
 	var next_state := get_state(state_name)
 	if next_state == null:
-		push_warning("%s: estado '%s' não encontrado." % [name, state_name])
+		_warn_once(state_name, "%s: estado '%s' não encontrado. Estados registrados: %s." % [
+			name, state_name, ", ".join(get_state_names())])
 		return false
 	if next_state == current_state:
 		return false
@@ -130,22 +154,28 @@ func transition_to(state_name: StringName) -> bool:
 	next_state.enter()
 	_transitioning = false
 
-	# Usa next_state e um enter() pode chamar stop() e zerar current_state.
+	# Usa `next_state` (não `current_state`).
 	state_changed.emit(previous.name if previous != null else &"", next_state.name)
 	_flush_pending()
 	return true
 
 
-## Executa a mudança que foi pedida no enter() e exit().
+## Executa a troca pedida de dentro de um enter() ou exit().
 func _flush_pending() -> void:
 	if _pending_state == &"":
 		return
 	var pending := _pending_state
 	_pending_state = &""
+	if _chain_depth >= MAX_CHAINED_TRANSITIONS:
+		push_error("%s: trocas de estado em laço (última pedida: '%s'); cadeia interrompida." % [
+			name, pending])
+		return
+	_chain_depth += 1
 	transition_to(pending)
+	_chain_depth -= 1
 
 
-## Mesmo que transition_to.
+## Alias de `transition_to`.
 func change_state(state_name: StringName) -> void:
 	transition_to(state_name)
 
@@ -155,7 +185,7 @@ func _on_state_transition_requested(state_name: StringName, requester: BaseState
 	if requester == current_state:
 		transition_to(state_name)
 
-## Idle ou o primeiro filho.
+## Estado inicial padrão: `Idle`, ou o primeiro filho.
 func _find_default_state() -> BaseState:
 	for candidate: StringName in [&"idle", &"idlestate"]:
 		if has_state(candidate):
@@ -166,6 +196,6 @@ func _find_default_state() -> BaseState:
 	return null
 
 
-## Nome em minúsculas.
+## Chave normalizada (minúsculas) usada no dicionário de estados.
 static func _key(state_name: StringName) -> StringName:
 	return StringName(String(state_name).to_lower())

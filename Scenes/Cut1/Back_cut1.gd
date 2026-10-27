@@ -23,8 +23,7 @@ func _ready() -> void:
 
 ## Desconecta do EventBus.
 func _exit_tree() -> void:
-	if EventBus.cutscene_step_changed.is_connected(show_image):
-		EventBus.cutscene_step_changed.disconnect(show_image)
+	CombatUtils.disconnect_if_connected(EventBus.cutscene_step_changed, show_image)
 
 
 ## Mostra a imagem do passo (índice limitado).

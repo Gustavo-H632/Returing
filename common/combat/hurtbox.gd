@@ -1,8 +1,6 @@
 class_name Hurtbox
 extends Area2D
 ## Área que RECEBE dano (detectada por uma Hitbox).
-## Rota do dano: `health_component` (se definido) ou o `take_damage()` do ator.
-## O ator decide se aceita (i-frames, morto etc.), então ele é o destino preferido.
 
 signal damage_received(amount: int, source: Variant)
 
@@ -21,7 +19,7 @@ func _ready() -> void:
 	set_active(active_on_start)
 
 
-## API única de dano do projeto. true se o dano foi aceito.
+## API única de dano do projeto.
 func take_damage(amount: int, source: Variant = null) -> bool:
 	if not _active or amount <= 0:
 		return false

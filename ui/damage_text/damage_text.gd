@@ -13,11 +13,11 @@ extends Label
 @export_group("Animação")
 ## Quanto o número sobe (px)
 @export var subida: float = 40.0
-## Duração total; o fade usa a segunda metade
+## Duração total; o fade usa a segunda metade.
 @export_range(0.1, 3.0, 0.05, "or_greater") var duracao: float = 0.7
-## Desvio horizontal para não sobrepor números
+## Desvio horizontal para não sobrepor números.
 @export var espalhamento_x: float = 8.0
-## Escala inicial do pop
+## Escala inicial do pop.
 @export_range(1.0, 2.0, 0.05) var escala_inicial: float = 1.4
 
 

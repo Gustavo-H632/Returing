@@ -1,16 +1,19 @@
 class_name LevelManager
 extends Node
 ## Regras da fase: conta inimigos vivos e decide vitória e derrota.
-## Com WaveManager na cena, a vitória vem de all_waves_cleared.
 
 ## Próxima cena (vazio = só volta ao menu)
 @export_file("*.tscn") var next_scene: String = ""
 @export_range(0.0, 10.0, 0.1, "or_greater") var complete_delay: float = 1.0
 @export_range(0.0, 10.0, 0.1, "or_greater") var game_over_delay: float = 1.5
+## Depois de concluída, avança sozinha para `next_scene` após este tempo.
+@export_range(0.0, 20.0, 0.1, "or_greater") var auto_advance_delay: float = 3.0
 
 var _alive: Dictionary[int, bool] = {}  # id dos inimigos vivos
 var _had_enemies: bool = false
 var _ended: bool = false
+## True depois que o Player morreu (mesmo que a fase já tenha sido concluída).
+var _player_dead: bool = false
 var _wave_mode: bool = false  # ligado no primeiro wave_started
 
 
@@ -35,16 +38,11 @@ func _ready() -> void:
 
 ## Desconecta do EventBus.
 func _exit_tree() -> void:
-	if EventBus.enemy_registered.is_connected(_on_enemy_registered):
-		EventBus.enemy_registered.disconnect(_on_enemy_registered)
-	if EventBus.enemy_died.is_connected(_on_enemy_died):
-		EventBus.enemy_died.disconnect(_on_enemy_died)
-	if EventBus.player_died.is_connected(_on_player_died):
-		EventBus.player_died.disconnect(_on_player_died)
-	if EventBus.wave_started.is_connected(_on_wave_started):
-		EventBus.wave_started.disconnect(_on_wave_started)
-	if EventBus.all_waves_cleared.is_connected(_on_all_waves_cleared):
-		EventBus.all_waves_cleared.disconnect(_on_all_waves_cleared)
+	CombatUtils.disconnect_if_connected(EventBus.enemy_registered, _on_enemy_registered)
+	CombatUtils.disconnect_if_connected(EventBus.enemy_died, _on_enemy_died)
+	CombatUtils.disconnect_if_connected(EventBus.player_died, _on_player_died)
+	CombatUtils.disconnect_if_connected(EventBus.wave_started, _on_wave_started)
+	CombatUtils.disconnect_if_connected(EventBus.all_waves_cleared, _on_all_waves_cleared)
 
 
 ## Inimigos vivos.
@@ -60,6 +58,8 @@ func _on_enemy_registered(enemy: Node2D, _kind: StringName, _max_health: int) ->
 
 ## Desconta e vence se acabou (fase sem ondas).
 func _on_enemy_died(enemy: Node2D, _kind: StringName, _world_position: Vector2) -> void:
+	if not CombatUtils.is_valid(enemy):
+		return
 	if not _alive.erase(enemy.get_instance_id()):
 		return
 	_emit_remaining()
@@ -82,6 +82,7 @@ func _on_all_waves_cleared() -> void:
 
 ## Game Over após o atraso.
 func _on_player_died() -> void:
+	_player_dead = true
 	if _ended:
 		return
 	_ended = true
@@ -106,9 +107,10 @@ func _track(enemy: Node) -> void:
 		return  # já contado
 	_alive[id] = true
 	_had_enemies = true
-	# Inimigo removido sem morrer também sai da contagem
-	if not enemy.tree_exited.is_connected(_on_enemy_tree_exited):
-		enemy.tree_exited.connect(_on_enemy_tree_exited.bind(id))
+	# Inimigo removido sem morrer também sai da contagem.
+	# A conexão precisa ser testada COM o argumento preso: o método
+	# sozinho é outro Callable, e o teste nunca encontraria a conexão existente.
+	CombatUtils.connect_once(enemy.tree_exited, _on_enemy_tree_exited.bind(id))
 
 
 ## Inimigo saiu da árvore.
@@ -144,7 +146,14 @@ func _emit_remaining() -> void:
 
 ## Avisa a HUD da vitória.
 func _complete_level() -> void:
+	# O Player morreu no intervalo entre vencer e concluir: não mostra a vitória.
+	if _player_dead:
+		_trigger_game_over()
+		return
 	EventBus.level_completed.emit(next_scene)
+	# Transição Waves -> Quiz.
+	if not next_scene.is_empty() and auto_advance_delay > 0.0:
+		_after(auto_advance_delay, func() -> void: EventBus.scene_change_requested.emit(next_scene))
 
 
 ## Avisa a HUD da derrota.

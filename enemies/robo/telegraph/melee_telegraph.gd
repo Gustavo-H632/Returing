@@ -1,6 +1,6 @@
 class_name MeleeTelegraph
-extends Node2D
-## Aviso de ataque em área: depois de `charge_time` acerta quem está no círculo e some.
+extends PooledArea
+## Aviso de ataque em área (círculo no chão), reaproveitado pelo PoolHub.
 
 enum Phase { CHARGING, IMPACT }
 
@@ -10,52 +10,51 @@ enum Phase { CHARGING, IMPACT }
 @export var impact_duration: float = 0.15
 @export var pulse_amount: float = 0.06
 
-## Hitbox filha e a forma dela
+## Hitbox filha e a forma dela.
 @export var hitbox: Hitbox
 @export var hitbox_shape: CollisionShape2D
 
 ## Quem criou o telegraph (o dano é atribuído a ele).
-var source: Node = null:
-	set(value):
-		source = value
-		if hitbox != null and value != null:
-			hitbox.source = value
+var source: Node = null
 
-var _charge_time: float = 1.0
-var _damage: int = 25
 var _phase: Phase = Phase.CHARGING
 var _time_left: float = 1.0
 var _visual_scale: float = 1.0
 
 
-## Raio próprio e hitbox desligada.
+## Raio próprio (a forma é do telegraph, não da cena) e hitbox desligada.
 func _ready() -> void:
+	super._ready()
 	if hitbox == null:
 		push_error("MeleeTelegraph: 'hitbox' não foi atribuído no Inspector.")
-		set_process(false)
-		queue_free()
+		set_physics_process(false)
 		return
 	CombatUtils.set_unique_circle_radius(hitbox_shape, radius)
-	hitbox.configure(_damage, true)
-	hitbox.damage_on_contact = true
 	hitbox.set_active(false)  # só avisa
-	if source != null:
+
+
+## Começa o aviso em `center`: carrega `charge_time` s e depois causa `damage`.
+func launch(center: Vector2, charge_time: float, damage: int, from_source: Node) -> void:
+	global_position = center
+	source = from_source
+	_phase = Phase.CHARGING
+	_time_left = maxf(charge_time, 0.0)
+	_visual_scale = 1.0
+	if hitbox != null:
+		hitbox.configure(damage, true)
 		hitbox.source = source
-	_time_left = _charge_time
+		hitbox.damage_on_contact = true
+		hitbox.set_active(false)
 	queue_redraw()
 
 
-## Tempo de carga e dano (chamado pelo AttackMelee).
-func setup(charge_time: float, damage: int) -> void:
-	_charge_time = maxf(charge_time, 0.0)
-	_damage = damage
-	_time_left = _charge_time
+func _on_pool_deactivate() -> void:
 	if hitbox != null:
-		hitbox.configure(_damage, true)
+		hitbox.set_active(false)
 
 
 ## Carga com pulso visual e depois o impacto.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_time_left -= delta
 	match _phase:
 		Phase.CHARGING:
@@ -68,8 +67,7 @@ func _process(delta: float) -> void:
 			if _time_left <= 0.0:
 				# Garante o dano em quem ficou dentro
 				hitbox.pulse(false)
-				set_process(false)
-				queue_free()
+				recycle()
 
 
 ## Desenha o círculo.

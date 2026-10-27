@@ -1,9 +1,6 @@
 class_name RoboAttackRangedState
 extends RoboState
-## Carrega (windup) e dispara; repete a cada ranged_attack_cooldown enquanto houver alcance.
-
-## Margem para não alternar Chase/AttackRanged na borda do alcance.
-const RANGE_HYSTERESIS: float = 1.15
+## Carrega (windup) e dispara.
 
 var _cooldown: float = 0.0
 var _windup: float = -1.0  # < 0 = sem disparo em preparação
@@ -18,7 +15,7 @@ func _on_enter() -> void:
 func physics_update(delta: float) -> void:
 	if not robo.has_target():
 		robo.drop_target()
-		request_transition(&"Idle")
+		request_no_target_state()
 		return
 	if robo.target_in_melee_range:
 		request_transition(&"AttackMelee")
@@ -33,6 +30,7 @@ func physics_update(delta: float) -> void:
 		_windup -= delta
 		if _windup < 0.0:
 			_fire_projectile()
+			report_progress()
 			_cooldown = robo.ranged_attack_cooldown
 			robo.play_anim(&"idle")
 		return
@@ -47,6 +45,6 @@ func _fire_projectile() -> void:
 		push_warning("RoboAttackRanged: projectile_scene não configurada.")
 		return
 	var origin: Vector2 = robo.get_projectile_origin()
-	var projectile := CombatUtils.spawn(robo.projectile_scene, robo, origin, EnemyProjectile) as EnemyProjectile
+	var projectile := PoolHub.acquire(robo.projectile_scene, robo, EnemyProjectile) as EnemyProjectile
 	if projectile != null:
-		projectile.launch(origin.direction_to(robo.target.global_position), robo)
+		projectile.launch(origin, origin.direction_to(robo.target.global_position), robo)

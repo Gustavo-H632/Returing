@@ -4,12 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://bsisfxd1jf02f" path="res://sprites/drone.png" id="2_1mmsw"]
 [ext_resource type="Script" uid="uid://bu7mdf3ogd4gu" path="res://common/combat/hurtbox.gd" id="3_8doe2"]
 [ext_resource type="Script" uid="uid://bktuuxvl0uch7" path="res://common/combat/health_component.gd" id="4_ey77c"]
-[ext_resource type="PackedScene" uid="uid://bbqwdrhgb5pcu" path="res://ui/enemy_health_bar/EnemyHealthBar.tscn" id="5_wfg72"]
 [ext_resource type="Script" uid="uid://bjeo0rmmjcrj7" path="res://common/state_machine/state_warden.gd" id="6_p8yr0"]
 [ext_resource type="Script" uid="uid://bve63ube5khgp" path="res://enemies/drone/states/drone_idle_state.gd" id="7_5wip0"]
 [ext_resource type="Script" uid="uid://brtqsoc4tml13" path="res://enemies/drone/states/drone_chase_state.gd" id="8_g7q33"]
 [ext_resource type="Script" uid="uid://dqpn2ogi3h14t" path="res://enemies/drone/states/drone_attack_state.gd" id="9_257jl"]
 [ext_resource type="Script" uid="uid://c28hqbjsfdsos" path="res://common/combat/hitbox.gd" id="10_0eidu"]
+[ext_resource type="Script" uid="uid://bm5k2xw7q4rhd" path="res://enemies/base/enemy_dead_state.gd" id="99_dead"]
+[ext_resource type="Script" uid="uid://duhn5srbwias3" path="res://enemies/base/enemy_patrol_state.gd" id="97_patrol"]
+[ext_resource type="PackedScene" path="res://enemies/drone/wave/DroneWave.tscn" id="98_wave"]
 
 [sub_resource type="Animation" id="Animation_74fgw"]
 length = 0.001
@@ -406,20 +408,8 @@ radius = 11.7
 [sub_resource type="CircleShape2D" id="CircleShape2D_8d845"]
 radius = 190.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lan5"]
-bg_color = Color(0.08, 0.08, 0.1, 0.85)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vennd"]
-bg_color = Color(0.93, 0.28, 0.22, 1)
-expand_margin_left = -1.0
-expand_margin_top = -1.0
-expand_margin_right = -1.0
-expand_margin_bottom = -1.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_range2"]
+radius = 110.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3xiri"]
 radius = 26.32
@@ -427,15 +417,18 @@ radius = 26.32
 [sub_resource type="CircleShape2D" id="CircleShape2D_v8wpn"]
 radius = 28.32
 
-[node name="DroneEnemy" type="CharacterBody2D" unique_id=621689013 node_paths=PackedStringArray("attack_range", "attack_hitbox", "sprite", "animation_player", "body_collision", "health", "hurtbox", "detection_area", "state_machine", "health_bar")]
+[node name="DroneEnemy" type="CharacterBody2D" unique_id=621689013 node_paths=PackedStringArray("range2_area", "range2_shape", "attack_range", "attack_hitbox", "sprite", "animation_player", "body_collision", "health", "hurtbox", "detection_area", "state_machine")]
 collision_layer = 4
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_yorvk")
+range2_area = NodePath("Range2Area")
+range2_shape = NodePath("Range2Area/CollisionShape2D")
+wave_scene = ExtResource("98_wave")
 attack_range = NodePath("AttackRange")
 attack_hitbox = NodePath("AttackHitbox")
 enemy_kind = &"drone"
-move_speed = 125.0
+move_speed = 170.0
 sprite = NodePath("Sprite2D")
 animation_player = NodePath("AnimationPlayer")
 body_collision = NodePath("CollisionShape2D")
@@ -443,7 +436,6 @@ health = NodePath("HealthComponent")
 hurtbox = NodePath("Hurtbox")
 detection_area = NodePath("DetectionArea")
 state_machine = NodePath("StateMachine")
-health_bar = NodePath("HealthBar")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1549646763]
 texture_filter = 1
@@ -480,19 +472,9 @@ shape = SubResource("CircleShape2D_8d845")
 script = ExtResource("4_ey77c")
 max_health = 40
 
-[node name="HealthBar" parent="." unique_id=1283809560 instance=ExtResource("5_wfg72")]
-offset_left = -22.285713
-offset_top = -22.0
-offset_right = 22.285713
-theme_override_styles/background = SubResource("StyleBoxFlat_4lan5")
-theme_override_styles/fill = SubResource("StyleBoxFlat_vennd")
-max_value = 40.0
-value = 40.0
-fill_color = Color(0.93, 0.28, 0.22, 1)
-
 [node name="StateMachine" type="Node" parent="." unique_id=829867014 node_paths=PackedStringArray("initial_state", "actor")]
 script = ExtResource("6_p8yr0")
-initial_state = NodePath("Idle")
+initial_state = NodePath("Patrol")
 auto_start = false
 actor = NodePath("..")
 
@@ -500,13 +482,29 @@ actor = NodePath("..")
 script = ExtResource("7_5wip0")
 animation = &"idle"
 
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("97_patrol")
+animation = &"move"
+speed_multiplier = 0.35
+
 [node name="Chase" type="Node" parent="StateMachine" unique_id=1663410845]
 script = ExtResource("8_g7q33")
 animation = &"move"
 
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1292178774]
 script = ExtResource("9_257jl")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("99_dead")
 animation = &"attack"
+
+[node name="Range2Area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range2Area"]
+shape = SubResource("CircleShape2D_range2")
 
 [node name="AttackRange" type="Area2D" parent="." unique_id=1381077210]
 collision_layer = 0
@@ -531,6 +529,5 @@ disabled = true
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]
 [connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
 [connection signal="died" from="HealthComponent" to="." method="_on_health_died"]
-[connection signal="health_changed" from="HealthComponent" to="HealthBar" method="set_health"]
 [connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="AttackRange" to="." method="_on_attack_range_body_exited"]

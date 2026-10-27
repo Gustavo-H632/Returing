@@ -15,8 +15,7 @@ func _ready() -> void:
 
 ## Desconecta do EventBus.
 func _exit_tree() -> void:
-	if EventBus.cutscene_finished.is_connected(_on_cutscene_finished):
-		EventBus.cutscene_finished.disconnect(_on_cutscene_finished)
+	CombatUtils.disconnect_if_connected(EventBus.cutscene_finished, _on_cutscene_finished)
 
 
 ## Pede para avançar.

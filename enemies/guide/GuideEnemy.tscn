@@ -1,0 +1,293 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemies/guide/guide_enemy.gd" id="1_guide"]
+[ext_resource type="Texture2D" path="res://sprites/Enemies/Black_bot_sprite.png" id="2_1lukw"]
+[ext_resource type="Script" uid="uid://bu7mdf3ogd4gu" path="res://common/combat/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" uid="uid://bktuuxvl0uch7" path="res://common/combat/health_component.gd" id="4_health"]
+[ext_resource type="Script" uid="uid://bjeo0rmmjcrj7" path="res://common/state_machine/state_warden.gd" id="5_warden"]
+[ext_resource type="Script" path="res://enemies/base/enemy_idle_state.gd" id="6_idle"]
+[ext_resource type="Script" path="res://enemies/guide/states/guide_chase_state.gd" id="7_chase"]
+[ext_resource type="Script" path="res://enemies/guide/states/guide_attack_circles_state.gd" id="8_circles"]
+[ext_resource type="Script" path="res://enemies/guide/states/guide_attack_shots_state.gd" id="9_shots"]
+[ext_resource type="Script" path="res://enemies/guide/states/guide_attack_laser_state.gd" id="10_laser"]
+[ext_resource type="Script" path="res://enemies/guide/states/guide_attack_slash_state.gd" id="11_slash"]
+[ext_resource type="Script" path="res://enemies/guide/states/guide_transition_state.gd" id="12_transition"]
+[ext_resource type="Script" uid="uid://bm5k2xw7q4rhd" path="res://enemies/base/enemy_dead_state.gd" id="13_dead"]
+[ext_resource type="Script" path="res://common/pool/object_pool.gd" id="14_pool"]
+[ext_resource type="PackedScene" path="res://enemies/guide/attacks/WarningCircle.tscn" id="15_circle"]
+[ext_resource type="PackedScene" path="res://enemies/guide/attacks/GuideShot.tscn" id="16_shot"]
+[ext_resource type="PackedScene" path="res://enemies/guide/attacks/GuideLaser.tscn" id="17_laser"]
+[ext_resource type="PackedScene" path="res://enemies/guide/attacks/GuideSlash.tscn" id="18_slash"]
+[ext_resource type="PackedScene" path="res://enemies/guide/attacks/GuideWalls.tscn" id="19_walls"]
+[ext_resource type="PackedScene" uid="uid://cfwiurpm6k41a" path="res://enemies/tank/TankEnemy.tscn" id="20_tank"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0.37, 0.37)]
+}
+
+[sub_resource type="Animation" id="Animation_idle"]
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_move"]
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_attack"]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.37, 0.37), Vector2(0.43, 0.31), Vector2(0.35, 0.4), Vector2(0.37, 0.37)]
+}
+
+[sub_resource type="Animation" id="Animation_death"]
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_guide"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"attack": SubResource("Animation_attack"),
+&"death": SubResource("Animation_death"),
+&"idle": SubResource("Animation_idle"),
+&"move": SubResource("Animation_move"),
+&"special": SubResource("Animation_idle")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 42.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 2000.0
+
+[node name="GuideEnemy" type="CharacterBody2D" node_paths=PackedStringArray("body_visual", "circle_pool", "shot_pool", "laser_pool", "slash_pool", "sprite", "animation_player", "body_collision", "health", "hurtbox", "detection_area", "state_machine")]
+collision_layer = 4
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_guide")
+body_visual = NodePath("Visual")
+speed_reference_scene = ExtResource("20_tank")
+walls_scene = ExtResource("19_walls")
+circle_pool = NodePath("CirclePool")
+shot_pool = NodePath("ShotPool")
+laser_pool = NodePath("LaserPool")
+slash_pool = NodePath("SlashPool")
+enemy_kind = &"guide"
+move_speed = 45.0
+health_bar_width = 140.0
+health_bar_margin = 24.0
+health_bar_always_visible = true
+sprite = NodePath("Visual/Sprite2D")
+animation_player = NodePath("AnimationPlayer")
+body_collision = NodePath("CollisionShape2D")
+health = NodePath("HealthComponent")
+hurtbox = NodePath("Hurtbox")
+detection_area = NodePath("DetectionArea")
+state_machine = NodePath("StateMachine")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+scale = Vector2(0.37, 0.37)
+texture = ExtResource("2_1lukw")
+offset = Vector2(29, -48)
+hframes = 3
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Visual")
+libraries/ = SubResource("AnimationLibrary_guide")
+autoplay = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("actor")]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_hurtbox")
+actor = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hurtbox")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detection")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4_health")
+max_health = 1000
+
+[node name="CirclePool" type="Node" parent="."]
+script = ExtResource("14_pool")
+scene = ExtResource("15_circle")
+prewarm_count = 12
+max_size = 24
+
+[node name="ShotPool" type="Node" parent="."]
+script = ExtResource("14_pool")
+scene = ExtResource("16_shot")
+prewarm_count = 48
+max_size = 96
+
+[node name="LaserPool" type="Node" parent="."]
+script = ExtResource("14_pool")
+scene = ExtResource("17_laser")
+prewarm_count = 3
+max_size = 6
+
+[node name="SlashPool" type="Node" parent="."]
+script = ExtResource("14_pool")
+scene = ExtResource("18_slash")
+prewarm_count = 1
+max_size = 2
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "actor")]
+script = ExtResource("5_warden")
+initial_state = NodePath("Chase")
+auto_start = false
+actor = NodePath("..")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("6_idle")
+animation = &"idle"
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("7_chase")
+animation = &"move"
+
+[node name="AttackCircles" type="Node" parent="StateMachine"]
+script = ExtResource("8_circles")
+
+[node name="AttackShots" type="Node" parent="StateMachine"]
+script = ExtResource("9_shots")
+
+[node name="AttackLaser" type="Node" parent="StateMachine"]
+script = ExtResource("10_laser")
+
+[node name="AttackSlash" type="Node" parent="StateMachine"]
+script = ExtResource("11_slash")
+animation = &"attack"
+moves_while_attacking = false
+
+[node name="Transition" type="Node" parent="StateMachine"]
+script = ExtResource("12_transition")
+animation = &"idle"
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("13_dead")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]
+[connection signal="damaged" from="HealthComponent" to="." method="_on_health_damaged"]
+[connection signal="died" from="HealthComponent" to="." method="_on_health_died"]

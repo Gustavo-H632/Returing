@@ -1,7 +1,6 @@
 class_name DummyEnemy
 extends Node2D
-## Inimigo de treino invencível (sem vida): mostra o número de dano e ataca o player
-## com projétil, onda e espada. Não entra no grupo enemy.
+## Inimigo de treino invencível (sem vida).
 
 signal dano_recebido(valor: int)
 signal acertou_alvo(atingido: Node, dano: int, tipo: StringName)
@@ -9,13 +8,13 @@ signal acertou_alvo(atingido: Node, dano: int, tipo: StringName)
 const GROUP_DUMMY: StringName = &"dummy_enemy"
 
 @export_group("Dano visual")
-## Cena do número de dano
+## Cena do número de dano.
 @export var cena_texto_dano: PackedScene = preload("res://ui/damage_text/DamageText.tscn")
-## Onde o número nasce
+## Onde o número nasce.
 @export var deslocamento_texto: Vector2 = Vector2(0.0, -40.0)
 
 @export_group("Combate")
-## Desligado = só emite acertou_alvo
+## Desligado = só emite acertou_alvo.
 @export var aplicar_dano_direto: bool = true
 ## Máscara dos ataques (8 = hurtboxes_player)
 @export_flags_2d_physics var mascara_alvo: int = 8
@@ -44,8 +43,8 @@ const GROUP_DUMMY: StringName = &"dummy_enemy"
 ## Referências de nós: arraste cada nó no Inspector.
 @export_group("Referências (arraste os nós)")
 @export var hurtbox: Hurtbox
-@export var timer_projetil: Timer  ## Se vazio, é criado por código.
-@export var timer_onda: Timer  ## Se vazio, é criado por código.
+@export var timer_projetil: Timer  # Se vazio, é criado por código.
+@export var timer_onda: Timer  # Se vazio, é criado por código.
 
 var alvo: Node2D = null
 
@@ -61,7 +60,7 @@ func _enter_tree() -> void:
 
 ## Liga a hurtbox e os timers.
 func _ready() -> void:
-	# A Hurtbox entrega o dano em take_damage() (ator); não há conexão extra aqui.
+	# A Hurtbox entrega o dano em take_damage() (ator).
 	if hurtbox == null:
 		push_warning("DummyEnemy '%s': 'hurtbox' não foi atribuído; o Player não consegue acertá-lo." % name)
 
@@ -71,7 +70,7 @@ func _ready() -> void:
 	_configurar_timer(timer_onda, intervalo_onda, true, _lancar_onda)
 
 
-# ---------- 1. DANO RECEBIDO (número flutuante) ----------
+# --- 1. DANO RECEBIDO (número flutuante) ---
 
 ## API de dano: só mostra o número.
 func take_damage(amount: int, _source: Variant = null) -> bool:
@@ -94,10 +93,12 @@ func receber_dano(valor: int) -> void:
 	dano_recebido.emit(valor)
 
 
-# ---------- 2. ATAQUE PROJÉTIL ----------
+# --- 2. ATAQUE PROJÉTIL ---
 
 ## Começa a atirar.
 func iniciar_ataque_projetil() -> void:
+	if timer_projetil == null:
+		return
 	if timer_projetil.is_stopped():
 		_disparar_projetil()
 		timer_projetil.start()
@@ -105,12 +106,13 @@ func iniciar_ataque_projetil() -> void:
 
 ## Para de atirar.
 func parar_ataque_projetil() -> void:
-	timer_projetil.stop()
+	if timer_projetil != null:
+		timer_projetil.stop()
 
 
-## true se atirando.
+## True se atirando.
 func esta_atacando_projetil() -> bool:
-	return not timer_projetil.is_stopped()
+	return timer_projetil != null and not timer_projetil.is_stopped()
 
 
 ## Atira no player.
@@ -130,7 +132,7 @@ func _disparar_projetil() -> void:
 	p.global_position = global_position
 
 
-# ---------- 3. ATAQUE ONDA (1 por vez, com intervalo) ----------
+# --- 3. ATAQUE ONDA (1 por vez, com intervalo) ---
 
 ## Começa as ondas.
 func iniciar_ataque_onda() -> void:
@@ -143,10 +145,11 @@ func iniciar_ataque_onda() -> void:
 ## Para as ondas.
 func parar_ataque_onda() -> void:
 	_onda_ligada = false
-	timer_onda.stop()
+	if timer_onda != null:
+		timer_onda.stop()
 
 
-## true se soltando ondas.
+## True se soltando ondas.
 func esta_atacando_onda() -> bool:
 	return _onda_ligada
 
@@ -170,11 +173,11 @@ func _lancar_onda() -> void:
 ## Onda acabou: agenda a próxima.
 func _ao_onda_finalizada() -> void:
 	_onda_atual = null
-	if _onda_ligada:
+	if _onda_ligada and timer_onda != null:
 		timer_onda.start()  # intervalo conta depois que a onda some
 
 
-# ---------- 4. ATAQUE ESPADA ----------
+# --- 4. ATAQUE ESPADA ---
 
 ## Golpe de espada na direção do player.
 func atacar_espada() -> void:
@@ -197,7 +200,7 @@ func atacar_espada() -> void:
 	add_child(e)
 
 
-# ---------- AUXILIARES ----------
+# --- AUXILIARES ---
 
 ## Ataque sem camada própria, só monitora Hurtboxes.
 func _configurar_colisao(ataque: Area2D) -> void:
@@ -235,7 +238,7 @@ func _configurar_timer(t: Timer, tempo: float, uma_vez: bool, callback: Callable
 ## Direção até o player vivo.
 func _direcao_para_alvo() -> Vector2:
 	if not CombatUtils.is_targetable(alvo):
-		alvo = get_tree().get_first_node_in_group(CombatUtils.GROUP_PLAYER) as Node2D
+		alvo = CombatUtils.get_player(self)
 	if not CombatUtils.is_targetable(alvo):
 		return Vector2.ZERO  # sem player vivo
 	return global_position.direction_to(alvo.global_position)

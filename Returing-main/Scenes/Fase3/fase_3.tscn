@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://def0h2ur0slmw" path="res://ui/pause.tscn" id="1_pause"]
+[ext_resource type="PackedScene" uid="uid://b0eod628mdso" path="res://characters/turing/Turing.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://cmpof527q12gg" path="res://ui/hud/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://enemies/guide/GuideEnemy.tscn" id="4_guide"]
+[ext_resource type="PackedScene" uid="uid://cfwiurpm6k41a" path="res://enemies/tank/TankEnemy.tscn" id="5_tank"]
+[ext_resource type="PackedScene" uid="uid://dbao5rfwbtvqj" path="res://enemies/drone/DroneEnemy.tscn" id="6_drone"]
+[ext_resource type="PackedScene" uid="uid://8s52n76gdjg6" path="res://enemies/robo/RoboEnemy.tscn" id="7_robo"]
+[ext_resource type="Script" uid="uid://dvbqeubpy154r" path="res://levels/level_manager.gd" id="8_level"]
+[ext_resource type="Script" uid="uid://djsypmo5os1oh" path="res://levels/wave_manager.gd" id="9_wave"]
+[ext_resource type="PackedScene" path="res://Scenes/Fase3/ArenaFloor.tscn" id="10_floor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_horizontal"]
+size = Vector2(1216, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vertical"]
+size = Vector2(32, 720)
+
+[node name="Fase_3" type="Node2D"]
+
+[node name="ArenaFloor" parent="." instance=ExtResource("10_floor")]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(131, 335)
+
+[node name="Guide" parent="." instance=ExtResource("4_guide")]
+position = Vector2(860, 335)
+
+[node name="LevelManager" type="Node" parent="."]
+script = ExtResource("8_level")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnA" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(130, 130)
+
+[node name="SpawnB" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(130, 540)
+
+[node name="SpawnC" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(340, 110)
+
+[node name="SpawnD" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(340, 560)
+
+[node name="SpawnE" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(580, 110)
+
+[node name="SpawnF" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(580, 560)
+
+[node name="SpawnG" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1030, 130)
+
+[node name="SpawnH" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1030, 540)
+
+[node name="WaveManager" type="Node" parent="." node_paths=PackedStringArray("spawn_points_root")]
+script = ExtResource("9_wave")
+wave_1_enemies = Array[PackedScene]([ExtResource("5_tank"), ExtResource("5_tank"), ExtResource("6_drone"), ExtResource("6_drone"), ExtResource("6_drone"), ExtResource("7_robo"), ExtResource("7_robo"), ExtResource("7_robo")])
+spawn_points_root = NodePath("../SpawnPoints")
+clear_heal_amount = 0
+boss_kind = &"guide"
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Pause" parent="." instance=ExtResource("1_pause")]
+
+[node name="Bounds" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(583, 59)
+shape = SubResource("RectangleShape2D_horizontal")
+
+[node name="Bottom" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(583, 612)
+shape = SubResource("RectangleShape2D_horizontal")
+
+[node name="Left" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(49, 342)
+shape = SubResource("RectangleShape2D_vertical")
+
+[node name="Right" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(1109, 328)
+shape = SubResource("RectangleShape2D_vertical")

@@ -1,13 +1,17 @@
 class_name DroneChaseState
 extends DroneState
-## Persegue o player enquanto ele estiver na área de detecção.
+## Persegue o player contornando paredes; sem alvo, volta a patrulhar.
 
 
-func physics_update(_delta: float) -> void:
+func _on_enter() -> void:
+	drone.reset_navigation()
+
+
+func physics_update(delta: float) -> void:
 	if not drone.has_target():
-		request_transition(&"Idle")
+		request_no_target_state()
 		return
 	if drone.target_in_attack_range:
 		request_transition(&"Attack")
 		return
-	drone.move_towards(drone.target.global_position, drone.move_speed * drone.chase_speed_multiplier)
+	drone.navigate_towards(drone.target.global_position, drone.move_speed * drone.chase_speed_multiplier, delta)

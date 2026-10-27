@@ -1081,13 +1081,13 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tlatl"]
-radius = 8.776453
-height = 23.0
+radius = 14.0
+height = 56.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d8anh"]
 radius = 12.341887
 
-[node name="Player" type="CharacterBody2D" unique_id=689753239 node_paths=PackedStringArray("sprite", "animation_player", "attack_pivot", "weapon", "projectile_spawn", "hurtbox")]
+[node name="Player" type="CharacterBody2D" unique_id=689753239 node_paths=PackedStringArray("sprite", "animation_player", "attack_pivot", "weapon", "projectile_spawn", "hurtbox") groups=["player"]]
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_hnui2")
@@ -1102,6 +1102,7 @@ hurtbox = NodePath("Hurtbox")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1495322986]
 texture_filter = 1
+position = Vector2(1.370322, -3.2005627)
 scale = Vector2(0.17358491, 0.17358491)
 texture = ExtResource("3_beiij")
 offset = Vector2(20, 28.5)
@@ -1112,7 +1113,8 @@ vframes = 6
 libraries/ = SubResource("AnimationLibrary_l3n5r")
 autoplay = &"idle_down"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=142846125]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=142846125 groups=["player"]]
+position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_tlatl")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1453954078 node_paths=PackedStringArray("actor")]
@@ -1122,6 +1124,7 @@ script = ExtResource("5_rq1mp")
 actor = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=204787649]
+position = Vector2(1, 2)
 shape = SubResource("CircleShape2D_d8anh")
 
 [node name="AttackPivot" type="Marker2D" parent="." unique_id=1853235624]
@@ -1130,6 +1133,7 @@ shape = SubResource("CircleShape2D_d8anh")
 position = Vector2(22.776453, 0)
 
 [node name="Sword" parent="." unique_id=1608186448 instance=ExtResource("6_m2sac")]
+position = Vector2(4, 2)
 
 [connection signal="attack_finished" from="Sword" to="." method="_on_weapon_attack_finished"]
 [connection signal="hit_landed" from="Sword" to="." method="_on_weapon_hit_landed"]

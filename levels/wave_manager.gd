@@ -1,18 +1,17 @@
 class_name WaveManager
 extends Node
-## Ondas de inimigos da Fase 1: nasce uma onda, espera todos morrerem, cura e chama a próxima.
-## Só conversa pelo EventBus (não conhece Player, HUD nem LevelManager).
+## Ondas de inimigos da Fase 1 e da transição de fase de um chefão (ver `boss_kind`).
 
 @export_group("Ondas (arraste as cenas dos inimigos)")
-## Onda 1: 2 Drones + 2 Robos
+## Onda 1: 2 Drones + 2 Robos.
 @export var wave_1_enemies: Array[PackedScene] = []
-## Onda 2: 2 Tanks + 2 Robos
+## Onda 2: 2 Tanks + 2 Robos.
 @export var wave_2_enemies: Array[PackedScene] = []
-## Onda 3: 2 Tanks + 2 Robos + 3 Drones
+## Onda 3: 2 Tanks + 2 Robos + 3 Drones.
 @export var wave_3_enemies: Array[PackedScene] = []
 
 @export_group("Spawn")
-## Nó cujos Marker2D filhos são os pontos de spawn
+## Nó cujos Marker2D filhos são os pontos de spawn.
 @export var spawn_points_root: Node2D
 ## Desvio aleatório em volta do marcador (px)
 @export_range(0.0, 128.0, 1.0, "or_greater") var spawn_jitter: float = 16.0
@@ -20,14 +19,20 @@ extends Node
 @export_range(0.0, 1024.0, 1.0, "or_greater") var min_player_distance: float = 200.0
 
 @export_group("Ritmo")
-## Pausa antes da primeira onda
+## Pausa antes da primeira onda.
 @export_range(0.0, 10.0, 0.1, "or_greater") var first_wave_delay: float = 1.0
-## Pausa entre ondas
+## Pausa entre ondas.
 @export_range(0.0, 10.0, 0.1, "or_greater") var between_waves_delay: float = 2.0
 
 @export_group("Recompensa")
-## Cura dada ao limpar uma onda
+## Cura dada ao limpar uma onda.
 @export_range(0, 999) var clear_heal_amount: int = 30
+
+@export_group("Chefão")
+## Vazio = ondas normais da fase (começam sozinhas e avisam o EventBus). Preenchido (ex.: "guide"),
+## as ondas só começam quando esse chefão pede a transição e o fim delas é avisado por
+## boss_wave_cleared, sem mexer na contagem da fase.
+@export var boss_kind: StringName = &""
 
 var _waves: Array[Array] = []
 var _spawn_points: Array[Marker2D] = []
@@ -37,31 +42,45 @@ var _current_wave: int = -1  # índice da onda atual
 var _wave_active: bool = false
 var _next_spawn: int = 0
 var _stopped: bool = false
+## Player anunciado pelo EventBus.
+var _player: Node2D = null
+## Área em volta do chefão onde nenhum inimigo nasce (centro e raio; raio 0 = sem restrição).
+var _clear_center: Vector2 = Vector2.ZERO
+var _clear_radius: float = 0.0
 
 
 ## Lê as ondas e os marcadores e agenda a primeira.
 func _ready() -> void:
 	for wave: Array[PackedScene] in [wave_1_enemies, wave_2_enemies, wave_3_enemies]:
+		if wave.is_empty():
+			# Um chefão usa só a primeira onda; na fase normal, onda vazia é descuido do Inspector.
+			if boss_kind.is_empty():
+				push_warning("WaveManager: a onda %d está vazia no Inspector." % (_waves.size() + 1))
+			continue
 		_waves.append(wave)
 	if not _collect_spawn_points():
 		return
 
-	for i: int in _waves.size():
-		if _waves[i].is_empty():
-			push_warning("WaveManager: a onda %d está vazia no Inspector." % (i + 1))
-
 	EventBus.enemy_died.connect(_on_enemy_died)
 	EventBus.player_died.connect(_on_player_died)
-	_schedule_wave(0, first_wave_delay)
+	if boss_kind.is_empty():
+		_schedule_wave(0, first_wave_delay)
+	else:
+		EventBus.boss_transition_started.connect(_on_boss_transition_started)
+
+
+## Conecta antes dos _ready: o Player anuncia a si mesmo no próprio _ready.
+func _enter_tree() -> void:
+	EventBus.player_registered.connect(_on_player_registered)
 
 
 ## Para tudo e desconecta.
 func _exit_tree() -> void:
 	_stopped = true
-	if EventBus.enemy_died.is_connected(_on_enemy_died):
-		EventBus.enemy_died.disconnect(_on_enemy_died)
-	if EventBus.player_died.is_connected(_on_player_died):
-		EventBus.player_died.disconnect(_on_player_died)
+	CombatUtils.disconnect_if_connected(EventBus.player_registered, _on_player_registered)
+	CombatUtils.disconnect_if_connected(EventBus.enemy_died, _on_enemy_died)
+	CombatUtils.disconnect_if_connected(EventBus.player_died, _on_player_died)
+	CombatUtils.disconnect_if_connected(EventBus.boss_transition_started, _on_boss_transition_started)
 
 
 ## Onda atual (começa em 1; 0 = não começou).
@@ -100,7 +119,8 @@ func _start_wave(index: int) -> void:
 		# Inimigo que some sem morrer não trava a onda
 		enemy.tree_exited.connect(_on_enemy_tree_exited.bind(id))
 
-	EventBus.wave_started.emit(index + 1, _waves.size(), _alive.size())
+	if boss_kind.is_empty():
+		EventBus.wave_started.emit(index + 1, _waves.size(), _alive.size())
 
 	if _alive.is_empty():
 		push_warning("WaveManager: a onda %d não gerou nenhum inimigo; avançando." % (index + 1))
@@ -110,14 +130,17 @@ func _start_wave(index: int) -> void:
 ## Onda limpa: cura e agenda a próxima.
 func _finish_wave() -> void:
 	_wave_active = false
-	EventBus.wave_cleared.emit(_current_wave + 1, _waves.size())
+	if boss_kind.is_empty():
+		EventBus.wave_cleared.emit(_current_wave + 1, _waves.size())
 	_reward_player()
 
 	var next_index := _current_wave + 1
 	if next_index < _waves.size():
 		_schedule_wave(next_index, between_waves_delay)
-	else:
+	elif boss_kind.is_empty():
 		EventBus.all_waves_cleared.emit()
+	else:
+		EventBus.boss_wave_cleared.emit(boss_kind)
 
 
 ## Agenda uma onda com timer de jogo (respeita a pausa).
@@ -125,6 +148,20 @@ func _schedule_wave(index: int, delay: float) -> void:
 	var timer := CombatUtils.game_timer(self, delay)
 	if timer != null:
 		timer.timeout.connect(_start_wave.bind(index))
+
+
+## Guarda o Player anunciado pelo EventBus.
+func _on_player_registered(player: Node2D) -> void:
+	_player = player
+
+
+## O chefão desta wave ficou invulnerável: começa a onda longe das paredes dele.
+func _on_boss_transition_started(kind: StringName, boss_position: Vector2, clear_radius: float) -> void:
+	if kind != boss_kind or _stopped or _wave_active:
+		return
+	_clear_center = boss_position
+	_clear_radius = clear_radius
+	_schedule_wave(0, first_wave_delay)
 
 
 ## Pede a cura do Player pelo EventBus.
@@ -149,12 +186,17 @@ func _collect_spawn_points() -> bool:
 
 ## Ordem dos marcadores da onda: longe do Player primeiro.
 func _order_spawn_points() -> void:
-	_wave_points = _spawn_points.duplicate()
+	# Descarta marcadores removidos da cena entre uma onda e outra: ler
+	# global_position de um nó liberado quebraria o spawn da onda inteira.
+	_wave_points.assign(_spawn_points.filter(func(m: Marker2D) -> bool:
+		return CombatUtils.is_valid(m) and not _is_in_clear_area(m.global_position)))
 	_wave_points.shuffle()
-	var player := get_tree().get_first_node_in_group(CombatUtils.GROUP_PLAYER) as Node2D
-	if min_player_distance <= 0.0 or not CombatUtils.is_targetable(player):
+	if _wave_points.is_empty():
+		push_error("WaveManager: nenhum ponto de spawn válido; a onda não vai nascer.")
 		return
-	var player_pos := player.global_position
+	if min_player_distance <= 0.0 or not CombatUtils.is_targetable(_player):
+		return
+	var player_pos := _player.global_position
 	var min_sq := min_player_distance * min_player_distance
 	var far: Array[Marker2D] = []
 	far.assign(_wave_points.filter(func(m: Marker2D) -> bool:
@@ -166,8 +208,15 @@ func _order_spawn_points() -> void:
 		return a.global_position.distance_squared_to(player_pos) > b.global_position.distance_squared_to(player_pos))
 
 
+## True se o ponto cai dentro da área protegida em volta do chefão.
+func _is_in_clear_area(point: Vector2) -> bool:
+	return _clear_radius > 0.0 and point.distance_squared_to(_clear_center) < _clear_radius * _clear_radius
+
+
 ## Próximo ponto de spawn (repete se faltar marcador).
 func _next_spawn_position() -> Vector2:
+	if _wave_points.is_empty():
+		return Vector2.ZERO  # sem marcador válido (já reportado em _order_spawn_points)
 	var marker: Marker2D = _wave_points[_next_spawn % _wave_points.size()]
 	_next_spawn += 1
 	var offset: Vector2 = Vector2.ZERO

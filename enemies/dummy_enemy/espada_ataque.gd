@@ -6,7 +6,7 @@ signal acertou(corpo: Node)
 
 @export var comprimento: float = 48.0
 @export var espessura: float = 10.0
-@export var arco: float = 2.0944  ## radianos (120°)
+@export var arco: float = 2.0944  # radianos (120°)
 @export var duracao: float = 0.25
 @export var cor: Color = Color(0.85, 0.9, 1.0)
 
@@ -15,7 +15,8 @@ signal acertou(corpo: Node)
 
 var angulo_central: float = 0.0
 
-var _atingidos: Array[Node] = []
+## Alvos já atingidos.
+var _atingidos: Dictionary[int, bool] = {}
 
 
 ## Cria a forma e gira com Tween.
@@ -46,7 +47,8 @@ func _draw() -> void:
 
 ## Acerto único por alvo.
 func _registrar(corpo: Node) -> void:
-	if corpo in _atingidos:
+	var id: int = corpo.get_instance_id()
+	if _atingidos.has(id):
 		return
-	_atingidos.append(corpo)
+	_atingidos[id] = true
 	acertou.emit(corpo)
