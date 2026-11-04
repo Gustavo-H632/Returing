@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b7eqqees83wu5"]
+
+[ext_resource type="Script" uid="uid://c1ukfwaw5tm5s" path="res://enemies/robo/projectile/enemy_projectile.gd" id="1_proj"]
+[ext_resource type="Script" uid="uid://c28hqbjsfdsos" path="res://common/combat/hitbox.gd" id="2_hitbox"]
+[ext_resource type="Texture2D" uid="uid://bcxq6kivwl3w7" path="res://sprites/laser-turing.png" id="3_y82rv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 6.0
+
+[node name="EnemyProjectile" type="Area2D" unique_id=22758421 node_paths=PackedStringArray("hitbox")]
+collision_layer = 0
+script = ExtResource("1_proj")
+hitbox = NodePath("Hitbox")
+monitor_while_active = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=40755885]
+shape = SubResource("CircleShape2D_body")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1599452369]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_hitbox")
+active_on_start = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=369005093]
+shape = SubResource("CircleShape2D_hit")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1131723650]
+modulate = Color(0.73, 0, 0, 1)
+position = Vector2(9.536743e-07, -2.861023e-06)
+scale = Vector2(1.2543751, 1.160625)
+texture = ExtResource("3_y82rv")

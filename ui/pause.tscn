@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://def0h2ur0slmw"]
+
+[ext_resource type="Script" uid="uid://bs26mbof4nhhf" path="res://ui/pause.gd" id="1_5awou"]
+
+[node name="Pause" type="CanvasLayer" unique_id=403843749]
+script = ExtResource("1_5awou")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1259745624]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5176471)
+
+[node name="Continue_button" type="Button" parent="." unique_id=1861666039]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -26.0
+offset_right = 74.5
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+action_mode = 0
+text = "Continuar"
+
+[node name="Bye_button" type="Button" parent="." unique_id=1791435716]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = 113.0
+offset_right = 77.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+action_mode = 0
+text = "Sair"
+
+[node name="Reset_button" type="Button" parent="." unique_id=1864843851]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = 44.0
+offset_right = 76.0
+offset_bottom = 96.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+action_mode = 0
+text = "Reiniciar"
+
+[node name="Label" type="Label" parent="." unique_id=788588084]
+offset_left = 411.0
+offset_top = 91.0
+offset_right = 748.0
+offset_bottom = 238.0
+theme_override_font_sizes/font_size = 80
+text = "Pausado"
+horizontal_alignment = 1
+vertical_alignment = 1

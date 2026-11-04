@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://daabj86pfq8fl"]
+
+[ext_resource type="Script" uid="uid://di7ym7vhiw5ft" path="res://ui/debug/painel_dummy.gd" id="1_painel"]
+
+[node name="PainelDummy" type="HBoxContainer" node_paths=PackedStringArray("btn_dano", "spin_dano", "btn_projetil", "btn_onda", "btn_espada")]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 560.0
+offset_bottom = 56.0
+theme_override_constants/separation = 8
+script = ExtResource("1_painel")
+btn_dano = NodePath("BtnDano")
+spin_dano = NodePath("SpinDano")
+btn_projetil = NodePath("BtnProjetil")
+btn_onda = NodePath("BtnOnda")
+btn_espada = NodePath("BtnEspada")
+
+[node name="BtnDano" type="Button" parent="."]
+layout_mode = 2
+text = "Dano"
+
+[node name="SpinDano" type="SpinBox" parent="."]
+layout_mode = 2
+min_value = 1.0
+max_value = 999.0
+value = 10.0
+
+[node name="BtnProjetil" type="Button" parent="."]
+layout_mode = 2
+toggle_mode = true
+text = "Projétil"
+
+[node name="BtnOnda" type="Button" parent="."]
+layout_mode = 2
+toggle_mode = true
+text = "Onda"
+
+[node name="BtnEspada" type="Button" parent="."]
+layout_mode = 2
+text = "Espada"

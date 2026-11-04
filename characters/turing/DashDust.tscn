@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://characters/turing/dash_dust.gd" id="1_dust"]
+[ext_resource type="Texture2D" path="res://sprites/Effects/dash_dust.png" id="2_tex"]
+
+[node name="DashDust" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("2_tex")
+hframes = 4
+script = ExtResource("1_dust")

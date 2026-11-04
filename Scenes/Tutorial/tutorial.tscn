@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://x2b3jrmcm60"]
+
+[ext_resource type="Script" uid="uid://wmsan80855br" path="res://Scenes/Tutorial/tutorial.gd" id="1_gycof"]
+[ext_resource type="Texture2D" uid="uid://vsjrdm7avdcq" path="res://Scenes/Tutorial/controles.png" id="2_n1m62"]
+
+[node name="Tutorial" type="Control" unique_id=1704094449]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gycof")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1797666577]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_n1m62")
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1475593088]
+layout_mode = 0
+offset_left = 953.0
+offset_top = 539.0
+offset_right = 1116.0
+offset_bottom = 610.0
+text = "Continuar
+"
