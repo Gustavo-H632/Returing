@@ -193,6 +193,19 @@ static func move_until_wall(body: Node2D, step: Vector2, mask: int, margin: floa
 	return false
 
 
+## Confere o ponto onde um disparo nasce. `from` é o corpo de quem atira e `muzzle` é a boca da arma.
+## A boca costuma ficar ~20 px à frente do corpo: com uma parede fina (1 tile = 16 px) encostada em
+## quem atira, ela cai dentro ou atrás da parede, e o raio de `move_until_wall` (que começa dentro
+## da forma e por isso não a enxerga) deixaria o tiro atravessar. Aqui o trecho corpo -> boca é
+## varrido: se há parede no caminho, devolve o ponto de contato com `blocked = true` (o tiro deve
+## morrer ali); senão devolve a própria boca com `blocked = false`.
+static func trace_spawn(context: Node2D, from: Vector2, muzzle: Vector2, mask: int) -> Dictionary:
+	var wall: Dictionary = trace_wall(context, from, muzzle, mask)
+	if wall.is_empty():
+		return {"blocked": false, "position": muzzle}
+	return {"blocked": true, "position": wall["position"] as Vector2}
+
+
 # --- Árvore de nós (recursivo) ---
 
 ## Varre os descendentes de `root` e devolve os nós aceitos por `predicate` (Callable(Node) -> bool).

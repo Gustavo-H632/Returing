@@ -40,6 +40,19 @@ func launch(origin: Vector2, aim: Vector2, new_damage: int, charge_ratio: float,
 	apply_charge(charge_ratio)
 	_life_left = lifetime
 	_consumido = false
+	_block_if_spawned_behind_wall(origin)
+
+
+## Se há parede entre quem atirou e a boca da arma (ex.: parede de 1 tile encostada no player), o tiro
+## morre na parede em vez de nascer do outro lado dela.
+func _block_if_spawned_behind_wall(muzzle: Vector2) -> void:
+	var shooter_body := shooter as Node2D
+	if shooter_body == null:
+		return
+	var spawn: Dictionary = CombatUtils.trace_spawn(self, shooter_body.global_position, muzzle, wall_mask)
+	if spawn["blocked"] as bool:
+		global_position = spawn["position"] as Vector2
+		_consumir()
 
 
 ## Escala o tiro pela carga: 0.0 = tamanho mínimo, 1.0 = MAX_CHARGE_SCALE vezes o mínimo.

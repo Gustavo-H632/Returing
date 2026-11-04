@@ -4,6 +4,9 @@ extends Area2D
 
 signal acertou(corpo: Node)
 
+## Camadas tratadas como parede (1 = Mundo).
+const MASCARA_PAREDE: int = 1
+
 @export var direcao: Vector2 = Vector2.RIGHT
 @export var velocidade: float = 320.0
 @export var raio: float = 5.0
@@ -30,7 +33,10 @@ func _ready() -> void:
 
 ## Anda até acabar a vida.
 func _physics_process(delta: float) -> void:
-	global_position += direcao * velocidade * delta
+	# A máscara da área só enxerga o player; a parede é conferida por raio (como nos outros tiros).
+	if CombatUtils.move_until_wall(self, direcao * velocidade * delta, MASCARA_PAREDE, raio):
+		queue_free()
+		return
 	vida -= delta
 	if vida <= 0.0:
 		queue_free()

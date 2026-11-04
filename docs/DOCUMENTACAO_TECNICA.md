@@ -246,7 +246,7 @@ Os destinos da patrulha são encurtados no primeiro obstáculo (`trim_to_free_sp
 
 ---
 
-## 7. Unificação v6 (v5 completo + quiz com timer e vida)
+## 9. Unificação v6 (v5 completo + quiz com timer e vida)
 
 **Base:** `Returing-v5-completo` (IA com patrulha e desvio de paredes) + patch `quiz-timer-vida`.
 
@@ -261,7 +261,7 @@ Os destinos da patrulha são encurtados no primeiro obstáculo (`trim_to_free_sp
 
 ---
 
-## 8. Fluxo Waves → Quiz, regeneração e Game Over (v7)
+## 10. Fluxo Waves → Quiz, regeneração e Game Over (v7)
 
 - **Cena primária:** `run/main_scene` = Fase 1 (Waves). `Global.MENU_SCENE` fixa o menu (o botão "Menu principal" não depende mais da cena primária).
 - **Transição Waves → Quiz:** `LevelManager.auto_advance_delay` (3 s) emite `scene_change_requested(next_scene)`; o botão "Continuar" continua funcionando.
@@ -270,7 +270,7 @@ Os destinos da patrulha são encurtados no primeiro obstáculo (`trim_to_free_sp
 
 ---
 
-## 9. Novos sprites pixel art (barras, tiro, dash)
+## 11. Novos sprites pixel art (barras, tiro, dash)
 
 Os sprites vieram de vídeos (64 × 64 px nativos, ampliados 5,75×); foram reconstruídos na grade nativa e com a paleta limpa (sem a compressão do vídeo). Cada pixel do asset = 1 px de mundo, e o `texture_filter` é *nearest*.
 
@@ -280,11 +280,32 @@ Os sprites vieram de vídeos (64 × 64 px nativos, ampliados 5,75×); foram reco
 | `sprites/HUD/Barra-Carga_pixel.png` | Tira de 44 quadros de 63 × 16 (carga). `SpriteBar` com `frame_count = 44`. |
 | `sprites/Player/turing_shoot.png` | 4 quadros de 80 × 104 virados à esquerda (o Player espelha). Animação `shoot_side` (1,2 s em *loop* = `charge_time`), tocada em `ATTACK_RANGED`. O quadro é maior que o boneco para o `offset` (20, 28,5) do `Sprite2D` continuar valendo. |
 | `sprites/Effects/dash_dust.png` + `characters/turing/DashDust.tscn` | Poeira do dash (4 quadros de 64 × 64, 0,1 s cada), criada em `Player._spawn_dash_dust()`. |
-| `sprites/Enemies/Attacks/guide_beam.png` | Tiro do chefe (4 quadros de 64 × 64: orbe + feixe). Ainda não ligado a nenhuma cena. |
+| `sprites/Enemies/Attacks/guide_beam.png` | Orbe (quadro 0, usado pelos tiros divididos do chefão, ver seção 12) + feixe (quadros 1–3, livres para o laser). |
 
 `SpriteBar`: `frame_count > 0` usa a tira horizontal; `0` mantém a grade antiga 8 × 7. O tiro (`shoot_side`) só existe de lado e vale para qualquer direção da mira; o `Player` espelha o sprite pelo lado do cursor.
 
 ### Ajustes seguintes
-- **Tiro do chefão (`GuideShot`):** o círculo desenhado por código foi trocado pelo orbe de `guide_beam.png` (quadro 0), com escala inteira ≈ diâmetro da hitbox. Os quadros 1–3 (feixe) ficam livres para o laser.
+- **Tiro do chefão (`GuideShot`) — substituído na seção 12 (tiro principal agora usa `guide_shot.png`; o orbe ficou só nos divididos):** o círculo desenhado por código foi trocado pelo orbe de `guide_beam.png` (quadro 0), com escala inteira ≈ diâmetro da hitbox. Os quadros 1–3 (feixe) ficam livres para o laser.
 - **Barra de vida do chefão:** `health_bar_margin` = 80 em `GuideEnemy.tscn` (antes 24, a barra cobria a cabeça do sprite).
 - **Tela de Game Over:** novo `Starfield` (`ui/hud/starfield.gd`) preenche a tela toda com estrelas na paleta do letreiro; o letreiro quadrado continua inteiro no centro (sem barras pretas nas laterais).
+
+---
+
+## 12. Novos sprites (chefão e player) e correção de tiros atravessando parede
+
+| Asset | Uso |
+|---|---|
+| `sprites/Enemies/Attacks/guide_shot.png` | Projétil do chefão: 8 quadros de 64 × 64 em uma linha. Ponta (cabeça) voltada para cima no quadro. |
+| `sprites/Player/turing_shoot.png` | Troca do sprite do player carregando/atirando (4 quadros, 80 × 104, virados à esquerda; o Player espelha). Mesma animação `shoot_side`. |
+| `sprites/Enemies/Attacks/guide_beam.png` (quadro 0) | Orbe usado agora só pelos **tiros divididos**. |
+
+**Chefão (`guide_shot.gd`, `GuideShot.tscn`, `guide_shot_spec.gd`)**
+- `GuideShotSpec.style`: `BEAM` (tiro principal, animado a `beam_fps` = 12) ou `ORB` (filhos da divisão). `guide_enemy.gd` marca a receita `split` como `ORB`.
+- O projétil gira para a direção do voo; o nó (centro da hitbox) fica 1 raio atrás da ponta, então a cabeça encosta no alvo primeiro. Escala inteira (corpo ≈ diâmetro da hitbox).
+- Constantes de ajuste: `BEAM_WIDTH_PX`, `BEAM_AXIS_X`, `BEAM_HEAD_TOP_Y`.
+
+**Bug: tiro atravessava a parede interna do labirinto (Fase 1)**
+- Causa: a boca da arma nasce ~22,8 px à frente do corpo. Encostado numa parede de 1 tile (16 px), o ponto de nascimento ficava dentro da parede; o raio de `move_until_wall` começa dentro da forma e não a enxerga, então o tiro saía do outro lado.
+- Correção: `CombatUtils.trace_spawn()` varre corpo → boca no disparo; se há parede, o tiro morre no ponto de contato. Aplicado em `PlayerProjectile.launch` e `EnemyProjectile.launch`. O projétil do Dummy (debug), que ignorava paredes, agora também para nelas (`DummyProjetil`).
+- Verificado no Godot 4.7.2 (headless): antes, 6 de 6 tiros atravessavam; depois, 0 de 6 (e tiros a distância continuam parando na parede).
+- **Cone do projétil (quadros 7 e 8 de `guide_shot.png`):** no desenho original o cone rosa era cortado reto na borda do quadro. A ponta final agora se dissolve em *dithering* (a partir da linha 46; os respingos rosa dos quadros 4 e 5, também cortados na borda, recebem o mesmo tratamento a partir da linha 58), então o cone some gradualmente em vez de terminar num corte seco; o contorno vermelho não foi alterado.

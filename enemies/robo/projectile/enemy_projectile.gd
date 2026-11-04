@@ -49,6 +49,19 @@ func launch(origin: Vector2, direction: Vector2, from_shooter: Node = null) -> v
 	hitbox.source = shooter  # não acerta quem atirou
 	hitbox.configure(min_damage, true)
 	hitbox.set_active(true)
+	_block_if_spawned_behind_wall(origin)
+
+
+## Se há parede entre o Robo e a boca da arma (parede fina encostada nele), o tiro morre na parede
+## em vez de nascer do outro lado dela.
+func _block_if_spawned_behind_wall(muzzle: Vector2) -> void:
+	var shooter_body := shooter as Node2D
+	if shooter_body == null:
+		return
+	var spawn: Dictionary = CombatUtils.trace_spawn(self, shooter_body.global_position, muzzle, wall_mask)
+	if spawn["blocked"] as bool:
+		global_position = spawn["position"] as Vector2
+		_consume()
 
 
 func _on_pool_deactivate() -> void:

@@ -364,6 +364,7 @@ func _build_shot_specs() -> void:
 	main.damage = shot_damage
 	main.lifetime = shot_lifetime
 	var split := GuideShotSpec.new()
+	split.style = GuideShotSpec.Style.ORB  # tiros divididos: orbe pequeno
 	split.radius = PlayerProjectile.BASE_RADIUS
 	split.speed = split_shot_speed
 	split.damage = split_shot_damage
