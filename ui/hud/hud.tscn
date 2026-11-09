@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" path="res://sprites/HUD/Barra-Vida_pixel.png" id="5_hpsheet"]
 [ext_resource type="Script" uid="uid://dq3x7kp2mw5ne" path="res://ui/hud/end_game_banner.gd" id="3_banner"]
 [ext_resource type="Script" path="res://ui/hud/starfield.gd" id="6_stars"]
+[ext_resource type="PackedScene" path="res://ui/hud/xp_bar.tscn" id="7_xpbar"]
+[ext_resource type="Theme" path="res://themes/main_theme.tres" id="8_theme"]
+[ext_resource type="Script" path="res://themes/pixel_button.gd" id="9_pixel_button"]
 
 [node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("player_health_bar", "charge_bar", "game_over_panel", "retry_button", "game_over_menu_button", "complete_panel", "complete_label", "complete_banner", "continue_button", "complete_menu_button")]
 layer = 10
@@ -65,6 +68,8 @@ stretch_mode = 5
 script = ExtResource("2_hpbar")
 sheet = ExtResource("4_chargesheet")
 frame_count = 44
+
+[node name="XpBar" parent="Root" instance=ExtResource("7_xpbar")]
 
 [node name="GameOverPanel" type="Control" parent="Root"]
 visible = false
@@ -144,11 +149,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -180.0
-offset_top = -250.0
+offset_top = -120.0
 offset_right = 180.0
-offset_bottom = 250.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("8_theme")
 
 [node name="CompleteBox" type="VBoxContainer" parent="Root/LevelCompletePanel"]
 layout_mode = 2
@@ -156,6 +162,7 @@ alignment = 1
 
 [node name="CompleteLabel" type="Label" parent="Root/LevelCompletePanel/CompleteBox"]
 layout_mode = 2
+theme_type_variation = &"PanelTitleLabel"
 text = "Fase concluída!"
 horizontal_alignment = 1
 
@@ -170,9 +177,13 @@ stretch_mode = 5
 script = ExtResource("3_banner")
 
 [node name="ContinueButton" type="Button" parent="Root/LevelCompletePanel/CompleteBox"]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Continuar"
+script = ExtResource("9_pixel_button")
 
 [node name="CompleteMenuButton" type="Button" parent="Root/LevelCompletePanel/CompleteBox"]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Menu principal"
+script = ExtResource("9_pixel_button")

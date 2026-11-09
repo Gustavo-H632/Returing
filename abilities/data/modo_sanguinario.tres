@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://abilities/effects/BloodModeEffect.tscn" id="2_fx"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"modo_sanguinario"
+display_name = "Modo Sanguinário"
+description = "Cada inimigo morto aumenta seu ataque (acumula, com teto) e recupera vida."
+sequence = Array[int]([1, 2, 1, 3, 1, 0])
+cooldown = 70.0
+duration = 20.0
+rarity = 2
+glyph = 11
+effect_scene = ExtResource("2_fx")
+stat_mult = {}
+stat_add = {}

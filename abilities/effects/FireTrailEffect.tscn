@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/effects/fire_trail_effect.gd" id="1_fx"]
+[ext_resource type="PackedScene" path="res://abilities/effects/FireZone.tscn" id="2_zone"]
+
+[node name="FireTrailEffect" type="Node2D"]
+script = ExtResource("1_fx")
+zone_scene = ExtResource("2_zone")

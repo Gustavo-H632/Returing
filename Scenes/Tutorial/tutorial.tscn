@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://wmsan80855br" path="res://Scenes/Tutorial/tutorial.gd" id="1_gycof"]
 [ext_resource type="Texture2D" uid="uid://vsjrdm7avdcq" path="res://Scenes/Tutorial/controles.png" id="2_n1m62"]
+[ext_resource type="Theme" path="res://themes/main_theme.tres" id="3_theme"]
+[ext_resource type="Script" path="res://themes/pixel_button.gd" id="4_pixel_button"]
 
 [node name="Tutorial" type="Control" unique_id=1704094449]
 layout_mode = 3
@@ -10,7 +12,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_theme")
 script = ExtResource("1_gycof")
+
+[node name="Backdrop" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"BackdropPanel"
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1797666577]
 layout_mode = 0
@@ -20,9 +33,9 @@ texture = ExtResource("2_n1m62")
 
 [node name="ContinueButton" type="Button" parent="." unique_id=1475593088]
 layout_mode = 0
-offset_left = 953.0
-offset_top = 539.0
-offset_right = 1116.0
-offset_bottom = 610.0
-text = "Continuar
-"
+offset_left = 872.0
+offset_top = 560.0
+offset_right = 1112.0
+offset_bottom = 616.0
+text = "Continuar"
+script = ExtResource("4_pixel_button")

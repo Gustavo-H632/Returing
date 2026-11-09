@@ -10,6 +10,7 @@ signal quiz_falhou
 signal resposta_registrada(indice: int, correta: bool, motivo: StringName)
 
 #divide o quiz em fases
+# Etapas do quiz.
 enum fase_do_quiz {
 	## Fechado (antes de iniciar() ou depois de terminar/falhar).
 	CLOSED,
@@ -21,21 +22,27 @@ enum fase_do_quiz {
 	ENDING,
 }
 
-const COLOR_RIGHT: Color = Color.GREEN
-const COLOR_WRONG: Color = Color.RED
-const COLOR_TIMER_OK: Color = Color(0.35, 0.85, 0.45)
-const COLOR_TIMER_ALERT: Color = Color.RED
+## Cores da Palette: acerto e relógio normal em ACCENT; erro e pouco tempo em DANGER
+## (erro tira vida do jogador, então conta como ação destrutiva).
+# Cores do quiz: acerto e relógio normal em dourado; erro e pouco tempo em laranja.
+const COLOR_RIGHT: Color = Palette.ACCENT
+const COLOR_WRONG: Color = Palette.DANGER
+const COLOR_TIMER_OK: Color = Palette.ACCENT
+const COLOR_TIMER_ALERT: Color = Palette.DANGER
+# Mensagem exibida no fim do quiz.
 const FINAL_MESSAGE: String = "Sistemas de defesa desativados! AEGIS está livre"
 ## Tempo que a mensagem final fica na tela antes de fechar o painel.
 const FINAL_MESSAGE_TIME: float = 2.5
 ## Vida máxima usada até o Player informar a dele.
 const FALLBACK_HP_MAX: int = 100
 
+# Motivos de um resultado: acerto, erro de resposta e tempo esgotado.
 const REASON_CORRECT: StringName = &"acerto"
 const REASON_WRONG: StringName = &"erro"
 const REASON_TIMEOUT: StringName = &"timeout"
 
 #
+# Perguntas padrão (usadas quando o Inspector não define nenhuma).
 const Questoes: Array[Dictionary] = [
 	{
 		"pergunta": "Energia = 100 E Energia_reator = 50\nSe Energia > 50:\n\tEnergia = 50\nEnergia_reator = 100\nQUAL SERÁ A QUANTIDADE DE ENERGIA DIRECIONADA AO GERADOR?",
@@ -73,26 +80,26 @@ const Questoes: Array[Dictionary] = [
 @export_range(1, 20) var erros_para_game_over: int = 3
 
 @export_group("Nós da cena")
-@export var question_label: RichTextLabel
-@export var answer_input: LineEdit
+@export var question_label: RichTextLabel  # Texto da pergunta.
+@export var answer_input: LineEdit  # Campo de resposta.
 ## Botão clicável de envio (equivale a Enter no campo de resposta).
 @export var submit_button: Button
 ## Espera do feedback (acerto/erro na tela) entre uma pergunta e a seguinte.
 @export var feedback_timer: Timer
 ## Contagem regressiva da questão.
 @export var question_timer: Timer
-@export var countdown_box: Control
-@export var countdown_label: Label
-@export var countdown_bar: ProgressBar
+@export var countdown_box: Control  # Caixa do relógio.
+@export var countdown_label: Label  # Texto do relógio.
+@export var countdown_bar: ProgressBar  # Barra do relógio.
 
 ## Estilo da barra do relógio (lido da cena; a cor troca no alerta).
 var _countdown_fill: StyleBoxFlat = null
-var _urgent: bool = false
+var _urgent: bool = false  # True com pouco tempo (relógio laranja).
 
-var _phase: fase_do_quiz = fase_do_quiz.CLOSED
-var _index: int = 0
-var _hp_max: int = FALLBACK_HP_MAX
-var _player_dead: bool = false
+var _phase: fase_do_quiz = fase_do_quiz.CLOSED  # Etapa atual.
+var _index: int = 0  # Índice da pergunta atual.
+var _hp_max: int = FALLBACK_HP_MAX  # Vida máxima do jogador (para calcular o dano dos erros).
+var _player_dead: bool = false  # True se o jogador morreu.
 ## False quando falta algum nó no Inspector.
 var _valid: bool = false
 ## Um item por questão já registrada.
@@ -100,93 +107,96 @@ var _results: Array[bool] = []
 
 
 ## Conecta antes dos _ready (o Player anuncia a vida dele no próprio _ready).
+## Liga os sinais do EventBus antes do _ready (o jogador anuncia a vida dele no próprio _ready).
 func _enter_tree() -> void:
-	CombatUtils.connect_once(EventBus.player_hp_changed, _on_player_hp_changed)
-	CombatUtils.connect_once(EventBus.player_died, _on_player_died)
+	CombatUtils.connect_once(EventBus.player_hp_changed, _on_player_hp_changed)  # Vida do jogador mudou.
+	CombatUtils.connect_once(EventBus.player_died, _on_player_died)  # Jogador morreu.
 
 
+## Ao sair da cena desliga os sinais do EventBus.
 func _exit_tree() -> void:
 	CombatUtils.disconnect_if_connected(EventBus.player_hp_changed, _on_player_hp_changed)
 	CombatUtils.disconnect_if_connected(EventBus.player_died, _on_player_died)
 
 
+## Prepara o quiz: valida as referências, usa as perguntas padrão se necessário e liga os sinais.
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS  # cronômetro e feedback andam com o jogo pausado
-	_valid = _validate_references()
-	if not _valid:
+	_valid = _validate_references()  # Confere os nós da cena.
+	if not _valid:  # Faltou algo: esconde e para.
 		hide()
 		return
-	if perguntas.is_empty():
+	if perguntas.is_empty():  # Sem perguntas no Inspector, usa as padrão.
 		perguntas = _build_default_questions()
-	# Cópia própria do estilo.
-	# instâncias da cena (o StyleBox da cena é compartilhado entre elas).
-	var fill := countdown_bar.get_theme_stylebox(&"fill") as StyleBoxFlat
-	if fill != null:
-		_countdown_fill = fill.duplicate() as StyleBoxFlat
-		countdown_bar.add_theme_stylebox_override(&"fill", _countdown_fill)
-	answer_input.placeholder_text = "Insira aqui a resposta"
-	answer_input.text_submitted.connect(_on_answer_submitted)
-	submit_button.pressed.connect(_on_submit_pressed)
-	feedback_timer.timeout.connect(_on_feedback_finished)
-	question_timer.timeout.connect(_on_question_timeout)
+	# Preenchimento próprio (cada instância troca a cor sem afetar o tema compartilhado).
+	_countdown_fill = StyleBoxFlat.new()
+	_countdown_fill.bg_color = COLOR_TIMER_OK
+	countdown_bar.add_theme_stylebox_override(&"fill", _countdown_fill)
+	answer_input.placeholder_text = "Insira aqui a resposta"  # Texto de ajuda do campo.
+	answer_input.text_submitted.connect(_on_answer_submitted)  # Enter no campo envia a resposta.
+	submit_button.pressed.connect(_on_submit_pressed)  # O botão também envia.
+	feedback_timer.timeout.connect(_on_feedback_finished)  # Fim da espera do feedback.
+	question_timer.timeout.connect(_on_question_timeout)  # Tempo da questão esgotado.
 	set_process(false)  # _process só roda enquanto o cronômetro estiver contando
-	hide()
+	hide()  # Começa escondido.
 
 
 # --- Cronômetro ---
 
 ## Zera o relógio e começa a contar a questão atual.
 func _start_countdown() -> void:
-	countdown_bar.max_value = tempo_por_questao
-	_set_urgent(false)
-	question_timer.start(tempo_por_questao)
-	set_process(true)
-	_refresh_countdown()
+	countdown_bar.max_value = tempo_por_questao  # Barra vai de zero ao tempo da questão.
+	_set_urgent(false)  # Começa com a cor normal.
+	question_timer.start(tempo_por_questao)  # Inicia a contagem.
+	set_process(true)  # Liga o _process.
+	_refresh_countdown()  # Atualiza o texto e a barra.
 
 
 ## Para a contagem (o texto e a barra ficam congelados no último valor).
 func _stop_countdown() -> void:
-	question_timer.stop()
-	set_process(false)
+	question_timer.stop()  # Para o timer.
+	set_process(false)  # Desliga o _process.
 
 
+## A cada quadro atualiza o relógio na tela.
 func _process(_delta: float) -> void:
 	_refresh_countdown()
 
 
 ## Atualiza texto e barra com o tempo que falta.
 func _refresh_countdown() -> void:
-	var left: float = question_timer.time_left
-	countdown_bar.value = left
-	countdown_label.text = "Tempo: %d s" % ceili(left)
-	_set_urgent(left <= tempo_alerta)
+	var left: float = question_timer.time_left  # Tempo que falta.
+	countdown_bar.value = left  # Barra.
+	countdown_label.text = "Tempo: %d s" % ceili(left)  # Texto.
+	_set_urgent(left <= tempo_alerta)  # Fica laranja com pouco tempo.
 
 
 ## Troca a cor do relógio só quando o estado muda.
 func _set_urgent(value: bool) -> void:
-	if value == _urgent:
+	if value == _urgent:  # Mesmo estado: nada a fazer.
 		return
-	_urgent = value
-	if _countdown_fill != null:
-		_countdown_fill.bg_color = COLOR_TIMER_ALERT if value else COLOR_TIMER_OK
-	if value:
-		countdown_label.add_theme_color_override(&"font_color", COLOR_TIMER_ALERT)
+	_urgent = value  # Guarda o estado.
+	if _countdown_fill != null:  # Há estilo próprio.
+		_countdown_fill.bg_color = COLOR_TIMER_ALERT if value else COLOR_TIMER_OK  # Cor da barra.
+	if value:  # Pouco tempo.
+		countdown_label.add_theme_color_override(&"font_color", COLOR_TIMER_ALERT)  # Cor do texto.
 	else:
-		countdown_label.remove_theme_color_override(&"font_color")
+		countdown_label.remove_theme_color_override(&"font_color")  # Tempo normal: volta à cor do tema.
 
 
 ## Tempo zerou: a questão atual conta como incorreta e o jogador leva dano.
 func _on_question_timeout() -> void:
-	if _phase != fase_do_quiz.ANSWERING:
+	if _phase != fase_do_quiz.ANSWERING:  # Só vale se estava respondendo.
 		return
-	_phase = fase_do_quiz.FEEDBACK
-	_stop_countdown()
-	_refresh_countdown()
-	_lock_input()
-	answer_input.add_theme_color_override(&"font_color", COLOR_WRONG)
+	_phase = fase_do_quiz.FEEDBACK  # Passa ao feedback.
+	_stop_countdown()  # Para o relógio.
+	_refresh_countdown()  # Mostra o zero.
+	_lock_input()  # Trava o campo.
+	answer_input.add_theme_color_override(&"font_color", COLOR_WRONG)  # Texto em laranja (erro).
+	# Mostra a resposta certa.
 	question_label.text = "Tempo esgotado! A resposta era: " + perguntas[_index].resposta_correta
-	_register_result(false, REASON_TIMEOUT)
-	feedback_timer.start()
+	_register_result(false, REASON_TIMEOUT)  # Conta como erro (tira vida).
+	feedback_timer.start()  # Espera o feedback.
 
 
 # --- Mouse ---
@@ -196,21 +206,22 @@ func _on_question_timeout() -> void:
 ## Clique no botão = mesmo efeito de Enter no campo de resposta.
 func _on_submit_pressed() -> void:
 	if _phase == fase_do_quiz.ANSWERING:  # ignora cliques enquanto o feedback está na tela
-		_on_answer_submitted(answer_input.text)
+		_on_answer_submitted(answer_input.text)  # Mesmo efeito do Enter.
 
 
 ## Cliques no fundo do quiz (Panel, enunciado ou o próprio quiz).
+## Clique esquerdo no fundo: durante o feedback pula a espera; durante a resposta devolve o foco ao campo.
 func _gui_input(event: InputEvent) -> void:
-	var click := event as InputEventMouseButton
+	var click := event as InputEventMouseButton  # Só o clique esquerdo.
 	if click == null or not click.pressed or click.button_index != MOUSE_BUTTON_LEFT:
 		return
-	accept_event()
-	match _phase:
-		fase_do_quiz.FEEDBACK:
+	accept_event()  # Consome o clique.
+	match _phase:  # Depende da etapa.
+		fase_do_quiz.FEEDBACK:  # Feedback na tela.
 			# Feedback na tela (acerto/erro): clicar pula a espera de 1,5 s.
-			feedback_timer.stop()
-			_on_feedback_finished()
-		fase_do_quiz.ANSWERING:
+			feedback_timer.stop()  # Para o timer.
+			_on_feedback_finished()  # Vai direto à próxima pergunta.
+		fase_do_quiz.ANSWERING:  # Respondendo.
 			answer_input.grab_focus()  # clicar fora do campo não "perde" o teclado
 
 
@@ -218,146 +229,152 @@ func _gui_input(event: InputEvent) -> void:
 
 ## Abre o quiz na primeira pergunta.
 func iniciar() -> void:
-	if not _valid or _player_dead:
+	if not _valid or _player_dead:  # Sem referências ou com o jogador morto: não abre.
 		return
-	_index = 0
-	_results.clear()
-	answer_input.show()
-	submit_button.show()
-	countdown_box.show()
-	show()
-	_load_question()
+	_index = 0  # Começa na primeira pergunta.
+	_results.clear()  # Zera os resultados.
+	answer_input.show()  # Mostra o campo.
+	submit_button.show()  # Mostra o botão.
+	countdown_box.show()  # Mostra o relógio.
+	show()  # Mostra o quiz.
+	_load_question()  # Carrega a primeira pergunta.
 
 
 ## Mostra a pergunta atual.
 func _load_question() -> void:
-	if _index >= perguntas.size():
+	if _index >= perguntas.size():  # Acabaram as perguntas: termina.
 		_finish()
 		return
-	_phase = fase_do_quiz.ANSWERING
-	answer_input.editable = true
-	submit_button.disabled = false
-	answer_input.clear()
-	answer_input.grab_focus()
-	answer_input.add_theme_color_override(&"font_color", Color.WHITE)
-	question_label.text = perguntas[_index].pergunta
-	_start_countdown()
+	_phase = fase_do_quiz.ANSWERING  # Etapa de resposta.
+	answer_input.editable = true  # Libera o campo.
+	submit_button.disabled = false  # Libera o botão.
+	answer_input.clear()  # Limpa o campo.
+	answer_input.grab_focus()  # Foco no campo.
+	answer_input.add_theme_color_override(&"font_color", Palette.TEXT)  # Cor normal do texto.
+	question_label.text = perguntas[_index].pergunta  # Mostra a pergunta.
+	_start_countdown()  # Começa a contar o tempo.
 
 
 ## Mostra a mensagem final, espera e fecha o painel.
 func _finish() -> void:
-	if _phase == fase_do_quiz.ENDING:
+	if _phase == fase_do_quiz.ENDING:  # Já está terminando.
 		return
-	_phase = fase_do_quiz.ENDING
-	_stop_countdown()
-	countdown_box.hide()
-	question_label.text = FINAL_MESSAGE
-	answer_input.hide()
-	submit_button.hide()
+	_phase = fase_do_quiz.ENDING  # Etapa final.
+	_stop_countdown()  # Para o relógio.
+	countdown_box.hide()  # Esconde o relógio.
+	question_label.text = FINAL_MESSAGE  # Mensagem final.
+	answer_input.hide()  # Esconde o campo.
+	submit_button.hide()  # Esconde o botão.
 	# O timer segue rodando com o jogo pausado (process_always = true).
 	await get_tree().create_timer(FINAL_MESSAGE_TIME, true).timeout  # audit-ok: quiz roda pausado
-	if not is_inside_tree():
+	if not is_inside_tree():  # A cena mudou durante a espera.
 		return  # A cena mudou durante a espera.
-	hide()
-	_phase = fase_do_quiz.CLOSED
-	quiz_terminado.emit()
+	hide()  # Esconde o quiz.
+	_phase = fase_do_quiz.CLOSED  # Etapa fechada.
+	quiz_terminado.emit()  # Avisa a fase que o quiz terminou.
 
 
+## O jogador enviou a resposta: compara com a esperada, mostra o feedback e registra o resultado.
 func _on_answer_submitted(typed: String) -> void:
-	if _phase != fase_do_quiz.ANSWERING or _index >= perguntas.size():
+	if _phase != fase_do_quiz.ANSWERING or _index >= perguntas.size():  # Só vale enquanto responde.
 		return
-	_phase = fase_do_quiz.FEEDBACK
-	_stop_countdown()
+	_phase = fase_do_quiz.FEEDBACK  # Passa ao feedback.
+	_stop_countdown()  # Para o relógio.
 	_lock_input()  # trava até a próxima pergunta (evita envio duplo)
 
-	var question: QuizQuestion = perguntas[_index]
+	var question: QuizQuestion = perguntas[_index]  # Pergunta atual.
+	# Compara sem diferenciar maiúsculas nem espaços nas pontas.
 	var correct: bool = _normalize(typed) == _normalize(question.resposta_correta)
+	# Verde se acertou, laranja se errou.
 	answer_input.add_theme_color_override(&"font_color", COLOR_RIGHT if correct else COLOR_WRONG)
-	if correct:
-		_register_result(true, REASON_CORRECT)
+	if correct:  # Acertou.
+		_register_result(true, REASON_CORRECT)  # Registra o acerto.
 	else:
+		# Mostra a resposta certa.
 		question_label.text = "Incorreto! A resposta era: " + question.resposta_correta
-		_register_result(false, REASON_WRONG)
-	feedback_timer.start()
+		_register_result(false, REASON_WRONG)  # Registra o erro.
+	feedback_timer.start()  # Espera o feedback.
 
 
 ## Guarda o resultado da questão atual.
 func _register_result(correct: bool, reason: StringName) -> void:
-	_results.append(correct)
-	resposta_registrada.emit(_index, correct, reason)
-	if not correct:
-		EventBus.player_damage_requested.emit(_damage_per_error())
+	_results.append(correct)  # Guarda o resultado.
+	resposta_registrada.emit(_index, correct, reason)  # Avisa a pontuação e a HUD.
+	if not correct:  # Erro (resposta ou tempo): o jogador leva dano.
+		EventBus.player_damage_requested.emit(_damage_per_error())  # Pede o dano ao EventBus.
 
 
 ## Calcula o dano de cada erro.
 func _damage_per_error() -> int:
-	var errors: int = maxi(erros_para_game_over, 1)
+	var errors: int = maxi(erros_para_game_over, 1)  # Pelo menos 1 erro para dividir.
+	# Dano: vida máxima dividida pelos erros permitidos (arredondada para cima).
 	return maxi(ceili(float(_hp_max) / float(errors)), 1)
 
 
 ## Fim da espera do feedback.
 func _on_feedback_finished() -> void:
-	if _phase != fase_do_quiz.FEEDBACK:
+	if _phase != fase_do_quiz.FEEDBACK:  # Só vale durante o feedback.
 		return
-	if _player_dead:
-		_phase = fase_do_quiz.CLOSED
-		countdown_box.hide()
-		hide()
-		quiz_falhou.emit()
+	if _player_dead:  # O jogador morreu no quiz.
+		_phase = fase_do_quiz.CLOSED  # Fecha.
+		countdown_box.hide()  # Esconde o relógio.
+		hide()  # Esconde o quiz.
+		quiz_falhou.emit()  # Avisa a fase.
 		return
-	_index += 1
-	_load_question()
+	_index += 1  # Próxima pergunta.
+	_load_question()  # Carrega.
 
 
 ## Trava campo e botão (durante o feedback e depois que o tempo acaba).
 func _lock_input() -> void:
-	answer_input.editable = false
-	submit_button.disabled = true
+	answer_input.editable = false  # Campo travado.
+	submit_button.disabled = true  # Botão travado.
 
 
 # --- EventBus ---
 
 ## Guarda a vida máxima do Player para calcular o dano de cada erro.
 func _on_player_hp_changed(_hp: int, hp_max: int) -> void:
-	_hp_max = maxi(hp_max, 1)
+	_hp_max = maxi(hp_max, 1)  # Guarda a vida máxima (mínimo 1).
 
 
 # O energumeno do player morreu
 func _on_player_died() -> void:
-	_player_dead = true
+	_player_dead = true  # Guarda que o jogador morreu.
 
 
 ## True se todos os nós obrigatórios foram arrastados no Inspector.
 func _validate_references() -> bool:
-	var missing: PackedStringArray = []
-	if question_label == null: missing.append("question_label")
-	if answer_input == null: missing.append("answer_input")
-	if submit_button == null: missing.append("submit_button")
-	if feedback_timer == null: missing.append("feedback_timer")
-	if question_timer == null: missing.append("question_timer")
-	if countdown_box == null: missing.append("countdown_box")
-	if countdown_label == null: missing.append("countdown_label")
-	if countdown_bar == null: missing.append("countdown_bar")
-	if missing.is_empty():
-		return true
-	return false
+	var missing: PackedStringArray = []  # Lista do que falta.
+	if question_label == null: missing.append("question_label")  # Texto da pergunta.
+	if answer_input == null: missing.append("answer_input")  # Campo de resposta.
+	if submit_button == null: missing.append("submit_button")  # Botão de enviar.
+	if feedback_timer == null: missing.append("feedback_timer")  # Timer do feedback.
+	if question_timer == null: missing.append("question_timer")  # Timer do relógio.
+	if countdown_box == null: missing.append("countdown_box")  # Caixa do relógio.
+	if countdown_label == null: missing.append("countdown_label")  # Texto do relógio.
+	if countdown_bar == null: missing.append("countdown_bar")  # Barra do relógio.
+	if missing.is_empty():  # Tudo certo.
+		return true  # Válido.
+	return false  # Falta algo.
 
 
 ## Ignora espaços nas pontas e diferença entre maiúsculas e minúsculas.
 func _normalize(text: String) -> String:
-	return text.strip_edges().to_lower()
+	return text.strip_edges().to_lower()  # Tira espaços das pontas e usa minúsculas.
 
 
 ## Resultado de cada questão já registrada.
 func get_resultados() -> Array[bool]:
-	return _results.duplicate()
+	return _results.duplicate()  # Cópia da lista de resultados.
 
 
+## Cria as perguntas padrão a partir da lista embutida.
 func _build_default_questions() -> Array[QuizQuestion]:
-	var result: Array[QuizQuestion] = []
-	for data: Dictionary in Questoes:
-		var question := QuizQuestion.new()
-		question.pergunta = data["pergunta"]
-		question.resposta_correta = data["resposta"]
-		result.append(question)
+	var result: Array[QuizQuestion] = []  # Lista de resultado.
+	for data: Dictionary in Questoes:  # Cada pergunta embutida.
+		var question := QuizQuestion.new()  # Recurso novo.
+		question.pergunta = data["pergunta"]  # Enunciado.
+		question.resposta_correta = data["resposta"]  # Resposta esperada.
+		result.append(question)  # Entra na lista.
 	return result

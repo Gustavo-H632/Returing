@@ -1,0 +1,6 @@
+[gd_resource type="Theme" script_class="PixelTheme" format=3]
+
+[ext_resource type="Script" path="res://themes/pixel_theme.gd" id="1_pixel_theme"]
+
+[resource]
+script = ExtResource("1_pixel_theme")

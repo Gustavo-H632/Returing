@@ -1,59 +1,114 @@
 [gd_scene format=3 uid="uid://b6x70jdyexnty"]
 
-[ext_resource type="Texture2D" uid="uid://bkvfyrgyw8jcu" path="res://sprites/Menu/bg.png" id="1_bx00l"]
-[ext_resource type="Texture2D" uid="uid://c04sm5ocr2i1l" path="res://sprites/Menu/Title.png" id="2_hwhik"]
-[ext_resource type="Texture2D" uid="uid://dw6yry0wgc5gi" path="res://sprites/Menu/Start_button.png" id="3_8i4ye"]
-[ext_resource type="Script" uid="uid://b2hnp8mrrbujv" path="res://Scenes/Start/start_button.gd" id="4_bx00l"]
-[ext_resource type="Texture2D" uid="uid://bspsf5rosedof" path="res://sprites/Menu/Exit_button.png" id="5_m1ljs"]
-[ext_resource type="Script" uid="uid://cajtemeptlkmr" path="res://Scenes/Start/quit_button.gd" id="6_bx00l"]
-[ext_resource type="AudioStream" uid="uid://b7eucgiv8yd3i" path="res://Sounds/Musics/Concerto.wav" id="7_hwhik"]
+[ext_resource type="Theme" path="res://themes/main_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://Scenes/Start/menu_start.gd" id="2_menu"]
+[ext_resource type="Texture2D" uid="uid://bkvfyrgyw8jcu" path="res://sprites/Menu/bg.png" id="3_stars"]
+[ext_resource type="Script" path="res://themes/scanline_overlay.gd" id="4_scanlines"]
+[ext_resource type="Texture2D" uid="uid://c04sm5ocr2i1l" path="res://sprites/Menu/Title.png" id="5_title"]
+[ext_resource type="Script" uid="uid://b2hnp8mrrbujv" path="res://Scenes/Start/start_button.gd" id="6_start"]
+[ext_resource type="Script" uid="uid://cajtemeptlkmr" path="res://Scenes/Start/quit_button.gd" id="7_quit"]
+[ext_resource type="AudioStream" uid="uid://b7eucgiv8yd3i" path="res://Sounds/Musics/Concerto.wav" id="8_music"]
+[ext_resource type="Script" path="res://themes/pixel_button.gd" id="9_pixel_button"]
 
-[node name="Menu_Start" type="Control" unique_id=1156034083]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_stars"]
+blend_mode = 1
+
+[node name="Menu_Start" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_menu")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1753671680]
+[node name="Backdrop" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"BackdropPanel"
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1323738958]
-layout_mode = 0
-offset_left = -404.0
-offset_top = -202.0
-offset_right = 1516.0
-offset_bottom = 878.0
-texture = ExtResource("1_bx00l")
+[node name="Stars" type="TextureRect" parent="."]
+material = SubResource("CanvasItemMaterial_stars")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_stars")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="TextureRect2" type="TextureRect" parent="." unique_id=827663250]
-layout_mode = 0
-offset_left = 78.0
-offset_top = 34.0
-offset_right = 1102.0
-offset_bottom = 317.0
-texture = ExtResource("2_hwhik")
+[node name="Scanlines" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_scanlines")
 
-[node name="Start_button" type="Button" parent="." unique_id=1983595924]
-layout_mode = 0
-offset_left = 453.0
-offset_top = 346.0
-offset_right = 1485.0
-offset_bottom = 798.0
-scale = Vector2(0.25, 0.25)
-icon = ExtResource("3_8i4ye")
-script = ExtResource("4_bx00l")
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Quit_button" type="Button" parent="." unique_id=2058065059]
-layout_mode = 0
-offset_left = 455.0
-offset_top = 480.0
-offset_right = 1487.0
-offset_bottom = 832.0
-scale = Vector2(0.25, 0.25)
-icon = ExtResource("5_m1ljs")
-script = ExtResource("6_bx00l")
+[node name="Column" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=787933953]
-stream = ExtResource("7_hwhik")
+[node name="Title" type="TextureRect" parent="Center/Column"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("5_title")
+stretch_mode = 5
+
+[node name="MenuPanel" type="PanelContainer" parent="Center/Column"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Buttons" type="VBoxContainer" parent="Center/Column/MenuPanel"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="Start_button" type="Button" parent="Center/Column/MenuPanel/Buttons"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Iniciar"
+script = ExtResource("6_start")
+
+[node name="Settings_button" type="Button" parent="Center/Column/MenuPanel/Buttons"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Configurações"
+script = ExtResource("9_pixel_button")
+
+[node name="Quit_button" type="Button" parent="Center/Column/MenuPanel/Buttons"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_type_variation = &"DangerButton"
+text = "Sair"
+script = ExtResource("7_quit")
+
+[node name="Hint" type="Label" parent="Center/Column"]
+layout_mode = 2
+theme_type_variation = &"HintLabel"
+text = "W / S ou setas para navegar  -  Enter para confirmar"
+horizontal_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_music")
 autoplay = true
+bus = &"Music"

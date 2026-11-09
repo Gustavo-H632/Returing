@@ -14,8 +14,8 @@ enum Style {
 var style: Style = Style.BEAM
 ## Raio do tiro (largura = 2 x raio).
 var radius: float = 5.0
-var speed: float = 220.0
-var damage: int = 10
+var speed: float = 220.0  # Velocidade.
+var damage: int = 10  # Dano.
 ## Vida máxima do tiro em segundos.
 var lifetime: float = 3.0
 ## Segundos até dividir (só vale se houver `child`; a parede também divide).

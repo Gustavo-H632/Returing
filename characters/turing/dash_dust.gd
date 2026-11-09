@@ -14,10 +14,12 @@ const CANVAS_TO_BODY: Vector2 = Vector2(3.5, 5.0)
 func play(body_center: Vector2, flip_left: bool) -> void:
 	top_level = true  # fica no mundo enquanto o jogador se afasta
 	show_behind_parent = true  # atrás do boneco
-	flip_h = flip_left
+	flip_h = flip_left  # Vira para o lado do dash.
+	# Posiciona perto dos pés (o deslocamento X inverte junto com o espelho).
 	global_position = body_center + Vector2(-CANVAS_TO_BODY.x if flip_left else CANVAS_TO_BODY.x, CANVAS_TO_BODY.y)
-	frame = 0
-	var tween: Tween = create_tween()
-	for i: int in range(1, hframes):
+	frame = 0  # Começa no primeiro quadro.
+	var tween: Tween = create_tween()  # Cria a animação por código.
+	for i: int in range(1, hframes):  # Um passo por quadro restante da spritesheet.
+		# Troca para o quadro i depois de `frame_time`.
 		tween.tween_callback(set_frame.bind(i)).set_delay(frame_time)
-	tween.tween_callback(queue_free).set_delay(frame_time)
+	tween.tween_callback(queue_free).set_delay(frame_time)  # No fim some da cena.

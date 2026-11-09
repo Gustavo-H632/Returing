@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://abilities/effects/StatBuffEffect.tscn" id="2_fx"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"passo_agil"
+display_name = "Passo Ágil"
+description = "Aumenta a velocidade de movimento em 10%."
+sequence = Array[int]([2, 3, 2])
+cooldown = 12.0
+duration = 10.0
+rarity = 0
+glyph = 2
+effect_scene = ExtResource("2_fx")
+stat_mult = {"move_speed": 1.1}
+stat_add = {}

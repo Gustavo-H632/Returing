@@ -1974,10 +1974,10 @@ next_scene = "res://Scenes/Fase3/fase_3.tscn"
 quiz = NodePath("CanvasLayer/Quiz")
 terminal = NodePath("Terminal")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=693809378]
-position = Vector2(86, 166)
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=693809378]
 stream = ExtResource("2_ad864")
 autoplay = true
+bus = &"Music"
 
 [node name="TileMapLayer3" type="TileMapLayer" parent="." unique_id=426052923]
 position = Vector2(3, 0)

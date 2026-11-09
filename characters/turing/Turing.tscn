@@ -9,6 +9,10 @@
 [ext_resource type="AudioStream" uid="uid://b6br7hfvwgp6b" path="res://Sounds/Sound_Effects/laser_sound.mp3" id="7_pmg4n"]
 [ext_resource type="Texture2D" path="res://sprites/Player/turing_shoot.png" id="8_shoot"]
 [ext_resource type="PackedScene" path="res://characters/turing/DashDust.tscn" id="9_dust"]
+[ext_resource type="Script" path="res://abilities/core/ability_component.gd" id="10_abilities"]
+[ext_resource type="Resource" path="res://abilities/data/ability_catalog.tres" id="11_catalog"]
+[ext_resource type="Script" path="res://abilities/core/experience_component.gd" id="12_xp"]
+[ext_resource type="PackedScene" path="res://abilities/ui/abilities_ui.tscn" id="13_abilities_ui"]
 
 [sub_resource type="Animation" id="Animation_dscek"]
 length = 0.001
@@ -1219,6 +1223,16 @@ position = Vector2(4, 2)
 
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1779187165]
 stream = ExtResource("7_pmg4n")
+bus = &"SFX"
+
+[node name="AbilityComponent" type="Node" parent="."]
+script = ExtResource("10_abilities")
+catalog = ExtResource("11_catalog")
+
+[node name="ExperienceComponent" type="Node" parent="."]
+script = ExtResource("12_xp")
+
+[node name="AbilitiesUI" parent="." instance=ExtResource("13_abilities_ui")]
 
 [connection signal="attack_finished" from="Sword" to="." method="_on_weapon_attack_finished"]
 [connection signal="hit_landed" from="Sword" to="." method="_on_weapon_hit_landed"]

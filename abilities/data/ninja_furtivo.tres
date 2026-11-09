@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://abilities/effects/StatBuffEffect.tscn" id="2_fx"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"ninja_furtivo"
+display_name = "Ninja Furtivo"
+description = "O dash vai 20% mais longe e a velocidade de caminhada sobe 20%."
+sequence = Array[int]([3, 2, 3, 2, 0, 1])
+cooldown = 60.0
+duration = 25.0
+rarity = 2
+glyph = 12
+effect_scene = ExtResource("2_fx")
+stat_mult = {"dash_distance": 1.2, "move_speed": 1.2}
+stat_add = {}
