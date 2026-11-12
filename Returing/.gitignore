@@ -1,0 +1,24 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Builds, assinatura e segredos (nunca commitar)
+build/
+*.apk
+*.aab
+*.keystore
+*.jks
+export_credentials.cfg
+.env
+*.idsig
+testes/saida/
+.import/
+*.translation
+testes/capturas/*.import
+testes/capturas/*.uid
+*.png.import.bak
+
+# Documentos de trabalho (não fazem parte do jogo)
+entrega/
+testes/capturas/**/*.import
+testes/capturas/**/*.uid

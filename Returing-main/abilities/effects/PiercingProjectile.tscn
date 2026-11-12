@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://characters/turing/PlayerProjectile.tscn" id="1_base"]
+[ext_resource type="Script" path="res://abilities/effects/piercing_projectile.gd" id="2_script"]
+
+[node name="PiercingProjectile" instance=ExtResource("1_base")]
+modulate = Color(0.55, 0.9, 1.6, 1)
+script = ExtResource("2_script")
+speed = 520.0
+lifetime = 1.6

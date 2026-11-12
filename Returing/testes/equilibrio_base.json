@@ -1,0 +1,3025 @@
+{
+	"cenas": {
+		"res://abilities/data/ability_catalog.tres": {
+			"abilities": [
+				{
+					"cooldown": 12.0,
+					"duration": 10.0,
+					"glyph": 1.0,
+					"rarity": 0.0,
+					"sequence": [
+						3.0,
+						0.0,
+						3.0
+					]
+				},
+				{
+					"cooldown": 12.0,
+					"duration": 10.0,
+					"glyph": 2.0,
+					"rarity": 0.0,
+					"sequence": [
+						2.0,
+						3.0,
+						2.0
+					]
+				},
+				{
+					"cooldown": 14.0,
+					"duration": 10.0,
+					"glyph": 3.0,
+					"rarity": 0.0,
+					"sequence": [
+						2.0,
+						1.0,
+						3.0
+					]
+				},
+				{
+					"cooldown": 15.0,
+					"duration": 10.0,
+					"glyph": 4.0,
+					"rarity": 0.0,
+					"sequence": [
+						1.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"cooldown": 20.0,
+					"duration": 8.0,
+					"glyph": 5.0,
+					"rarity": 1.0,
+					"sequence": [
+						1.0,
+						3.0,
+						3.0,
+						0.0
+					]
+				},
+				{
+					"cooldown": 24.0,
+					"duration": 0.0,
+					"glyph": 6.0,
+					"rarity": 1.0,
+					"sequence": [
+						1.0,
+						3.0,
+						0.0,
+						2.0
+					]
+				},
+				{
+					"cooldown": 30.0,
+					"duration": 3.0,
+					"glyph": 7.0,
+					"rarity": 1.0,
+					"sequence": [
+						0.0,
+						1.0,
+						2.0,
+						3.0
+					]
+				},
+				{
+					"cooldown": 36.0,
+					"duration": 0.0,
+					"glyph": 8.0,
+					"rarity": 1.0,
+					"sequence": [
+						0.0,
+						1.0,
+						0.0,
+						1.0,
+						3.0
+					]
+				},
+				{
+					"cooldown": 28.0,
+					"duration": 0.0,
+					"glyph": 9.0,
+					"rarity": 1.0,
+					"sequence": [
+						3.0,
+						3.0,
+						0.0,
+						1.0,
+						3.0
+					]
+				},
+				{
+					"cooldown": 75.0,
+					"duration": 30.0,
+					"glyph": 10.0,
+					"rarity": 2.0,
+					"sequence": [
+						0.0,
+						0.0,
+						1.0,
+						1.0,
+						2.0,
+						3.0
+					]
+				},
+				{
+					"cooldown": 70.0,
+					"duration": 20.0,
+					"glyph": 11.0,
+					"rarity": 2.0,
+					"sequence": [
+						1.0,
+						2.0,
+						1.0,
+						3.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"cooldown": 60.0,
+					"duration": 25.0,
+					"glyph": 12.0,
+					"rarity": 2.0,
+					"sequence": [
+						3.0,
+						2.0,
+						3.0,
+						2.0,
+						0.0,
+						1.0
+					]
+				}
+			],
+			"legendary_min_level": 3.0,
+			"legendary_weight": 1.0
+		},
+		"res://abilities/data/cavaleiro_imbativel.tres": {
+			"cooldown": 75.0,
+			"duration": 30.0,
+			"glyph": 10.0,
+			"rarity": 2.0,
+			"sequence": [
+				0.0,
+				0.0,
+				1.0,
+				1.0,
+				2.0,
+				3.0
+			]
+		},
+		"res://abilities/data/cura.tres": {
+			"cooldown": 36.0,
+			"duration": 0.0,
+			"glyph": 8.0,
+			"rarity": 1.0,
+			"sequence": [
+				0.0,
+				1.0,
+				0.0,
+				1.0,
+				3.0
+			]
+		},
+		"res://abilities/data/escudo.tres": {
+			"cooldown": 30.0,
+			"duration": 3.0,
+			"glyph": 7.0,
+			"rarity": 1.0,
+			"sequence": [
+				0.0,
+				1.0,
+				2.0,
+				3.0
+			]
+		},
+		"res://abilities/data/golpe_amplo.tres": {
+			"cooldown": 14.0,
+			"duration": 10.0,
+			"glyph": 3.0,
+			"rarity": 0.0,
+			"sequence": [
+				2.0,
+				1.0,
+				3.0
+			]
+		},
+		"res://abilities/data/modo_sanguinario.tres": {
+			"cooldown": 70.0,
+			"duration": 20.0,
+			"glyph": 11.0,
+			"rarity": 2.0,
+			"sequence": [
+				1.0,
+				2.0,
+				1.0,
+				3.0,
+				1.0,
+				0.0
+			]
+		},
+		"res://abilities/data/ninja_furtivo.tres": {
+			"cooldown": 60.0,
+			"duration": 25.0,
+			"glyph": 12.0,
+			"rarity": 2.0,
+			"sequence": [
+				3.0,
+				2.0,
+				3.0,
+				2.0,
+				0.0,
+				1.0
+			]
+		},
+		"res://abilities/data/passo_agil.tres": {
+			"cooldown": 12.0,
+			"duration": 10.0,
+			"glyph": 2.0,
+			"rarity": 0.0,
+			"sequence": [
+				2.0,
+				3.0,
+				2.0
+			]
+		},
+		"res://abilities/data/pulso_emp.tres": {
+			"cooldown": 24.0,
+			"duration": 0.0,
+			"glyph": 6.0,
+			"rarity": 1.0,
+			"sequence": [
+				1.0,
+				3.0,
+				0.0,
+				2.0
+			]
+		},
+		"res://abilities/data/rastro_de_fogo.tres": {
+			"cooldown": 20.0,
+			"duration": 8.0,
+			"glyph": 5.0,
+			"rarity": 1.0,
+			"sequence": [
+				1.0,
+				3.0,
+				3.0,
+				0.0
+			]
+		},
+		"res://abilities/data/roubo_de_vida.tres": {
+			"cooldown": 15.0,
+			"duration": 10.0,
+			"glyph": 4.0,
+			"rarity": 0.0,
+			"sequence": [
+				1.0,
+				1.0,
+				0.0
+			]
+		},
+		"res://abilities/data/tiro_perfurante.tres": {
+			"cooldown": 28.0,
+			"duration": 0.0,
+			"glyph": 9.0,
+			"rarity": 1.0,
+			"sequence": [
+				3.0,
+				3.0,
+				0.0,
+				1.0,
+				3.0
+			]
+		},
+		"res://abilities/data/tiro_rapido.tres": {
+			"cooldown": 12.0,
+			"duration": 10.0,
+			"glyph": 1.0,
+			"rarity": 0.0,
+			"sequence": [
+				3.0,
+				0.0,
+				3.0
+			]
+		},
+		"res://abilities/effects/BloodModeEffect.tscn": {
+			".": {
+				"damage_per_kill": 0.05,
+				"heal_per_kill": 2.0,
+				"max_stacks": 10.0
+			}
+		},
+		"res://abilities/effects/EmpPulseEffect.tscn": {
+			".": {
+				"damage": 15.0,
+				"push_distance": 90.0,
+				"push_time": 0.18,
+				"radius": 140.0,
+				"ring_time": 0.45,
+				"stun_time": 1.5,
+				"wall_mask": 1.0
+			}
+		},
+		"res://abilities/effects/FireTrailEffect.tscn": {
+			".": {
+				"first_offset": 24.0,
+				"segments": 3.0,
+				"spacing": 30.0,
+				"tick_damage": 6.0,
+				"tick_interval": 0.5,
+				"zone_lifetime": 4.0,
+				"zone_radius": 30.0
+			}
+		},
+		"res://abilities/effects/FireZone.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 16.0,
+				"monitor_while_active": true,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 30.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://abilities/effects/HealEffect.tscn": {
+			".": {
+				"bar_total": 12.0,
+				"bar_units": 3.0,
+				"show_time": 0.7
+			}
+		},
+		"res://abilities/effects/PiercingProjectile.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"lifetime": 1.6,
+				"mascara": 17.0,
+				"monitor_while_active": true,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"speed": 520.0,
+				"wall_mask": 1.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 5.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://abilities/effects/PiercingShotEffect.tscn": {
+			".": {
+				"damage_override": 0.0
+			}
+		},
+		"res://abilities/effects/ShieldEffect.tscn": {
+			".": {
+				"radius": 26.0
+			}
+		},
+		"res://abilities/effects/StatBuffEffect.tscn": {},
+		"res://characters/turing/DashDust.tscn": {
+			".": {
+				"frame_time": 0.1
+			}
+		},
+		"res://characters/turing/PlayerProjectile.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"lifetime": 2.0,
+				"mascara": 17.0,
+				"monitor_while_active": true,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"speed": 300.0,
+				"wall_mask": 1.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 5.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://characters/turing/Turing.tscn": {
+			".": {
+				"aim_deadzone": 6.0,
+				"camada": 2.0,
+				"charge_move_multiplier": 0.4,
+				"charge_time": 1.2,
+				"dano_base": 10.0,
+				"dash_aim": 0.0,
+				"dash_cooldown": 0.6,
+				"dash_duration": 0.18,
+				"dash_speed": 400.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"hp": 1000.0,
+				"hp_maximo": 1000.0,
+				"hurt_flash_time": 0.12,
+				"iframes_duration": 0.25,
+				"mascara": 1.0,
+				"max_damage": 68.0,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"regen_delay": 10.0,
+				"regen_per_second": 1.0,
+				"side_frames_face_right": false,
+				"speed": 300.0,
+				"sword_damage": 50.0
+			},
+			"AbilitiesUI/LevelUpMenu": {
+				"fade_time": 0.25,
+				"input_delay": 0.5
+			},
+			"AbilityComponent": {
+				"catalog": {
+					"abilities": [
+						{
+							"cooldown": 12.0,
+							"duration": 10.0,
+							"glyph": 1.0,
+							"rarity": 0.0,
+							"sequence": [
+								3.0,
+								0.0,
+								3.0
+							]
+						},
+						{
+							"cooldown": 12.0,
+							"duration": 10.0,
+							"glyph": 2.0,
+							"rarity": 0.0,
+							"sequence": [
+								2.0,
+								3.0,
+								2.0
+							]
+						},
+						{
+							"cooldown": 14.0,
+							"duration": 10.0,
+							"glyph": 3.0,
+							"rarity": 0.0,
+							"sequence": [
+								2.0,
+								1.0,
+								3.0
+							]
+						},
+						{
+							"cooldown": 15.0,
+							"duration": 10.0,
+							"glyph": 4.0,
+							"rarity": 0.0,
+							"sequence": [
+								1.0,
+								1.0,
+								0.0
+							]
+						},
+						{
+							"cooldown": 20.0,
+							"duration": 8.0,
+							"glyph": 5.0,
+							"rarity": 1.0,
+							"sequence": [
+								1.0,
+								3.0,
+								3.0,
+								0.0
+							]
+						},
+						{
+							"cooldown": 24.0,
+							"duration": 0.0,
+							"glyph": 6.0,
+							"rarity": 1.0,
+							"sequence": [
+								1.0,
+								3.0,
+								0.0,
+								2.0
+							]
+						},
+						{
+							"cooldown": 30.0,
+							"duration": 3.0,
+							"glyph": 7.0,
+							"rarity": 1.0,
+							"sequence": [
+								0.0,
+								1.0,
+								2.0,
+								3.0
+							]
+						},
+						{
+							"cooldown": 36.0,
+							"duration": 0.0,
+							"glyph": 8.0,
+							"rarity": 1.0,
+							"sequence": [
+								0.0,
+								1.0,
+								0.0,
+								1.0,
+								3.0
+							]
+						},
+						{
+							"cooldown": 28.0,
+							"duration": 0.0,
+							"glyph": 9.0,
+							"rarity": 1.0,
+							"sequence": [
+								3.0,
+								3.0,
+								0.0,
+								1.0,
+								3.0
+							]
+						},
+						{
+							"cooldown": 75.0,
+							"duration": 30.0,
+							"glyph": 10.0,
+							"rarity": 2.0,
+							"sequence": [
+								0.0,
+								0.0,
+								1.0,
+								1.0,
+								2.0,
+								3.0
+							]
+						},
+						{
+							"cooldown": 70.0,
+							"duration": 20.0,
+							"glyph": 11.0,
+							"rarity": 2.0,
+							"sequence": [
+								1.0,
+								2.0,
+								1.0,
+								3.0,
+								1.0,
+								0.0
+							]
+						},
+						{
+							"cooldown": 60.0,
+							"duration": 25.0,
+							"glyph": 12.0,
+							"rarity": 2.0,
+							"sequence": [
+								3.0,
+								2.0,
+								3.0,
+								2.0,
+								0.0,
+								1.0
+							]
+						}
+					],
+					"legendary_min_level": 3.0,
+					"legendary_weight": 1.0
+				},
+				"command_time_scale": 0.2
+			},
+			"AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"attack_down": {
+						"duracao": 0.38,
+						"loop": false
+					},
+					"attack_side": {
+						"duracao": 0.38,
+						"loop": false
+					},
+					"attack_up": {
+						"duracao": 0.38,
+						"loop": false
+					},
+					"dash_down": {
+						"duracao": 0.16667,
+						"loop": true
+					},
+					"dash_side": {
+						"duracao": 0.16667,
+						"loop": true
+					},
+					"dash_up": {
+						"duracao": 1.0,
+						"loop": true
+					},
+					"death": {
+						"duracao": 0.6,
+						"loop": false
+					},
+					"idle_down": {
+						"duracao": 0.75,
+						"loop": true
+					},
+					"idle_side": {
+						"duracao": 1.0,
+						"loop": true
+					},
+					"idle_up": {
+						"duracao": 1.0,
+						"loop": true
+					},
+					"shoot_side": {
+						"duracao": 1.2,
+						"loop": true
+					},
+					"walk_down": {
+						"duracao": 0.6,
+						"loop": true
+					},
+					"walk_side": {
+						"duracao": 0.6,
+						"loop": true
+					},
+					"walk_up": {
+						"duracao": 1.0,
+						"loop": true
+					}
+				}
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"height": 56.0,
+					"radius": 14.0,
+					"tipo": "CapsuleShape2D"
+				},
+				"pos": [
+					0.0,
+					-1.0
+				],
+				"rot": 0.0
+			},
+			"ExperienceComponent": {
+				"xp_max": 30.0,
+				"xp_min": 20.0,
+				"xp_por_nivel": [
+					100.0,
+					250.0,
+					400.0
+				]
+			},
+			"Hurtbox": {
+				"active_on_start": true,
+				"camada": 8.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hurtbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 12.34189,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					1.0,
+					2.0
+				],
+				"rot": 0.0
+			},
+			"Sword": {
+				"active_time": 0.14,
+				"cooldown": 0.0,
+				"damage": 10.0,
+				"hitbox_scale": 1.4,
+				"recovery_time": 0.16,
+				"windup_time": 0.08
+			},
+			"Sword/AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"slash": {
+						"duracao": 0.22,
+						"loop": false
+					}
+				}
+			},
+			"Sword/Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 16.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					34.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Sword/Hitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 28.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/drone/DroneEnemy.tscn": {
+			".": {
+				"attack_cooldown_time": 0.6,
+				"attack_damage": 10.0,
+				"attack_hit_window": 0.15,
+				"attack_windup_time": 0.35,
+				"avoid_obstacles": true,
+				"avoid_probe_distance": 56.0,
+				"avoid_ray_count": 24.0,
+				"avoid_turn_rate": 540.0,
+				"avoid_update_interval": 0.05,
+				"camada": 4.0,
+				"chase_speed_multiplier": 1.0,
+				"death_timeout": 1.5,
+				"debug_steering": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"frames_face_right": true,
+				"health_bar_always_visible": false,
+				"health_bar_margin": 10.0,
+				"health_bar_width": 0.0,
+				"hurt_flash_time": 0.12,
+				"mascara": 5.0,
+				"move_speed": 170.0,
+				"obstacle_mask": 1.0,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"show_health_bar": true,
+				"wave_cooldown": 0.4,
+				"wave_damage": 8.0
+			},
+			"AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"attack": {
+						"duracao": 0.5,
+						"loop": false
+					},
+					"death": {
+						"duracao": 0.6,
+						"loop": false
+					},
+					"idle": {
+						"duracao": 0.83333,
+						"loop": true
+					},
+					"move": {
+						"duracao": 0.9375,
+						"loop": true
+					}
+				}
+			},
+			"AttackHitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"AttackHitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 28.32,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"AttackRange": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"AttackRange/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 26.32,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 8.32,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"DetectionArea": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"DetectionArea/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 190.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"HealthComponent": {
+				"max_health": 40.0
+			},
+			"Hurtbox": {
+				"active_on_start": true,
+				"camada": 16.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hurtbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 11.7,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"Range2Area": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": false,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Range2Area/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 110.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"StateMachine": {
+				"auto_start": false,
+				"max_attack_state_time": 8.0,
+				"run_process_update": false
+			},
+			"StateMachine/Idle": {
+				"patrol_delay": 0.6
+			},
+			"StateMachine/Patrol": {
+				"anchor": 0.0,
+				"arrive_distance": 8.0,
+				"min_leg_distance": 40.0,
+				"patrol_radius": 140.0,
+				"rest_time_max": 1.8,
+				"rest_time_min": 0.6,
+				"speed_multiplier": 0.35
+			}
+		},
+		"res://enemies/drone/wave/DroneWave.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 1.0,
+				"monitor_while_active": true,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"speed": 260.0,
+				"wall_mask": 1.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 10.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 22.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/dummy_enemy/dummy_enemy.tscn": {
+			".": {
+				"aplicar_dano_direto": true,
+				"arco_espada": 120.0,
+				"comprimento_espada": 48.0,
+				"dano_espada": 3.0,
+				"dano_onda": 2.0,
+				"dano_projetil": 1.0,
+				"deslocamento_texto": [
+					0.0,
+					-40.0
+				],
+				"distancia_espada": 24.0,
+				"duracao_espada": 0.25,
+				"duracao_onda": 0.8,
+				"intervalo_onda": 1.0,
+				"intervalo_projetil": 0.3,
+				"mascara_alvo": 8.0,
+				"raio_onda": 160.0,
+				"velocidade_projetil": 320.0
+			},
+			"Hurtbox": {
+				"active_on_start": true,
+				"camada": 16.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hurtbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 16.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"TimerOnda": {
+				"autostart": false,
+				"one_shot": true,
+				"wait_time": 1.0
+			},
+			"TimerProjetil": {
+				"autostart": false,
+				"one_shot": false,
+				"wait_time": 0.3
+			}
+		},
+		"res://enemies/dummy_enemy/espada_ataque.tscn": {
+			".": {
+				"arco": 2.0944,
+				"camada": 0.0,
+				"comprimento": 48.0,
+				"duracao": 0.25,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"espessura": 10.0,
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"size": [
+						48.0,
+						10.0
+					],
+					"tipo": "RectangleShape2D"
+				},
+				"pos": [
+					24.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/dummy_enemy/onda_choque.tscn": {
+			".": {
+				"camada": 0.0,
+				"duracao": 0.8,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"largura": 6.0,
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"raio_max": 160.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 1.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/dummy_enemy/projetil.tscn": {
+			".": {
+				"camada": 0.0,
+				"direcao": [
+					1.0,
+					0.0
+				],
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"raio": 5.0,
+				"velocidade": 320.0,
+				"vida": 3.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 5.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/guide/GuideEnemy.tscn": {
+			".": {
+				"arena_rect": [
+					[
+						65.0,
+						75.0
+					],
+					[
+						1028.0,
+						521.0
+					]
+				],
+				"attack_interval": [
+					2.0,
+					1.4
+				],
+				"avoid_obstacles": true,
+				"avoid_probe_distance": 56.0,
+				"avoid_ray_count": 24.0,
+				"avoid_turn_rate": 540.0,
+				"avoid_update_interval": 0.05,
+				"cage_half_size": [
+					120.0,
+					120.0
+				],
+				"camada": 4.0,
+				"chase_stop_distance": 60.0,
+				"circle_active_time": 0.3,
+				"circle_counts": [
+					6.0,
+					9.0
+				],
+				"circle_damage": 20.0,
+				"circle_radius": 56.0,
+				"circle_scatter_radius": 150.0,
+				"circle_spawn_interval": 0.18,
+				"circle_warning_time": 2.0,
+				"damage_taken_multiplier": 1.0,
+				"death_timeout": 1.5,
+				"debug_steering": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"frames_face_right": true,
+				"health_bar_always_visible": true,
+				"health_bar_margin": 80.0,
+				"health_bar_width": 140.0,
+				"hurt_flash_time": 0.12,
+				"laser_counts": [
+					1.0,
+					3.0
+				],
+				"laser_damage": 30.0,
+				"laser_spacing": 280.0,
+				"laser_speed": 520.0,
+				"laser_warning_time": 1.0,
+				"mascara": 5.0,
+				"move_speed": 45.0,
+				"obstacle_mask": 1.0,
+				"phase_two_health_ratio": 0.5,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"shot_counts": [
+					3.0,
+					5.0
+				],
+				"shot_damage": 15.0,
+				"shot_interval": 0.35,
+				"shot_lifetime": 4.0,
+				"shot_speed": 260.0,
+				"shot_width_multiplier": 5.0,
+				"show_health_bar": true,
+				"slash_active_time": 0.15,
+				"slash_cooldown": 4.0,
+				"slash_damage": 25.0,
+				"slash_radius_multiplier": 3.0,
+				"slash_windup_time": 0.6,
+				"split_delay": 0.9,
+				"split_shot_damage": 8.0,
+				"split_shot_lifetime": 3.0,
+				"split_shot_speed": 220.0,
+				"transition_return_speed": 320.0,
+				"transition_wave_timeout": 180.0
+			},
+			"AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"attack": {
+						"duracao": 0.75,
+						"loop": false
+					},
+					"death": {
+						"duracao": 2.2,
+						"loop": false
+					},
+					"idle": {
+						"duracao": 0.8,
+						"loop": true
+					},
+					"move": {
+						"duracao": 0.75,
+						"loop": true
+					},
+					"special": {
+						"duracao": 0.6,
+						"loop": true
+					}
+				}
+			},
+			"CirclePool": {
+				"grow_deferred": false,
+				"max_size": 24.0,
+				"prewarm_count": 12.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 30.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"DetectionArea": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"DetectionArea/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 2000.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"HealthComponent": {
+				"max_health": 1000.0
+			},
+			"Hurtbox": {
+				"active_on_start": true,
+				"camada": 16.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hurtbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 42.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"LaserPool": {
+				"grow_deferred": false,
+				"max_size": 6.0,
+				"prewarm_count": 3.0
+			},
+			"ShotPool": {
+				"grow_deferred": false,
+				"max_size": 96.0,
+				"prewarm_count": 48.0
+			},
+			"SlashPool": {
+				"grow_deferred": false,
+				"max_size": 2.0,
+				"prewarm_count": 1.0
+			},
+			"StateMachine": {
+				"auto_start": false,
+				"max_attack_state_time": 8.0,
+				"run_process_update": false
+			},
+			"StateMachine/AttackCircles": {
+				"moves_while_attacking": true
+			},
+			"StateMachine/AttackLaser": {
+				"moves_while_attacking": true
+			},
+			"StateMachine/AttackShots": {
+				"moves_while_attacking": true
+			},
+			"StateMachine/AttackSlash": {
+				"moves_while_attacking": false
+			},
+			"StateMachine/Idle": {
+				"patrol_delay": 0.6
+			}
+		},
+		"res://enemies/guide/attacks/GuideLaser.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitor_while_active": false,
+				"monitorable": false,
+				"monitoring": false,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"height": 600.0,
+					"radius": 5.0,
+					"tipo": "CapsuleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/guide/attacks/GuideShot.tscn": {
+			".": {
+				"beam_fps": 12.0,
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitor_while_active": false,
+				"monitorable": false,
+				"monitoring": false,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"wall_mask": 1.0
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 25.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/guide/attacks/GuideSlash.tscn": {
+			".": {
+				"active_frames": 4.0,
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitor_while_active": false,
+				"monitorable": false,
+				"monitoring": false,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"windup_frames": 6.0
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 84.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/guide/attacks/GuideWalls.tscn": {
+			".": {
+				"border_width": 2.0,
+				"camada": 1.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"fade_time": 0.5,
+				"half_size": [
+					120.0,
+					120.0
+				],
+				"mascara": 0.0,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"thickness": 32.0
+			}
+		},
+		"res://enemies/guide/attacks/WarningCircle.tscn": {
+			".": {
+				"active_frames": 5.0,
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitor_while_active": false,
+				"monitorable": false,
+				"monitoring": false,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"warning_frames": 8.0
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 56.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/robo/RoboEnemy.tscn": {
+			".": {
+				"avoid_obstacles": true,
+				"avoid_probe_distance": 56.0,
+				"avoid_ray_count": 24.0,
+				"avoid_turn_rate": 540.0,
+				"avoid_update_interval": 0.05,
+				"camada": 4.0,
+				"death_timeout": 1.5,
+				"debug_steering": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"frames_face_right": true,
+				"health_bar_always_visible": false,
+				"health_bar_margin": 10.0,
+				"health_bar_width": 0.0,
+				"hurt_flash_time": 0.12,
+				"mascara": 5.0,
+				"melee_attack_cooldown": 1.8,
+				"melee_damage": 25.0,
+				"melee_telegraph_time": 1.0,
+				"move_speed": 120.0,
+				"obstacle_mask": 1.0,
+				"permanent_aggro": false,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"ranged_attack_cooldown": 1.4,
+				"ranged_attack_distance": 350.0,
+				"ranged_windup_time": 0.3,
+				"show_health_bar": true
+			},
+			"AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"attack_melee": {
+						"duracao": 0.83333,
+						"loop": false
+					},
+					"attack_ranged": {
+						"duracao": 0.3,
+						"loop": false
+					},
+					"death": {
+						"duracao": 0.6,
+						"loop": false
+					},
+					"idle": {
+						"duracao": 0.66667,
+						"loop": true
+					},
+					"move": {
+						"duracao": 0.4,
+						"loop": true
+					}
+				}
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 9.17736,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"DetectionArea": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"DetectionArea/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 450.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"HealthComponent": {
+				"max_health": 120.0
+			},
+			"Hurtbox": {
+				"active_on_start": true,
+				"camada": 16.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hurtbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 12.90566,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"MeleeRangeArea": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"MeleeRangeArea/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 80.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"StateMachine": {
+				"auto_start": false,
+				"max_attack_state_time": 8.0,
+				"run_process_update": false
+			},
+			"StateMachine/Idle": {
+				"patrol_delay": 0.6
+			},
+			"StateMachine/Patrol": {
+				"anchor": 0.0,
+				"arrive_distance": 8.0,
+				"min_leg_distance": 40.0,
+				"patrol_radius": 140.0,
+				"rest_time_max": 1.8,
+				"rest_time_min": 0.6,
+				"speed_multiplier": 0.4
+			}
+		},
+		"res://enemies/robo/projectile/EnemyProjectile.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"lifetime": 3.0,
+				"mascara": 1.0,
+				"max_damage": 25.0,
+				"max_damage_distance": 500.0,
+				"min_damage": 5.0,
+				"monitor_while_active": true,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"speed": 400.0,
+				"wall_mask": 1.0
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 5.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 6.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/robo/telegraph/MeleeTelegraph.tscn": {
+			".": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"impact_duration": 0.15,
+				"impact_frames": 5.0,
+				"mascara": 0.0,
+				"monitor_while_active": false,
+				"monitorable": false,
+				"monitoring": false,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"pulse_amount": 0.06,
+				"radius": 80.0,
+				"warning_frames": 6.0
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 80.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/robo/trap/ElectricTrap.tscn": {
+			".": {
+				"damage_per_tick": 10.0,
+				"duration": 6.0,
+				"radius": 70.0,
+				"tick_interval": 0.5
+			},
+			"AnimatedSprite2D": {
+				"animacoes": {
+					"default": {
+						"duracao": 0.8,
+						"loop": true
+					}
+				}
+			},
+			"Hitbox": {
+				"active_on_start": true,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": true,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 70.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					-2.0,
+					2.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://enemies/tank/TankEnemy.tscn": {
+			".": {
+				"avoid_obstacles": true,
+				"avoid_probe_distance": 56.0,
+				"avoid_ray_count": 24.0,
+				"avoid_turn_rate": 540.0,
+				"avoid_update_interval": 0.05,
+				"camada": 4.0,
+				"dash_base_damage": 30.0,
+				"dash_duration": 0.75,
+				"dash_prepare_time": 0.8,
+				"dash_speed": 520.0,
+				"death_timeout": 1.5,
+				"debug_steering": false,
+				"detection_radius": 420.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"frames_face_right": true,
+				"health_bar_always_visible": false,
+				"health_bar_margin": 10.0,
+				"health_bar_width": 0.0,
+				"hurt_flash_time": 0.12,
+				"mascara": 7.0,
+				"min_distance_for_dash": 260.0,
+				"move_speed": 45.0,
+				"obstacle_mask": 1.0,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"show_health_bar": true,
+				"special_attack_cooldown": 2.0,
+				"stomp_base_damage": 12.0,
+				"stomp_pulse_interval": 1.0,
+				"stomp_radius_factor": 2.6,
+				"stomp_windup_time": 0.35
+			},
+			"AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"attack": {
+						"duracao": 0.33333,
+						"loop": false
+					},
+					"death": {
+						"duracao": 0.6,
+						"loop": false
+					},
+					"idle": {
+						"duracao": 0.8,
+						"loop": true
+					},
+					"move": {
+						"duracao": 0.57143,
+						"loop": true
+					},
+					"special": {
+						"duracao": 0.4,
+						"loop": true
+					}
+				}
+			},
+			"CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 21.16174,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"DashHitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"DashHitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 25.16174,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"DetectionArea": {
+				"camada": 0.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 2.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"DetectionArea/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 420.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"HealthComponent": {
+				"max_health": 500.0
+			},
+			"Hurtbox": {
+				"active_on_start": true,
+				"camada": 16.0,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"mascara": 0.0,
+				"monitorable": true,
+				"monitoring": true,
+				"pos": [
+					0.0,
+					0.0
+				]
+			},
+			"Hurtbox/CollisionShape2D": {
+				"desligada": false,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 29.75869,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			},
+			"StateMachine": {
+				"auto_start": false,
+				"max_attack_state_time": 8.0,
+				"run_process_update": false
+			},
+			"StateMachine/Idle": {
+				"patrol_delay": 0.6
+			},
+			"StateMachine/Patrol": {
+				"anchor": 0.0,
+				"arrive_distance": 8.0,
+				"min_leg_distance": 40.0,
+				"patrol_radius": 110.0,
+				"rest_time_max": 1.8,
+				"rest_time_min": 0.6,
+				"speed_multiplier": 0.35
+			},
+			"StompHitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 8.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					0.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"StompHitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 55.02052,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		},
+		"res://weapons/sword/Sword.tscn": {
+			".": {
+				"active_time": 0.14,
+				"cooldown": 0.0,
+				"damage": 10.0,
+				"hitbox_scale": 1.4,
+				"recovery_time": 0.16,
+				"windup_time": 0.08
+			},
+			"AnimationPlayer": {
+				"animacoes": {
+					"RESET": {
+						"duracao": 0.001,
+						"loop": false
+					},
+					"slash": {
+						"duracao": 0.22,
+						"loop": false
+					}
+				}
+			},
+			"Hitbox": {
+				"active_on_start": false,
+				"camada": 0.0,
+				"damage": 10.0,
+				"damage_on_contact": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"ignore_same_actor": true,
+				"mascara": 16.0,
+				"monitorable": false,
+				"monitoring": true,
+				"one_hit_per_target": true,
+				"pos": [
+					34.0,
+					0.0
+				],
+				"tick_interval": 0.0
+			},
+			"Hitbox/CollisionShape2D": {
+				"desligada": true,
+				"escala": [
+					1.0,
+					1.0
+				],
+				"forma": {
+					"radius": 28.0,
+					"tipo": "CircleShape2D"
+				},
+				"pos": [
+					0.0,
+					0.0
+				],
+				"rot": 0.0
+			}
+		}
+	},
+	"constantes": {
+		"res://Scenes/Defesa/defense_level.gd": {
+			"ANNOUNCE_TIME": 1.8,
+			"EXIT_SUCK_TIME": 0.5,
+			"GAME_OVER_DELAY": 1.2,
+			"MIN_SPAWN_PLAYER_DISTANCE": 280.0,
+			"PLAYER_AGGRO_RADIUS": 150.0,
+			"RETARGET_INTERVAL": 0.25,
+			"SPAWN_JITTER": 10.0,
+			"SPAWN_STAGGER": 0.35,
+			"START_DELAY": 1.5,
+			"State": {
+				"DEFENDING": 0.0,
+				"EXITING": 1.0,
+				"GAME_OVER": 2.0
+			},
+			"TELEPORT_TIME": 1.6,
+			"WALL_MASK": 1.0,
+			"WAVE_BREAK": 3.0,
+			"WavePhase": {
+				"ANNOUNCE": 1.0,
+				"BREAK": 0.0,
+				"FIGHTING": 3.0,
+				"SPAWNING": 2.0
+			}
+		},
+		"res://Scenes/Defesa/defense_portal.gd": {
+			"CHARGE_TIME": 30.0,
+			"FRAMES": 6.0,
+			"FRAME_TIME": 0.12,
+			"GROWTH_PER_SECOND": 0.005,
+			"HIT_COOLDOWN_MSEC": 150.0,
+			"HIT_DAMAGE": 10.0,
+			"HURT_FLASH_TIME": 0.12,
+			"MAX_HP": 100.0,
+			"MAX_SCALE": 1.35,
+			"ROW_CHARGING": 0.0,
+			"ROW_READY": 1.0,
+			"State": {
+				"CHARGING": 0.0,
+				"DESTROYED": 2.0,
+				"READY": 1.0,
+				"USED": 3.0
+			}
+		},
+		"res://Scenes/Tutorial/tutorial_droid.gd": {
+			"FRAMES_ARMED": [
+				0.0,
+				1.0,
+				2.0
+			],
+			"FRAMES_BOOT": [
+				6.0,
+				7.0,
+				8.0
+			],
+			"Phase": {
+				"ACTIVE": 1.0,
+				"DEAD": 2.0,
+				"SPAWNING": 0.0
+			},
+			"SHEET_FRAMES": 3.0,
+			"SPRITE_OFFSET": [
+				27.0,
+				-50.0
+			],
+			"SPRITE_SCALE": 0.2
+		},
+		"res://abilities/core/ability_catalog.gd": {
+			"OFFER_SIZE": 3.0
+		},
+		"res://abilities/core/ability_component.gd": {
+			"ARROW_ACTIONS": {
+				"cmd_down": 1.0,
+				"cmd_left": 2.0,
+				"cmd_right": 3.0,
+				"cmd_up": 0.0
+			}
+		},
+		"res://abilities/core/ability_data.gd": {
+			"Dir": {
+				"DOWN": 1.0,
+				"LEFT": 2.0,
+				"RIGHT": 3.0,
+				"UP": 0.0
+			},
+			"Glyph": {
+				"BLADE_ARC": 3.0,
+				"BLOOD_BLADE": 11.0,
+				"CONCENTRIC": 6.0,
+				"CROSS": 8.0,
+				"DOUBLE_CHEVRON": 1.0,
+				"DROP": 4.0,
+				"FLAME": 5.0,
+				"HELM": 10.0,
+				"MASK": 12.0,
+				"NONE": 0.0,
+				"PIERCE_ARROW": 9.0,
+				"SHIELD": 7.0,
+				"SPEED_LINES": 2.0
+			},
+			"MAX_SEQUENCE": 6.0,
+			"MIN_SEQUENCE": 3.0,
+			"Rarity": {
+				"AVANCADA": 1.0,
+				"COMUM": 0.0,
+				"LENDARIA": 2.0
+			}
+		},
+		"res://abilities/core/stat_modifiers.gd": {
+			"Mode": {
+				"ADD": 1.0,
+				"MULT": 0.0
+			}
+		},
+		"res://abilities/effects/fire_trail_effect.gd": {
+			"DEFAULT_WAIT": 8.0
+		},
+		"res://abilities/effects/fire_zone.gd": {
+			"FADE_TIME": 0.6,
+			"FLAME_COUNT": 6.0,
+			"REDRAW_INTERVAL": 0.08
+		},
+		"res://abilities/effects/piercing_shot_effect.gd": {
+			"MAX_ATTEMPTS": 12.0
+		},
+		"res://abilities/effects/shield_effect.gd": {
+			"BLINK_TIME": 0.6,
+			"DEFAULT_TIME": 3.0
+		},
+		"res://characters/turing/aim_indicator.gd": {
+			"EDGE_WIDTH": 1.5,
+			"Mode": {
+				"NONE": 0.0,
+				"SHOT": 1.0,
+				"SWORD": 2.0
+			},
+			"WALL_MASK": 1.0
+		},
+		"res://characters/turing/dash_dust.gd": {
+			"CANVAS_TO_BODY": [
+				3.5,
+				5.0
+			]
+		},
+		"res://characters/turing/follow_camera.gd": {
+			"FOLLOW_SPEED": 9.0
+		},
+		"res://characters/turing/player.gd": {
+			"ANIM_PREFIX": {
+				"0": "idle",
+				"1": "walk",
+				"2": "dash",
+				"3": "attack",
+				"4": "shoot",
+				"5": "death"
+			},
+			"DashAim": {
+				"MOVIMENTO_OU_MOUSE": 0.0,
+				"SEMPRE_MOUSE": 1.0
+			},
+			"EIGHTH_TURN": 0.7854,
+			"MELEE_SAFETY_MARGIN": 0.25,
+			"PROJECTILE_PREWARM": 6.0,
+			"State": {
+				"ATTACK_MELEE": 3.0,
+				"ATTACK_RANGED": 4.0,
+				"DASH": 2.0,
+				"DEAD": 5.0,
+				"IDLE": 0.0,
+				"MOVE": 1.0
+			},
+			"_ANIM_KEY_STRIDE": 3.0,
+			"_SUFFIX_INDEX": {
+				"down": 1.0,
+				"side": 0.0,
+				"up": 2.0
+			}
+		},
+		"res://characters/turing/player_projectile.gd": {
+			"ASSIST_CONE_DEG": 30.0,
+			"ASSIST_RANGE": 520.0,
+			"ASSIST_TURN_DEG_PER_SEC": 85.0,
+			"BASE_RADIUS": 5.0,
+			"MAX_CHARGE_SCALE": 3.0
+		},
+		"res://common/combat/combat_utils.gd": {
+			"LAYER_ENEMY": 3.0,
+			"LAYER_ENEMY_HURTBOX": 5.0,
+			"LAYER_PLAYER": 2.0,
+			"LAYER_PLAYER_HURTBOX": 4.0,
+			"LAYER_WORLD": 1.0,
+			"MAX_TREE_DEPTH": 16.0
+		},
+		"res://common/combat/enemy_health_bar.gd": {
+			"FORCA_PULSO": 0.25,
+			"RAZAO_BAIXA": 0.25,
+			"VELOCIDADE_PULSO": 7.0
+		},
+		"res://enemies/base/enemy_patrol_state.gd": {
+			"Anchor": {
+				"ENTRY_POINT": 0.0,
+				"SPAWN_POINT": 1.0
+			},
+			"LEG_TIME_FACTOR": 2.0,
+			"LEG_TIME_SLACK": 1.0,
+			"PICK_ATTEMPTS": 8.0,
+			"Phase": {
+				"REST": 0.0,
+				"WALK": 1.0
+			}
+		},
+		"res://enemies/base/enemy_state.gd": {
+			"RANGE_HYSTERESIS": 1.15
+		},
+		"res://enemies/base/obstacle_steering.gd": {
+			"COMMIT_RELEASE_TIME": 0.35,
+			"DANGER_WEIGHT": 2.5,
+			"ESCAPE_ANGLE": 1.72788,
+			"ESCAPE_TIME": 0.6,
+			"FREE_EPSILON": 0.001,
+			"IDLE_RESET_MSEC": 150.0,
+			"NEIGHBOR_SPREAD": 0.6,
+			"OPPOSITE_SIDE_PENALTY": 1.0,
+			"SIDE_BIAS": 0.08,
+			"SIDE_MIN_SIN": 0.15,
+			"STUCK_CHECK_TIME": 0.2,
+			"STUCK_PROGRESS_RATIO": 0.25,
+			"TRIM_MARGIN": 4.0
+		},
+		"res://enemies/drone/drone_enemy.gd": {
+			"DEFAULT_RANGE2_RADIUS": 110.0,
+			"WAVE_PREWARM": 2.0
+		},
+		"res://enemies/drone/states/drone_attack_state.gd": {
+			"Phase": {
+				"ACTIVE": 1.0,
+				"COOLDOWN": 2.0,
+				"WINDUP": 0.0
+			}
+		},
+		"res://enemies/drone/wave/shock_wave.gd": {
+			"CELL_SIZE": [
+				368.0,
+				368.0
+			],
+			"FIRST_FRAME": 3.0,
+			"FRAMES_PER_SECOND": 12.0,
+			"LAST_FRAME": 9.0,
+			"SHEET_COLUMNS": 4.0
+		},
+		"res://enemies/dummy_enemy/projetil.gd": {
+			"MASCARA_PAREDE": 1.0
+		},
+		"res://enemies/guide/attacks/guide_laser.gd": {
+			"BEAM_BODY_H": 40.0,
+			"BEAM_CAP_H": 5.0,
+			"CORE_WIDTH_FACTOR": 0.4,
+			"Phase": {
+				"SWEEP": 1.0,
+				"WARNING": 0.0
+			},
+			"SHEET_FRAMES": 4.0,
+			"SPRITE_FPS": 10.0,
+			"WARNING_PULSE_SPEED": 14.0,
+			"WARNING_WIDTH_FACTOR": 0.6
+		},
+		"res://enemies/guide/attacks/guide_shot.gd": {
+			"BEAM_AXIS_X": 29.5,
+			"BEAM_FRAMES": 8.0,
+			"BEAM_FRAME_SIZE": 64.0,
+			"BEAM_HEAD_TOP_Y": 27.0,
+			"BEAM_WIDTH_PX": 22.0,
+			"MAX_SPLIT_GENERATIONS": 3.0,
+			"ORB_OFFSET": [
+				3.5,
+				-4.5
+			],
+			"ORB_WIDTH_PX": 15.0,
+			"SPLIT_DIRECTIONS": 8.0
+		},
+		"res://enemies/guide/attacks/guide_shot_spec.gd": {
+			"Style": {
+				"BEAM": 0.0,
+				"ORB": 1.0
+			}
+		},
+		"res://enemies/guide/attacks/guide_slash.gd": {
+			"ARC_POINTS": 64.0,
+			"BLADE_COUNT": 8.0,
+			"BLADE_WIDTH": 3.0,
+			"OUTLINE_WIDTH": 3.0,
+			"Phase": {
+				"ACTIVE": 1.0,
+				"WINDUP": 0.0
+			}
+		},
+		"res://enemies/guide/attacks/warning_circle.gd": {
+			"ARC_POINTS": 48.0,
+			"OUTLINE_WIDTH": 2.0,
+			"Phase": {
+				"ACTIVE": 1.0,
+				"WARNING": 0.0
+			}
+		},
+		"res://enemies/guide/guide_enemy.gd": {
+			"DEFAULT_WALL_THICKNESS": 32.0,
+			"EJECT_MARGIN": 24.0,
+			"MAX_PICK_DEPTH": 4.0,
+			"Phase": {
+				"ONE": 0.0,
+				"TWO": 1.0
+			},
+			"RANGED_ATTACKS": [
+				"AttackCircles",
+				"AttackShots",
+				"AttackLaser"
+			],
+			"SLASH_TRIGGER_FACTOR": 1.1,
+			"SWEEP_DIRECTIONS": [
+				[
+					1.0,
+					0.0
+				],
+				[
+					-1.0,
+					0.0
+				],
+				[
+					0.0,
+					1.0
+				],
+				[
+					0.0,
+					-1.0
+				]
+			]
+		},
+		"res://enemies/guide/states/guide_transition_state.gd": {
+			"Phase": {
+				"RETURNING": 0.0,
+				"WAITING": 1.0
+			}
+		},
+		"res://enemies/robo/robo_enemy.gd": {
+			"PROJECTILE_PREWARM": 4.0,
+			"TELEGRAPH_PREWARM": 2.0
+		},
+		"res://enemies/robo/states/robo_attack_melee_state.gd": {
+			"Phase": {
+				"CHARGING": 0.0,
+				"COOLDOWN": 1.0
+			}
+		},
+		"res://enemies/robo/telegraph/melee_telegraph.gd": {
+			"Phase": {
+				"CHARGING": 0.0,
+				"IMPACT": 1.0
+			}
+		},
+		"res://enemies/tank/states/tank_special_attack_state.gd": {
+			"Phase": {
+				"DASHING": 1.0,
+				"TELEGRAPH": 0.0
+			}
+		},
+		"res://enemies/tank/tank_enemy.gd": {
+			"REFERENCE_BODY_RADIUS": 16.0
+		},
+		"res://levels/Quiz/quiz.gd": {
+			"FALLBACK_HP_MAX": 100.0,
+			"FINAL_MESSAGE_TIME": 2.5,
+			"Questoes": [
+				{
+					"pergunta": "Energia = 100 E Energia_reator = 50\nSe Energia > 50:\n\tEnergia = 50\nEnergia_reator = 100\nQUAL SERÁ A QUANTIDADE DE ENERGIA DIRECIONADA AO GERADOR?",
+					"resposta": "50"
+				},
+				{
+					"pergunta": "Bots_ativos = 1000 E Bots_inativos = 2000\nSe Bots_ativos < Bots_inativos:\n\tBots_ativos = Bots_inativos + Bots_ativos\n\tBots_inativos = 0\nQUAL O TOTAL DE BOTS ATIVOS?",
+					"resposta": "3000"
+				},
+				{
+					"pergunta": "Drones_Londres = 150\nEnquanto Drones_Londres != 200:\n\tDrones_Londres = Drones_Londres + 25\nQUANTOS LOOPS SERÃO EXECUTADOS?",
+					"resposta": "2"
+				},
+				{
+					"pergunta": "Temperatura_nucleo = 80 E Resfriamento = 30\nSe Temperatura_nucleo - Resfriamento > 40:\n\tTemperatura_nucleo = Temperatura_nucleo - 20\nSenão:\n\tTemperatura_nucleo = Temperatura_nucleo + 20\nQUAL A TEMPERATURA FINAL DO NÚCLEO?",
+					"resposta": "60"
+				},
+				{
+					"pergunta": "Firewalls = 0 E Ataques = 3\nEnquanto Firewalls < 10:\n\tFirewalls = Firewalls + Ataques\nQUANTOS FIREWALLS EXISTEM NO FINAL?",
+					"resposta": "12"
+				}
+			],
+			"fase_do_quiz": {
+				"ANSWERING": 1.0,
+				"CLOSED": 0.0,
+				"ENDING": 3.0,
+				"FEEDBACK": 2.0
+			}
+		},
+		"res://weapons/sword/sword.gd": {
+			"HITBOX_DISTANCE": 34.0,
+			"HITBOX_RADIUS": 28.0,
+			"Phase": {
+				"ACTIVE": 2.0,
+				"IDLE": 0.0,
+				"RECOVERY": 3.0,
+				"WINDUP": 1.0
+			},
+			"SLASH_SPRITE_BASE_SCALE": 0.186
+		}
+	},
+	"ondas": {
+		"res://Scenes/Defesa/wave_table.tres": {
+			"max_active": 20.0,
+			"ondas": [
+				{
+					"drone": 3.0
+				},
+				{
+					"drone": 4.0,
+					"robo": 2.0
+				},
+				{
+					"drone": 4.0,
+					"robo": 2.0,
+					"tank": 1.0
+				},
+				{
+					"drone": 5.0,
+					"robo": 3.0,
+					"tank": 1.0
+				},
+				{
+					"drone": 6.0,
+					"robo": 4.0,
+					"tank": 2.0
+				},
+				{
+					"drone": 7.0,
+					"robo": 5.0,
+					"tank": 2.0
+				},
+				{
+					"drone": 8.0,
+					"robo": 6.0,
+					"tank": 3.0
+				},
+				{
+					"drone": 9.0,
+					"robo": 7.0,
+					"tank": 3.0
+				},
+				{
+					"drone": 10.0,
+					"robo": 8.0,
+					"tank": 4.0
+				},
+				{
+					"drone": 11.0,
+					"robo": 9.0,
+					"tank": 4.0
+				},
+				{
+					"drone": 12.0,
+					"robo": 10.0,
+					"tank": 5.0
+				},
+				{
+					"drone": 13.0,
+					"robo": 11.0,
+					"tank": 5.0
+				}
+			]
+		},
+		"res://Scenes/Fase1/fase_1.tscn::WaveManager": {
+			"between_waves_delay": 2.0,
+			"boss_kind": "",
+			"clear_heal_amount": 30.0,
+			"first_wave_delay": 1.0,
+			"min_player_distance": 200.0,
+			"ondas": [
+				[
+					[
+						"res://enemies/drone/DroneEnemy.tscn",
+						2.0
+					],
+					[
+						"res://enemies/robo/RoboEnemy.tscn",
+						2.0
+					]
+				],
+				[
+					[
+						"res://enemies/tank/TankEnemy.tscn",
+						2.0
+					],
+					[
+						"res://enemies/robo/RoboEnemy.tscn",
+						2.0
+					]
+				],
+				[
+					[
+						"res://enemies/tank/TankEnemy.tscn",
+						2.0
+					],
+					[
+						"res://enemies/robo/RoboEnemy.tscn",
+						2.0
+					],
+					[
+						"res://enemies/drone/DroneEnemy.tscn",
+						3.0
+					]
+				]
+			]
+		},
+		"res://Scenes/Fase3/fase_3.tscn::WaveManager": {
+			"between_waves_delay": 2.0,
+			"boss_kind": "guide",
+			"clear_heal_amount": 0.0,
+			"first_wave_delay": 1.0,
+			"min_player_distance": 200.0,
+			"ondas": [
+				[
+					[
+						"res://enemies/tank/TankEnemy.tscn",
+						2.0
+					],
+					[
+						"res://enemies/drone/DroneEnemy.tscn",
+						3.0
+					],
+					[
+						"res://enemies/robo/RoboEnemy.tscn",
+						3.0
+					]
+				],
+				[],
+				[]
+			]
+		}
+	}
+}

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AbilityCatalog" load_steps=15 format=3]
+[gd_resource type="Resource" script_class="AbilityCatalog" load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://abilities/core/ability_catalog.gd" id="1_cat"]
 [ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="2_data"]
@@ -14,9 +14,18 @@
 [ext_resource type="Resource" path="res://abilities/data/cavaleiro_imbativel.tres" id="12_a"]
 [ext_resource type="Resource" path="res://abilities/data/modo_sanguinario.tres" id="13_a"]
 [ext_resource type="Resource" path="res://abilities/data/ninja_furtivo.tres" id="14_a"]
+[ext_resource type="Resource" path="res://abilities/data/reflexos.tres" id="15_a"]
+[ext_resource type="Resource" path="res://abilities/data/carga_rapida.tres" id="16_a"]
+[ext_resource type="Resource" path="res://abilities/data/pele_de_ferro.tres" id="17_a"]
+[ext_resource type="Resource" path="res://abilities/data/overclock.tres" id="18_a"]
+[ext_resource type="Resource" path="res://abilities/data/pulso_gelido.tres" id="19_a"]
+[ext_resource type="Resource" path="res://abilities/data/mina_binaria.tres" id="20_a"]
+[ext_resource type="Resource" path="res://abilities/data/drone_aliado.tres" id="21_a"]
+[ext_resource type="Resource" path="res://abilities/data/tiro_em_leque.tres" id="22_a"]
+[ext_resource type="Resource" path="res://abilities/data/maquina_enigma.tres" id="23_a"]
 
 [resource]
 script = ExtResource("1_cat")
-abilities = Array[ExtResource("2_data")]([ExtResource("3_a"), ExtResource("4_a"), ExtResource("5_a"), ExtResource("6_a"), ExtResource("7_a"), ExtResource("8_a"), ExtResource("9_a"), ExtResource("10_a"), ExtResource("11_a"), ExtResource("12_a"), ExtResource("13_a"), ExtResource("14_a")])
+abilities = Array[ExtResource("2_data")]([ExtResource("3_a"), ExtResource("4_a"), ExtResource("5_a"), ExtResource("6_a"), ExtResource("7_a"), ExtResource("8_a"), ExtResource("9_a"), ExtResource("10_a"), ExtResource("11_a"), ExtResource("12_a"), ExtResource("13_a"), ExtResource("14_a"), ExtResource("15_a"), ExtResource("16_a"), ExtResource("17_a"), ExtResource("18_a"), ExtResource("19_a"), ExtResource("20_a"), ExtResource("21_a"), ExtResource("22_a"), ExtResource("23_a")])
 legendary_weight = 1.0
 legendary_min_level = 3

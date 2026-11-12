@@ -34,9 +34,7 @@ const TELEPORT_TIME: float = 1.6  # Duração (s) da distorção de teletranspor
 const WALL_MASK: int = 1  # Camada física das paredes.
 const INTRO_HINT: String = "Defenda o portal até ele carregar!"
 const DENIED_HINT: String = "O portal ainda está carregando..."
-const EXIT_NAME: String = "???"
 const EXIT_LINES: PackedStringArray = ["Não esperava por essa...", "Mas agora estamos cada vez mais perto de Aegis."]
-const LAB_IMAGE: Texture2D = preload("res://sprites/Cutscenes/Lab-Turing.png")  # Ilustração das cutscenes.
 
 @export_file("*.tscn") var next_scene: String = "res://Scenes/Fase2/Fase2.tscn"  # Depois da defesa: o quiz.
 @export var wave_table: DefenseWaveTable  # Quantidades por wave (wave_table.tres).
@@ -324,8 +322,8 @@ func _begin_exit() -> void:
 	await _fx.teleport(_portal_screen_uv(), TELEPORT_TIME)
 	await _fx.cover(1.0, 0.2)
 	_fx.hide_effects()
-	var dialogue: Dialogue = Dialogue.show_lines(self, EXIT_LINES, Dialogue.Style.BOX, "", LAB_IMAGE)  # sem autor: só a cutscene final mostra quem fala
-	_fx.cover(0.0, 0.4)  # A cortina preta (acima da ilustração) some e revela o laboratório.
+	# Estilo do tutorial: tela preta (a cortina fica) e as falas em azul, sem caixa nem ilustração.
+	var dialogue: Dialogue = Dialogue.show_lines(self, EXIT_LINES, Dialogue.Style.VOICE)
 	await dialogue.finished
 	EventBus.scene_change_requested.emit(next_scene)
 

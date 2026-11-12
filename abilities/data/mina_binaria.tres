@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://abilities/effects/BinaryMineEffect.tscn" id="2_fx"]
+[ext_resource type="Texture2D" path="res://abilities/icons/mina_binaria.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"mina_binaria"
+display_name = "Mina Binária"
+description = "Planta uma mina nos seus pés. Explode quando um inimigo chega perto."
+sequence = Array[int]([3, 1, 1, 2])
+cooldown = 18.0
+duration = 0.0
+rarity = 1
+glyph = 0
+icon = ExtResource("3_icon")
+effect_scene = ExtResource("2_fx")
+stat_mult = {}
+stat_add = {}

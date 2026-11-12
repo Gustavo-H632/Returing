@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://x4xyyb6cebgu"]
+
+[ext_resource type="Script" uid="uid://ckykdhlu1pwyb" path="res://enemies/dummy_enemy/espada_ataque.gd" id="1_espada"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_espada"]
+size = Vector2(48, 10)
+
+[node name="EspadaAtaque" type="Area2D" node_paths=PackedStringArray("collision_shape")]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_espada")
+collision_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(24, 0)
+shape = SubResource("RectangleShape2D_espada")

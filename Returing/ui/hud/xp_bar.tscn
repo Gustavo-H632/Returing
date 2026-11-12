@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://ui/hud/xp_bar.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://ui/hud/xp_glow.png" id="2_glow"]
+[ext_resource type="Texture2D" path="res://ui/hud/xp_emblem.png" id="3_emblem"]
+[ext_resource type="Texture2D" path="res://ui/hud/xp_emblem_max.png" id="4_emblem_max"]
+
+[node name="XpBar" type="Control"]
+custom_minimum_size = Vector2(64, 96)
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 284.0
+offset_top = -148.0
+offset_right = 348.0
+offset_bottom = -12.0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Glow" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+texture_filter = 1
+
+[node name="Body" type="NinePatchRect" parent="."]
+layout_mode = 0
+mouse_filter = 2
+texture_filter = 1
+
+[node name="FillClip" type="Control" parent="."]
+clip_contents = true
+layout_mode = 0
+mouse_filter = 2
+
+[node name="Fill" type="TextureProgressBar" parent="FillClip"]
+layout_mode = 0
+mouse_filter = 2
+max_value = 1.0
+step = 0.0
+nine_patch_stretch = true
+texture_filter = 1
+
+[node name="Shine" type="TextureRect" parent="FillClip"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+mouse_filter = 2
+texture_filter = 1
+
+[node name="ValueLabel" type="Label" parent="."]
+layout_mode = 0
+mouse_filter = 2
+text = "0/1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Emblem" type="TextureRect" parent="."]
+layout_mode = 0
+mouse_filter = 2
+texture = ExtResource("3_emblem")
+texture_filter = 1
+
+[node name="EmblemMax" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+texture = ExtResource("4_emblem_max")
+texture_filter = 1
+
+[node name="LevelLabel" type="Label" parent="."]
+layout_mode = 0
+mouse_filter = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

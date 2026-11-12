@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="DefenseWaveTable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Defesa/defense_wave_table.gd" id="1_table"]
+
+[resource]
+script = ExtResource("1_table")
+waves = Array[Dictionary]([{
+"drone": 3
+}, {
+"drone": 4,
+"robo": 2
+}, {
+"drone": 4,
+"robo": 2,
+"tank": 1
+}])
+growth_per_wave = {
+"drone": 1.0,
+"robo": 1.0,
+"tank": 0.5
+}
+max_active = 20

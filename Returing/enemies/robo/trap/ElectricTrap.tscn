@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://ch11n2bni327p"]
+
+[ext_resource type="Script" uid="uid://dvr2qj11bdv75" path="res://enemies/robo/trap/electric_trap.gd" id="1_trap"]
+[ext_resource type="Texture2D" uid="uid://cmfxwt1o7kqtn" path="res://sprites/Enemies/fire.png" id="2_7qoo7"]
+[ext_resource type="Script" uid="uid://c28hqbjsfdsos" path="res://common/combat/hitbox.gd" id="2_hitbox"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7o01j"]
+atlas = ExtResource("2_7qoo7")
+region = Rect2(1, 0, 188, 188)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oltgh"]
+atlas = ExtResource("2_7qoo7")
+region = Rect2(377, 0, 188, 188)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4d6y"]
+atlas = ExtResource("2_7qoo7")
+region = Rect2(753, 0, 188, 188)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1okvr"]
+atlas = ExtResource("2_7qoo7")
+region = Rect2(1129, 0, 188, 188)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y0my6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7o01j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oltgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4d6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1okvr")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 70.0
+
+[node name="ElectricTrap" type="Node2D" unique_id=1387316123 node_paths=PackedStringArray("hitbox", "hitbox_shape")]
+script = ExtResource("1_trap")
+hitbox = NodePath("Hitbox")
+hitbox_shape = NodePath("Hitbox/CollisionShape2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=743105199]
+position = Vector2(-2, -10.000001)
+scale = Vector2(0.61170214, 0.7287234)
+sprite_frames = SubResource("SpriteFrames_y0my6")
+frame_progress = 0.873209
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1558969132]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=905778944]
+position = Vector2(-2, 2)
+shape = SubResource("CircleShape2D_hit")

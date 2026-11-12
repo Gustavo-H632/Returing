@@ -2,6 +2,9 @@ class_name WaveManager
 extends Node
 ## Ondas de inimigos da Fase 1 e da transição de fase de um chefão (ver `boss_kind`).
 
+const WORLD_MASK: int = 1  # Camada física do mundo (paredes, carros, cercas).
+const SPAWN_ATTEMPTS: int = 6  # Tentativas de desvio por marcador antes de passar ao próximo.
+
 @export_group("Ondas (arraste as cenas dos inimigos)")
 ## Onda 1: 2 Drones + 2 Robos.
 @export var wave_1_enemies: Array[PackedScene] = []
@@ -17,6 +20,9 @@ extends Node
 @export_range(0.0, 128.0, 1.0, "or_greater") var spawn_jitter: float = 16.0
 ## Distância mínima do Player para nascer (0 = desliga)
 @export_range(0.0, 1024.0, 1.0, "or_greater") var min_player_distance: float = 200.0
+## Raio (px) livre de colisão do mundo (carros, paredes, cercas) exigido para um inimigo nascer. Se o ponto sorteado
+## estiver bloqueado, tenta outro desvio e depois o próximo marcador. 0 = desliga.
+@export_range(0.0, 64.0, 1.0, "or_greater") var spawn_clearance: float = 24.0
 
 @export_group("Ritmo")
 ## Pausa antes da primeira onda.
@@ -236,14 +242,42 @@ func _is_in_clear_area(point: Vector2) -> bool:
 func _next_spawn_position() -> Vector2:
 	if _wave_points.is_empty():  # Sem ponto válido (já avisado antes).
 		return Vector2.ZERO  # sem marcador válido (já reportado em _order_spawn_points)
-	# Ponto da vez (volta ao começo se acabaram).
-	var marker: Marker2D = _wave_points[_next_spawn % _wave_points.size()]
-	_next_spawn += 1  # Avança para o próximo ponto.
-	var offset: Vector2 = Vector2.ZERO  # Desvio padrão zero.
-	if spawn_jitter > 0.0:  # Há desvio configurado.
-		# Desvio aleatório dentro do raio.
-		offset = Vector2.from_angle(randf() * TAU) * randf_range(0.0, spawn_jitter)
-	return marker.global_position + offset  # Posição final.
+	# Começa pelo ponto da vez e só aceita lugar livre de colisão (inimigo nascido dentro de um carro ou parede
+	# fica preso). Cada ponto tem algumas tentativas de desvio; se um ponto inteiro estiver bloqueado, vai ao próximo.
+	var count: int = _wave_points.size()
+	var attempts: int = SPAWN_ATTEMPTS if spawn_jitter > 0.0 else 1
+	for step: int in count:
+		var marker: Marker2D = _wave_points[(_next_spawn + step) % count]
+		for attempt: int in attempts:
+			var offset: Vector2 = Vector2.ZERO  # Desvio padrão zero.
+			if spawn_jitter > 0.0 and attempt < attempts - 1:  # A última tentativa usa o marcador exato.
+				# Desvio aleatório dentro do raio.
+				offset = Vector2.from_angle(randf() * TAU) * randf_range(0.0, spawn_jitter)
+			var candidate: Vector2 = marker.global_position + offset
+			if _is_spawn_free(candidate):
+				_next_spawn += step + 1  # Avança para depois do ponto usado.
+				return candidate
+	# Nenhum ponto livre (cena mal configurada): nasce no ponto da vez e avisa.
+	push_warning("WaveManager: nenhum ponto de spawn livre de colisão; o inimigo nasce em um ponto bloqueado.")
+	var fallback: Marker2D = _wave_points[_next_spawn % count]
+	_next_spawn += 1
+	return fallback.global_position
+
+
+## True se um círculo de `spawn_clearance` px em `point` não toca nenhuma colisão do mundo.
+func _is_spawn_free(point: Vector2) -> bool:
+	if spawn_clearance <= 0.0 or not is_inside_tree():
+		return true
+	var world: World2D = get_viewport().find_world_2d()
+	if world == null:
+		return true
+	var shape: CircleShape2D = CircleShape2D.new()
+	shape.radius = spawn_clearance
+	var query: PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform = Transform2D(0.0, point)
+	query.collision_mask = WORLD_MASK
+	return world.direct_space_state.intersect_shape(query, 1).is_empty()
 
 
 ## Desconta o inimigo da onda.

@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemies/guide/attacks/guide_walls.gd" id="1_walls"]
+[ext_resource type="Texture2D" path="res://sprites/Enemies/Attacks/guide_gaiola.png" id="2_gaiola"]
+
+[node name="GuideWalls" type="StaticBody2D"]
+collision_mask = 0
+script = ExtResource("1_walls")
+wall_texture = ExtResource("2_gaiola")

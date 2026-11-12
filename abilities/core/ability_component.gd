@@ -296,6 +296,7 @@ func _activate(data: AbilityData) -> void:
 	_cooldowns[data.id] = data.cooldown  # Começa a recarga.
 	cooldown_changed.emit(data, data.cooldown, data.cooldown)  # Avisa a recarga cheia.
 	_prune_effects()  # Remove efeitos que já terminaram.
+	_cancel_effects_of(data.id)  # Reativar renova o efeito: o antigo é desfeito e não acumula.
 	if data.effect_scene != null:  # Há cena de efeito.
 		var effect: AbilityEffect = data.effect_scene.instantiate() as AbilityEffect  # Cria o efeito.
 		if effect == null:  # A raiz precisa ser um AbilityEffect.
@@ -307,6 +308,16 @@ func _activate(data: AbilityData) -> void:
 			_player.add_child(effect)  # Entra na cena como filho do jogador.
 			effect.activate(_player)  # Liga o efeito.
 	ability_activated.emit(data)  # Avisa a ativação.
+
+
+## Reativar uma habilidade que ainda está ativa renova o efeito: o antigo é desfeito e não acumula.
+func _cancel_effects_of(ability_id: StringName) -> void:
+	for i: int in range(_effects.size() - 1, -1, -1):
+		var effect: AbilityEffect = _effects[i]
+		if is_instance_valid(effect) and not effect.is_queued_for_deletion() \
+				and effect.data != null and effect.data.id == ability_id:
+			effect.cancel()
+			_effects.remove_at(i)
 
 
 ## A cada quadro de física desconta a recarga de todas as habilidades e avisa a UI.

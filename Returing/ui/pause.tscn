@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://def0h2ur0slmw"]
+
+[ext_resource type="Script" uid="uid://bs26mbof4nhhf" path="res://ui/pause.gd" id="1_5awou"]
+[ext_resource type="Theme" path="res://themes/main_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://themes/pixel_button.gd" id="3_pixel_button"]
+[ext_resource type="Script" path="res://themes/scanline_overlay.gd" id="4_scanlines"]
+
+[node name="Pause" type="CanvasLayer" unique_id=403843749]
+process_mode = 3
+layer = 100
+visible = false
+script = ExtResource("1_5awou")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Scanlines" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_scanlines")
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/Center"]
+layout_mode = 2
+
+[node name="MainPage" type="VBoxContainer" parent="Root/Center/Panel"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/Center/Panel/MainPage"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "PAUSADO"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="Root/Center/Panel/MainPage"]
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="Root/Center/Panel/MainPage"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Continuar"
+script = ExtResource("3_pixel_button")
+
+[node name="SettingsButton" type="Button" parent="Root/Center/Panel/MainPage"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Configurações"
+script = ExtResource("3_pixel_button")
+
+[node name="ResetButton" type="Button" parent="Root/Center/Panel/MainPage"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_type_variation = &"DangerButton"
+text = "Reiniciar"
+script = ExtResource("3_pixel_button")
+
+[node name="ExitButton" type="Button" parent="Root/Center/Panel/MainPage"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_type_variation = &"DangerButton"
+text = "Sair"
+script = ExtResource("3_pixel_button")

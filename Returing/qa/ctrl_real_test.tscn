@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://qa/ctrl_real_test.gd" id="1_real"]
+
+[node name="CtrlRealTest" type="Node"]
+script = ExtResource("1_real")

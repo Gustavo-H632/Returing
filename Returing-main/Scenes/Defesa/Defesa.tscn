@@ -1,0 +1,162 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Defesa/defense_level.gd" id="1_level"]
+[ext_resource type="Script" path="res://Scenes/Defesa/defense_portal.gd" id="2_portal"]
+[ext_resource type="Script" path="res://Scenes/Defesa/defense_hud.gd" id="3_hud"]
+[ext_resource type="Resource" path="res://Scenes/Defesa/wave_table.tres" id="4_table"]
+[ext_resource type="PackedScene" path="res://enemies/drone/DroneEnemy.tscn" id="5_drone"]
+[ext_resource type="PackedScene" path="res://enemies/robo/RoboEnemy.tscn" id="6_robo"]
+[ext_resource type="PackedScene" path="res://enemies/tank/TankEnemy.tscn" id="7_tank"]
+[ext_resource type="PackedScene" path="res://characters/turing/Turing.tscn" id="8_Turing"]
+[ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="9_hud"]
+[ext_resource type="PackedScene" path="res://ui/pause.tscn" id="10_pause"]
+[ext_resource type="AudioStream" path="res://Sounds/Musics/Sci-Fi 4 Loop.wav" id="11_music"]
+[ext_resource type="Texture2D" path="res://assets/defesa/arena_defesa.png" id="12_arena"]
+[ext_resource type="Texture2D" path="res://assets/defesa/portal.png" id="13_portal"]
+[ext_resource type="Script" path="res://common/combat/hurtbox.gd" id="14_hurtbox"]
+
+[sub_resource type="RectangleShape2D" id="Rect_topo"]
+size = Vector2(1152, 104)
+
+[sub_resource type="RectangleShape2D" id="Rect_base"]
+size = Vector2(1152, 48)
+
+[sub_resource type="RectangleShape2D" id="Rect_lado"]
+size = Vector2(48, 656)
+
+[sub_resource type="RectangleShape2D" id="Rect_entrada"]
+size = Vector2(28, 56)
+
+[sub_resource type="CircleShape2D" id="Circle_corpo"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="Circle_hurtbox"]
+radius = 34.0
+
+[node name="Defesa" type="Node2D" node_paths=PackedStringArray("player", "portal", "hud", "spawn_points_root", "wave_timer", "stagger_timer", "retarget_timer")]
+script = ExtResource("1_level")
+wave_table = ExtResource("4_table")
+drone_scene = ExtResource("5_drone")
+robo_scene = ExtResource("6_robo")
+tank_scene = ExtResource("7_tank")
+player = NodePath("Player")
+portal = NodePath("Portal")
+hud = NodePath("DefenseHud")
+spawn_points_root = NodePath("SpawnPoints")
+wave_timer = NodePath("WaveTimer")
+stagger_timer = NodePath("StaggerTimer")
+retarget_timer = NodePath("RetargetTimer")
+
+[node name="Musica" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_music")
+autoplay = true
+bus = &"Music"
+
+[node name="Arena" type="Sprite2D" parent="."]
+z_index = -20
+texture_filter = 1
+texture = ExtResource("12_arena")
+centered = false
+
+[node name="Colisoes" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="ParedeTopo" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(576, 52)
+shape = SubResource("Rect_topo")
+
+[node name="ParedeBase" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(576, 632)
+shape = SubResource("Rect_base")
+
+[node name="ParedeEsquerda" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(24, 328)
+shape = SubResource("Rect_lado")
+
+[node name="ParedeDireita" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1128, 328)
+shape = SubResource("Rect_lado")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PortaoN" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(576, 168)
+
+[node name="EscotilhaNO" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(216, 168)
+
+[node name="EscotilhaNE" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(936, 168)
+
+[node name="EscotilhaO" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(112, 356)
+
+[node name="EscotilhaL" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1040, 356)
+
+[node name="EscotilhaSO" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(216, 544)
+
+[node name="EscotilhaS" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(576, 544)
+
+[node name="EscotilhaSE" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(936, 544)
+
+[node name="Portal" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "hurtbox")]
+position = Vector2(576, 356)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("2_portal")
+sprite = NodePath("Sprite2D")
+hurtbox = NodePath("Hurtbox")
+
+[node name="Sprite2D" type="Sprite2D" parent="Portal"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, -24)
+texture = ExtResource("13_portal")
+hframes = 6
+vframes = 2
+
+[node name="Entrada" type="CollisionShape2D" parent="Portal"]
+position = Vector2(0, -24)
+shape = SubResource("Rect_entrada")
+
+[node name="Corpo" type="StaticBody2D" parent="Portal" groups=["enemy_target"]]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal/Corpo"]
+shape = SubResource("Circle_corpo")
+
+[node name="Hurtbox" type="Area2D" parent="Portal" node_paths=PackedStringArray("actor")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("14_hurtbox")
+actor = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal/Hurtbox"]
+position = Vector2(0, -14)
+shape = SubResource("Circle_hurtbox")
+
+[node name="WaveTimer" type="Timer" parent="."]
+
+[node name="StaggerTimer" type="Timer" parent="."]
+
+[node name="RetargetTimer" type="Timer" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("8_Turing")]
+position = Vector2(576, 456)
+
+[node name="HUD" parent="." instance=ExtResource("9_hud")]
+
+[node name="DefenseHud" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
+
+[node name="CameraArena" type="Camera2D" parent="."]
+position = Vector2(576, 328)
+
+[node name="Pause" parent="." instance=ExtResource("10_pause")]

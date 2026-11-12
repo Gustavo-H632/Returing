@@ -2263,10 +2263,10 @@ shape = SubResource("RectangleShape2D_4vew8")
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=844145986]
 
 [node name="SpawnA" type="Marker2D" parent="SpawnPoints" unique_id=2071024544]
-position = Vector2(520, 250)
+position = Vector2(511, 215)
 
 [node name="SpawnB" type="Marker2D" parent="SpawnPoints" unique_id=33317515]
-position = Vector2(129, 416)
+position = Vector2(430, 430)
 
 [node name="SpawnC" type="Marker2D" parent="SpawnPoints" unique_id=897389603]
 position = Vector2(756, 127)
@@ -2284,7 +2284,7 @@ position = Vector2(708, 284)
 position = Vector2(549, 390)
 
 [node name="SpawnH" type="Marker2D" parent="SpawnPoints" unique_id=1968884697]
-position = Vector2(420, 120)
+position = Vector2(431, 136)
 
 [node name="WaveManager" type="Node" parent="." unique_id=1433540547 node_paths=PackedStringArray("spawn_points_root")]
 script = ExtResource("7_wave")

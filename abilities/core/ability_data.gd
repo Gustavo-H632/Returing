@@ -37,6 +37,9 @@ const MAX_SEQUENCE: int = 6  # Máximo de setas de uma sequência.
 @export_range(0.0, 300.0, 0.5, "or_greater") var cooldown: float = 12.0
 ## Duração do efeito em segundos (0 = instantâneo).
 @export_range(0.0, 120.0, 0.5, "or_greater") var duration: float = 0.0
+## Últimos segundos da `duration` em que o efeito vira penalidade (Overclock). 0 = sem penalidade.
+## Conta dentro da duração: com duration 15 e penalty_duration 5, são 10 s de bônus e 5 s de penalidade.
+@export_range(0.0, 60.0, 0.5, "or_greater") var penalty_duration: float = 0.0
 @export_group("Visual")
 @export var rarity: Rarity = Rarity.COMUM  # Raridade (define a cor do amuleto).
 @export var glyph: Glyph = Glyph.NONE  # Símbolo desenhado dentro do amuleto.
@@ -49,6 +52,11 @@ const MAX_SEQUENCE: int = 6  # Máximo de setas de uma sequência.
 @export var stat_mult: Dictionary = {}
 ## Bônus aditivos do `StatBuffEffect`: atributo -> valor somado (0.05 = +5%).
 @export var stat_add: Dictionary = {}
+
+
+## True se, `elapsed` segundos depois da ativação, o efeito está na fase de penalidade.
+func is_penalty_at(elapsed: float) -> bool:
+	return penalty_duration > 0.0 and elapsed < duration and elapsed >= duration - penalty_duration
 
 
 ## Validação do catálogo: emite `push_warning` e devolve false se algo estiver errado.
@@ -70,6 +78,9 @@ static func validate(lista: Array[AbilityData]) -> bool:
 			ok = false
 		if a.cooldown <= a.duration:  # A recarga precisa ser maior que a duração, senão o efeito nunca esfria.
 			push_warning("AbilityData '%s': o cooldown (%s s) precisa ser maior que a duração (%s s)." % [a.id, a.cooldown, a.duration])
+			ok = false
+		if a.penalty_duration > 0.0 and a.penalty_duration >= a.duration:  # A penalidade cabe dentro da duração.
+			push_warning("AbilityData '%s': a penalidade (%s s) precisa ser menor que a duração (%s s)." % [a.id, a.penalty_duration, a.duration])
 			ok = false
 		for j: int in range(i + 1, lista.size()):  # Compara com todas as habilidades seguintes.
 			var b: AbilityData = lista[j]  # Outra habilidade.

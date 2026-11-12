@@ -18,6 +18,12 @@ const LIFE_STEAL: StringName = &"life_steal"
 const MAX_HEALTH: StringName = &"max_health"
 const HEAL_RECEIVED: StringName = &"heal_received"
 const DAMAGE: StringName = &"damage"
+## Multiplicador da recarga do dash (0.6 = recarga 40% menor).
+const DASH_COOLDOWN: StringName = &"dash_cooldown"
+## Multiplicador do tempo de carga do tiro (0.7 = carrega 30% mais rápido).
+const CHARGE_TIME: StringName = &"charge_time"
+## Multiplicador do dano recebido pelo Player (0.8 = recebe 20% menos).
+const DAMAGE_TAKEN: StringName = &"damage_taken"
 
 ## Cada item: { "stat": StringName, "value": float, "mode": Mode, "source": int (instance id) }.
 var _entries: Array[Dictionary] = []

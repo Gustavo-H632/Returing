@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://abilities/effects/EmpPulseEffect.tscn" id="2_fx"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"pulso_emp"
+display_name = "Pulso EMP"
+description = "Onda ao redor do personagem que causa dano leve e empurra os inimigos."
+sequence = Array[int]([1, 3, 0, 2])
+cooldown = 24.0
+duration = 0.0
+rarity = 1
+glyph = 6
+effect_scene = ExtResource("2_fx")
+stat_mult = {}
+stat_add = {}

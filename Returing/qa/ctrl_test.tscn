@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://qa/ctrl_test.gd" id="1_ctrl"]
+
+[node name="CtrlTest" type="Node"]
+script = ExtResource("1_ctrl")

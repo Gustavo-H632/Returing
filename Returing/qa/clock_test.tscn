@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://qa/clock_test.gd" id="1_clock"]
+
+[node name="ClockTest" type="Node"]
+script = ExtResource("1_clock")

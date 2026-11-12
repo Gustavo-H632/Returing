@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://cr1c8757xpskv"]
+
+[ext_resource type="Script" uid="uid://h07iphp1f7pi" path="res://levels/Quiz/quiz.gd" id="1_5vxcg"]
+[ext_resource type="Theme" path="res://themes/main_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://themes/pixel_button.gd" id="3_pixel_button"]
+
+[node name="Quiz" type="Control" unique_id=822974058 node_paths=PackedStringArray("question_label", "answer_input", "submit_button", "feedback_timer", "question_timer", "countdown_box", "countdown_label", "countdown_bar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_5vxcg")
+question_label = NodePath("RichTextLabel")
+answer_input = NodePath("LineEdit")
+submit_button = NodePath("SubmitButton")
+feedback_timer = NodePath("FeedbackTimer")
+question_timer = NodePath("QuestionTimer")
+countdown_box = NodePath("CountdownBox")
+countdown_label = NodePath("CountdownBox/CountdownLabel")
+countdown_bar = NodePath("CountdownBox/CountdownBar")
+
+[node name="Panel" type="Panel" parent="." unique_id=1144696575]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_type_variation = &"BackdropPanel"
+
+[node name="Label" type="Label" parent="." unique_id=891835923]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 64.0
+offset_bottom = 104.0
+grow_horizontal = 2
+text = "Acerte o resultado dos códigos, rápido!"
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=20791751]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 110.0
+offset_right = 300.0
+offset_bottom = 322.0
+grow_horizontal = 2
+size_flags_vertical = 0
+mouse_filter = 1
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1068698812]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 12.0
+offset_right = 192.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Insira aqui a resposta"
+alignment = 1
+
+[node name="SubmitButton" type="Button" parent="." unique_id=229152616]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = 80.0
+offset_right = 96.0
+offset_bottom = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Confirmar"
+script = ExtResource("3_pixel_button")
+
+[node name="CountdownBox" type="VBoxContainer" parent="." unique_id=282224756]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 8.0
+offset_right = 150.0
+offset_bottom = 56.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="CountdownLabel" type="Label" parent="CountdownBox" unique_id=118075248]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="CountdownBar" type="ProgressBar" parent="CountdownBox" unique_id=1812669560]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+show_percentage = false
+
+[node name="FeedbackTimer" type="Timer" parent="." unique_id=1178212901]
+wait_time = 1.5
+one_shot = true
+
+[node name="QuestionTimer" type="Timer" parent="." unique_id=1361940354]
+one_shot = true

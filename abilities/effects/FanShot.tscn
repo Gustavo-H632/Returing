@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://characters/turing/PlayerProjectile.tscn" id="1_base"]
+
+[node name="FanShot" instance=ExtResource("1_base")]
+modulate = Color(0.8, 1.5, 0.8, 1)
+speed = 380.0
+lifetime = 0.9

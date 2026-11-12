@@ -24,6 +24,8 @@ const ROW_HEIGHT: float = 34.0
 const MAX_ROWS: int = 3  # linhas que cabem no quadro (o resto vira "+N")
 const FLASH_TIME: float = 0.4  # Quanto tempo a seta detectada fica acesa.
 const FONT_TITLE: int = 20
+## A fonte padrão do jogo (VT323) é menor que a fonte embutida: os tamanhos do quadro são multiplicados por isto.
+const FONT_SCALE: float = 1.4
 const FONT_BODY: int = 16
 const COLOR_TEXT: Color = Color("#ebddba")
 const COLOR_MUTED: Color = Color("#a8957a")
@@ -40,11 +42,16 @@ var _rows: Dictionary = {}  # id -> {"row": Control, "arrows": ArrowSequenceView
 var _rows_box: Control = null
 var _notice: String = ""  # Aviso (ex.: sem habilidades).
 var _overflow: int = 0  # Habilidades que não cabem nas linhas.
+var _font: Font = null  # Fonte padrão do jogo (a mesma dos menus e do tutorial).
 
 
 func _ready() -> void:
 	add_to_group(&"mobile_layout_listeners")
-	theme = UiPalette.load_theme()
+	_font = _game_font()
+	var board_theme: Theme = UiPalette.load_theme().duplicate() as Theme  # cópia: o tema compartilhado não é alterado
+	if _font != null:
+		board_theme.default_font = _font
+	theme = board_theme
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	size = BASE_SIZE
 	custom_minimum_size = BASE_SIZE
@@ -176,7 +183,7 @@ func _rebuild() -> void:
 		label.size = Vector2(112.0, ROW_HEIGHT)
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.clip_text = true
-		label.add_theme_font_size_override(&"font_size", 14)
+		label.add_theme_font_size_override(&"font_size", _fs(14))
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(label)
 		var arrows: ArrowSequenceView = ArrowSequenceView.new()
@@ -196,22 +203,22 @@ func _sensor_missing() -> bool:
 
 func _draw() -> void:
 	MobileDraw.frame(self, Rect2(Vector2.ZERO, BASE_SIZE))
-	var font: Font = get_theme_default_font()
-	draw_string(font, Vector2(16.0, 28.0), "MODO COMANDO", HORIZONTAL_ALIGNMENT_LEFT, 180.0, FONT_TITLE, COLOR_WARN)
+	var font: Font = _font if _font != null else get_theme_default_font()
+	draw_string(font, Vector2(16.0, 28.0), "MODO COMANDO", HORIZONTAL_ALIGNMENT_LEFT, 180.0, _fs(FONT_TITLE), COLOR_WARN)
 	_draw_typed(font)
 	if _sensor_missing():
 		_draw_dpad(font)
 	else:
 		_draw_tilt(font)
 	if _overflow > 0:
-		draw_string(font, Vector2(16.0, BASE_SIZE.y - 6.0), "+%d habilidade(s)" % _overflow, HORIZONTAL_ALIGNMENT_LEFT, 200.0, 13, COLOR_MUTED)
+		draw_string(font, Vector2(16.0, BASE_SIZE.y - 6.0), "+%d habilidade(s)" % _overflow, HORIZONTAL_ALIGNMENT_LEFT, 200.0, _fs(13), COLOR_MUTED)
 	if _abilities != null and _abilities.abilities.is_empty():
 		var text: String = _notice if _notice != "" else ("Treino: sem habilidades" if _abilities.practice else "Sem habilidades ainda")
-		draw_string(font, Vector2(16.0, ROWS_TOP + 22.0), text, HORIZONTAL_ALIGNMENT_LEFT, BASE_SIZE.x - 32.0, FONT_BODY, COLOR_MUTED)
+		draw_string(font, Vector2(16.0, ROWS_TOP + 22.0), text, HORIZONTAL_ALIGNMENT_LEFT, BASE_SIZE.x - 32.0, _fs(FONT_BODY), COLOR_MUTED)
 
 
 ## Faixa com as setas já digitadas (6 casas).
-func _draw_typed(_font: Font) -> void:
+func _draw_typed(_unused_font: Font) -> void:
 	var start_x: float = 16.0  # alinhado à esquerda: o botão de pausa fica por cima do canto direito do quadro
 	for i: int in SLOTS:
 		var slot: Rect2 = Rect2(Vector2(start_x + float(i) * (SLOT_SIZE + 4.0), 40.0), Vector2(SLOT_SIZE, SLOT_SIZE))
@@ -241,8 +248,8 @@ func _draw_tilt(font: Font) -> void:
 	var dot_center: Vector2 = RING_CENTER + offset
 	draw_texture_rect(MobileDraw.tex("tilt_dot.png"), Rect2(dot_center - Vector2(9.0, 9.0), Vector2(18.0, 18.0)), false)
 	var label: String = "Incline o celular"
-	draw_multiline_string(font, Vector2(150.0, 118.0), label, HORIZONTAL_ALIGNMENT_LEFT, 138.0, FONT_BODY, 3, COLOR_TEXT)
-	draw_multiline_string(font, Vector2(150.0, 170.0), "Volte ao centro entre uma seta e a próxima", HORIZONTAL_ALIGNMENT_LEFT, 138.0, 13, 4, COLOR_MUTED)
+	draw_multiline_string(font, Vector2(150.0, 118.0), label, HORIZONTAL_ALIGNMENT_LEFT, 138.0, _fs(FONT_BODY), 3, COLOR_TEXT)
+	draw_multiline_string(font, Vector2(150.0, 170.0), "Volte ao centro entre uma seta e a próxima", HORIZONTAL_ALIGNMENT_LEFT, 138.0, _fs(13), 4, COLOR_MUTED)
 
 
 ## Sem sensor: aviso e D-pad (os toques são do MobileControls, que usa `DPAD_CENTER` e `DPAD_CELL`).
@@ -260,4 +267,15 @@ func _draw_dpad(font: Font) -> void:
 	draw_multiline_string(font, Vector2(10.0, 96.0), "Sem
 sensor:
 use as
-setas", HORIZONTAL_ALIGNMENT_LEFT, 54.0, 13, 4, COLOR_WARN)
+setas", HORIZONTAL_ALIGNMENT_LEFT, 54.0, _fs(13), 4, COLOR_WARN)
+
+
+## Tamanho de fonte ajustado à fonte padrão do jogo.
+func _fs(size_px: int) -> int:
+	return roundi(float(size_px) * FONT_SCALE)
+
+
+## A fonte padrão do jogo: a do tema dos menus (VT323). Sem ela, devolve null e vale a fonte do tema atual.
+func _game_font() -> Font:
+	var game_theme: Theme = Palette.load_theme()
+	return game_theme.default_font if game_theme != null and game_theme.has_default_font() else null

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://abilities/effects/StatBuffEffect.tscn" id="2_fx"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"roubo_de_vida"
+display_name = "Roubo de Vida"
+description = "A espada cura 5% do dano causado."
+sequence = Array[int]([1, 1, 0])
+cooldown = 15.0
+duration = 10.0
+rarity = 0
+glyph = 4
+effect_scene = ExtResource("2_fx")
+stat_mult = {}
+stat_add = {"life_steal": 0.05}

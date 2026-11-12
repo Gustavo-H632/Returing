@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://abilities/effects/enigma_machine_effect.gd" id="1_fx"]
+
+[node name="EnigmaMachineEffect" type="Node2D"]
+script = ExtResource("1_fx")

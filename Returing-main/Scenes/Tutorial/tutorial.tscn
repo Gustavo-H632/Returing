@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://x2b3jrmcm60"]
+
+[ext_resource type="Script" uid="uid://wmsan80855br" path="res://Scenes/Tutorial/tutorial.gd" id="1_tutorial"]
+[ext_resource type="PackedScene" uid="uid://b0eod628mdso" path="res://characters/turing/Turing.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://cmpof527q12gg" path="res://ui/hud/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://def0h2ur0slmw" path="res://ui/pause.tscn" id="4_pause"]
+[ext_resource type="Script" path="res://Scenes/Tutorial/tutorial_arena.gd" id="5_arena"]
+[ext_resource type="Script" path="res://Scenes/Tutorial/tutorial_fx.gd" id="6_fx"]
+[ext_resource type="Script" path="res://Scenes/Tutorial/tutorial_ui.gd" id="7_ui"]
+[ext_resource type="Script" path="res://Scenes/Tutorial/tutorial_sfx.gd" id="8_sfx"]
+[ext_resource type="Script" path="res://Scenes/Tutorial/tutorial_upgrade_menu.gd" id="9_menu"]
+
+[node name="Tutorial" type="Node2D"]
+script = ExtResource("1_tutorial")
+
+[node name="Arena" type="Node2D" parent="."]
+script = ExtResource("5_arena")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(576, 324)
+
+[node name="Fx" type="Node2D" parent="."]
+script = ExtResource("6_fx")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Pause" parent="." instance=ExtResource("4_pause")]
+
+[node name="TutorialSfx" type="Node" parent="."]
+script = ExtResource("8_sfx")
+
+[node name="TutorialUi" type="Node" parent="."]
+script = ExtResource("7_ui")
+
+[node name="TutorialUpgradeMenu" type="CanvasLayer" parent="."]
+script = ExtResource("9_menu")

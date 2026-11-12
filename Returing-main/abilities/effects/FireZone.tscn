@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://abilities/effects/fire_zone.gd" id="1_zone"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_zone"]
+radius = 30.0
+
+[node name="FireZone" type="Area2D"]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_zone")
+monitor_while_active = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_zone")

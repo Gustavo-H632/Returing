@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityCatalog" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://abilities/core/ability_catalog.gd" id="1_cat"]
+[ext_resource type="Script" path="res://abilities/core/ability_data.gd" id="2_data"]
+[ext_resource type="Resource" path="res://abilities/data/tiro_rapido.tres" id="3_a"]
+[ext_resource type="Resource" path="res://abilities/data/passo_agil.tres" id="4_a"]
+[ext_resource type="Resource" path="res://abilities/data/golpe_amplo.tres" id="5_a"]
+[ext_resource type="Resource" path="res://abilities/data/roubo_de_vida.tres" id="6_a"]
+[ext_resource type="Resource" path="res://abilities/data/rastro_de_fogo.tres" id="7_a"]
+[ext_resource type="Resource" path="res://abilities/data/pulso_emp.tres" id="8_a"]
+[ext_resource type="Resource" path="res://abilities/data/escudo.tres" id="9_a"]
+[ext_resource type="Resource" path="res://abilities/data/cura.tres" id="10_a"]
+[ext_resource type="Resource" path="res://abilities/data/tiro_perfurante.tres" id="11_a"]
+[ext_resource type="Resource" path="res://abilities/data/cavaleiro_imbativel.tres" id="12_a"]
+[ext_resource type="Resource" path="res://abilities/data/modo_sanguinario.tres" id="13_a"]
+[ext_resource type="Resource" path="res://abilities/data/ninja_furtivo.tres" id="14_a"]
+
+[resource]
+script = ExtResource("1_cat")
+abilities = Array[ExtResource("2_data")]([ExtResource("3_a"), ExtResource("4_a"), ExtResource("5_a"), ExtResource("6_a"), ExtResource("7_a"), ExtResource("8_a"), ExtResource("9_a"), ExtResource("10_a"), ExtResource("11_a"), ExtResource("12_a"), ExtResource("13_a"), ExtResource("14_a")])
+legendary_weight = 1.0
+legendary_min_level = 3

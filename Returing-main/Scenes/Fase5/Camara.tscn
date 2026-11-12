@@ -1,0 +1,1727 @@
+[gd_scene load_steps=72 format=3]
+
+[ext_resource type="Script" path="res://Scenes/Fase5/camara.gd" id="1_camara"]
+[ext_resource type="AudioStream" path="res://Sounds/Musics/Sci-Fi 4 Loop.wav" id="2_Sci-Fi_4_Loop"]
+[ext_resource type="Texture2D" path="res://assets/camara/camara_piso.png" id="3_camara_piso"]
+[ext_resource type="Texture2D" path="res://assets/camara/camara_faixas.png" id="4_camara_faixas"]
+[ext_resource type="Texture2D" path="res://assets/camara/camara_decoracao.png" id="5_camara_decorac"]
+[ext_resource type="Texture2D" path="res://assets/camara/camara_paredes.png" id="6_camara_paredes"]
+[ext_resource type="Texture2D" path="res://assets/camara/plataforma_inicio.png" id="7_plataforma_ini"]
+[ext_resource type="Script" path="res://Scenes/Fase2/fire_hazard.gd" id="8_fire_hazard"]
+[ext_resource type="Texture2D" path="res://assets/arena/fogo_corredor_horizontal.png" id="9_fogo_corredor_"]
+[ext_resource type="Script" path="res://Scenes/Fase5/camara_sequenciador.gd" id="10_camara_sequenc"]
+[ext_resource type="Script" path="res://Scenes/Fase5/camara_maquina.gd" id="11_camara_maquina"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_direita.png" id="12_maquina_direit"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_aviso_corredor.png" id="13_raio_aviso_cor"]
+[ext_resource type="Script" path="res://common/combat/hitbox.gd" id="14_hitbox"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_feixe_v96.png" id="15_raio_feixe_v96"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_explosao.png" id="16_maquina_explos"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_esquerda.png" id="17_maquina_esquer"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_baixo.png" id="18_maquina_baixo"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_aviso_sala2.png" id="19_raio_aviso_sal"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_feixe_h516.png" id="20_raio_feixe_h51"]
+[ext_resource type="Script" path="res://common/combat/hurtbox.gd" id="21_hurtbox"]
+[ext_resource type="Script" path="res://common/combat/health_component.gd" id="22_health_compone"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_aviso_faixa_v.png" id="23_raio_aviso_fai"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_feixe_h172.png" id="24_raio_feixe_h17"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_aviso_banda_h.png" id="25_raio_aviso_ban"]
+[ext_resource type="Texture2D" path="res://assets/camara/raio_feixe_v236.png" id="26_raio_feixe_v23"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_cima.png" id="27_maquina_cima"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_cima_ref.png" id="28_maquina_cima_r"]
+[ext_resource type="Texture2D" path="res://assets/camara/maquina_direita_ref.png" id="29_maquina_direit"]
+[ext_resource type="Script" path="res://Scenes/Fase5/camara_porta.gd" id="30_camara_porta"]
+[ext_resource type="Texture2D" path="res://assets/camara/porta_h_trancada.png" id="31_porta_h_tranca"]
+[ext_resource type="Texture2D" path="res://assets/camara/porta_h_aberta.png" id="32_porta_h_aberta"]
+[ext_resource type="Theme" path="res://themes/main_theme.tres" id="33_main_theme"]
+[ext_resource type="Texture2D" path="res://assets/camara/porta_v_trancada.png" id="34_porta_v_tranca"]
+[ext_resource type="Texture2D" path="res://assets/camara/porta_v_aberta.png" id="35_porta_v_aberta"]
+[ext_resource type="PackedScene" path="res://characters/turing/Turing.tscn" id="36_Turing"]
+[ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="37_hud"]
+[ext_resource type="Script" path="res://Scenes/Fase5/camara_hud.gd" id="38_camara_hud"]
+[ext_resource type="Script" path="res://Scenes/Fase5/camara_debug.gd" id="39_camara_debug"]
+[ext_resource type="Script" path="res://Scenes/Fase5/camara_debug_linhas.gd" id="40_camara_debug_l"]
+[ext_resource type="PackedScene" path="res://ui/pause.tscn" id="41_pause"]
+
+[sub_resource type="RectangleShape2D" id="Rect_752x16"]
+size = Vector2(752, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x112"]
+size = Vector2(16, 112)
+
+[sub_resource type="RectangleShape2D" id="Rect_608x16"]
+size = Vector2(608, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x192"]
+size = Vector2(16, 192)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x176"]
+size = Vector2(16, 176)
+
+[sub_resource type="RectangleShape2D" id="Rect_1064x16"]
+size = Vector2(1064, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x188"]
+size = Vector2(16, 188)
+
+[sub_resource type="RectangleShape2D" id="Rect_400x16"]
+size = Vector2(400, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_20x16"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x304"]
+size = Vector2(16, 304)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x96"]
+size = Vector2(16, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_144x16"]
+size = Vector2(144, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_208x16"]
+size = Vector2(208, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_176x16"]
+size = Vector2(176, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_516x16"]
+size = Vector2(516, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_1032x16"]
+size = Vector2(1032, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_16x48"]
+size = Vector2(16, 48)
+
+[sub_resource type="RectangleShape2D" id="Rect_48x16"]
+size = Vector2(48, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_32x96"]
+size = Vector2(32, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_10x96"]
+size = Vector2(10, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_516x10"]
+size = Vector2(516, 10)
+
+[sub_resource type="RectangleShape2D" id="Rect_44x22"]
+size = Vector2(44, 22)
+
+[sub_resource type="RectangleShape2D" id="Rect_172x10"]
+size = Vector2(172, 10)
+
+[sub_resource type="RectangleShape2D" id="Rect_10x236"]
+size = Vector2(10, 236)
+
+[sub_resource type="RectangleShape2D" id="Rect_22x44"]
+size = Vector2(22, 44)
+
+[sub_resource type="RectangleShape2D" id="Rect_96x16"]
+size = Vector2(96, 16)
+
+[sub_resource type="RectangleShape2D" id="Rect_160x96"]
+size = Vector2(160, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_96x48"]
+size = Vector2(96, 48)
+
+[sub_resource type="RectangleShape2D" id="Rect_48x96"]
+size = Vector2(48, 96)
+
+[sub_resource type="RectangleShape2D" id="Rect_64x96"]
+size = Vector2(64, 96)
+
+[node name="Camara" type="Node2D" node_paths=PackedStringArray("sala1", "sala2", "sala3", "porta1", "porta2", "porta_final", "entrada1", "entrada2", "entrada3", "saida", "player", "hud")]
+script = ExtResource("1_camara")
+sala1 = NodePath("Sala1")
+sala2 = NodePath("Sala2")
+sala3 = NodePath("Sala3")
+porta1 = NodePath("Portas/Porta1")
+porta2 = NodePath("Portas/Porta2")
+porta_final = NodePath("Portas/PortaFinal")
+entrada1 = NodePath("Gatilhos/EntradaSala1")
+entrada2 = NodePath("Gatilhos/EntradaSala2")
+entrada3 = NodePath("Gatilhos/EntradaSala3")
+saida = NodePath("Gatilhos/Saida")
+player = NodePath("Player")
+hud = NodePath("HudCamara")
+
+[node name="Musica" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_Sci-Fi_4_Loop")
+autoplay = true
+bus = &"Music"
+
+[node name="Arte" type="Node2D" parent="."]
+
+[node name="Piso" type="Sprite2D" parent="Arte"]
+z_index = -20
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("3_camara_piso")
+centered = false
+
+[node name="Faixas" type="Sprite2D" parent="Arte"]
+z_index = -18
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("4_camara_faixas")
+centered = false
+
+[node name="Decoracao" type="Sprite2D" parent="Arte"]
+z_index = -17
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("5_camara_decorac")
+centered = false
+
+[node name="Paredes" type="Sprite2D" parent="Arte"]
+z_index = -10
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_camara_paredes")
+centered = false
+
+[node name="PlataformaInicio" type="Sprite2D" parent="Arte"]
+z_index = -16
+texture_filter = 1
+position = Vector2(96, 64)
+scale = Vector2(2, 2)
+texture = ExtResource("7_plataforma_ini")
+
+[node name="Colisoes" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Parede01" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(376, 8)
+shape = SubResource("Rect_752x16")
+
+[node name="Parede02" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(8, 72)
+shape = SubResource("Rect_16x112")
+
+[node name="Parede03" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(744, 72)
+shape = SubResource("Rect_16x112")
+
+[node name="Parede04" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(320, 120)
+shape = SubResource("Rect_608x16")
+
+[node name="Parede05" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(728, 208)
+shape = SubResource("Rect_16x192")
+
+[node name="Parede06" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(616, 216)
+shape = SubResource("Rect_16x176")
+
+[node name="Parede07" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1432, 204)
+shape = SubResource("Rect_1064x16")
+
+[node name="Parede08" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(908, 306)
+shape = SubResource("Rect_16x188")
+
+[node name="Parede09" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1956, 306)
+shape = SubResource("Rect_16x188")
+
+[node name="Parede10" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(408, 296)
+shape = SubResource("Rect_400x16")
+
+[node name="Parede11" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(746, 296)
+shape = SubResource("Rect_20x16")
+
+[node name="Parede12" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(216, 456)
+shape = SubResource("Rect_16x304")
+
+[node name="Parede13" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(748, 352)
+shape = SubResource("Rect_16x96")
+
+[node name="Parede14" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(828, 392)
+shape = SubResource("Rect_144x16")
+
+[node name="Parede15" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(2068, 392)
+shape = SubResource("Rect_208x16")
+
+[node name="Parede16" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(2164, 456)
+shape = SubResource("Rect_16x112")
+
+[node name="Parede17" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(828, 504)
+shape = SubResource("Rect_176x16")
+
+[node name="Parede18" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(2052, 504)
+shape = SubResource("Rect_208x16")
+
+[node name="Parede19" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(748, 560)
+shape = SubResource("Rect_16x96")
+
+[node name="Parede20" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(908, 606)
+shape = SubResource("Rect_16x188")
+
+[node name="Parede21" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1956, 606)
+shape = SubResource("Rect_16x188")
+
+[node name="Parede22" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(482, 600)
+shape = SubResource("Rect_516x16")
+
+[node name="Parede23" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1432, 692)
+shape = SubResource("Rect_1032x16")
+
+[node name="ReforcoM1A" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(24, 64)
+shape = SubResource("Rect_16x48")
+
+[node name="ReforcoM1B" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(728, 64)
+shape = SubResource("Rect_16x48")
+
+[node name="ReforcoM2" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(482, 312)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoT0" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1002, 220)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoB1" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1174, 676)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoT2" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1346, 220)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoB3" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1518, 676)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoT4" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1690, 220)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoB5" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1862, 676)
+shape = SubResource("Rect_48x16")
+
+[node name="ReforcoLU" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(924, 330)
+shape = SubResource("Rect_16x48")
+
+[node name="ReforcoLL" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(924, 566)
+shape = SubResource("Rect_16x48")
+
+[node name="ReforcoRU" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1940, 330)
+shape = SubResource("Rect_16x48")
+
+[node name="ReforcoRL" type="CollisionShape2D" parent="Colisoes"]
+position = Vector2(1940, 566)
+shape = SubResource("Rect_16x48")
+
+[node name="Fogo" type="Area2D" parent="." node_paths=PackedStringArray("sprite")]
+position = Vector2(384, 64)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("8_fire_hazard")
+sprite = NodePath("Sprite2D")
+
+[node name="Colisao" type="CollisionShape2D" parent="Fogo"]
+shape = SubResource("Rect_32x96")
+
+[node name="Sprite2D" type="Sprite2D" parent="Fogo"]
+z_index = -8
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("9_fogo_corredor_")
+hframes = 4
+
+[node name="Sala1" type="Node" parent="."]
+script = ExtResource("10_camara_sequenc")
+intervalo_disparos = 5
+atraso_inicial = 3
+
+[node name="M1A" type="Node2D" parent="Sala1" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao")]
+position = Vector2(24, 64)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(1, 0)
+distancia = 720.0
+destrutivel = false
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+
+[node name="Corpo" type="Sprite2D" parent="Sala1/M1A"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("12_maquina_direit")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala1/M1A"]
+z_index = -3
+texture_filter = 1
+position = Vector2(352, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("13_raio_aviso_cor")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala1/M1A" node_paths=PackedStringArray("source")]
+position = Vector2(-8, 0)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala1/M1A/Feixe"]
+shape = SubResource("Rect_10x96")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala1/M1A/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("15_raio_feixe_v96")
+hframes = 4
+
+[node name="Explosao" type="Sprite2D" parent="Sala1/M1A"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="M1B" type="Node2D" parent="Sala1" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao")]
+position = Vector2(728, 64)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(-1, 0)
+distancia = 720.0
+destrutivel = false
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+
+[node name="Corpo" type="Sprite2D" parent="Sala1/M1B"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("17_maquina_esquer")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala1/M1B"]
+z_index = -3
+texture_filter = 1
+position = Vector2(-352, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("13_raio_aviso_cor")
+hframes = 4
+visible = false
+flip_h = true
+
+[node name="Feixe" type="Area2D" parent="Sala1/M1B" node_paths=PackedStringArray("source")]
+position = Vector2(8, 0)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala1/M1B/Feixe"]
+shape = SubResource("Rect_10x96")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala1/M1B/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("15_raio_feixe_v96")
+hframes = 4
+
+[node name="Explosao" type="Sprite2D" parent="Sala1/M1B"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="Sala2" type="Node" parent="."]
+script = ExtResource("10_camara_sequenc")
+intervalo_disparos = 5
+atraso_inicial = 3
+
+[node name="M2" type="Node2D" parent="Sala2" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(482, 312)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, 1)
+distancia = 288.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala2/M2"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("18_maquina_baixo")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala2/M2"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, 136)
+scale = Vector2(2, 2)
+texture = ExtResource("19_raio_aviso_sal")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala2/M2" node_paths=PackedStringArray("source")]
+position = Vector2(0, -8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala2/M2/Feixe"]
+shape = SubResource("Rect_516x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala2/M2/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("20_raio_feixe_h51")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala2/M2" node_paths=PackedStringArray("actor")]
+position = Vector2(0, 13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala2/M2/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala2/M2"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala2/M2"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="Sala3" type="Node" parent="."]
+script = ExtResource("10_camara_sequenc")
+intervalo_disparos = 2.4
+atraso_inicial = 3.5
+
+[node name="T0" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1002, 220)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, 1)
+distancia = 472.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/T0"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("18_maquina_baixo")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/T0"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, 228)
+scale = Vector2(2, 2)
+texture = ExtResource("23_raio_aviso_fai")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala3/T0" node_paths=PackedStringArray("source")]
+position = Vector2(0, -8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/T0/Feixe"]
+shape = SubResource("Rect_172x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/T0/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("24_raio_feixe_h17")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/T0" node_paths=PackedStringArray("actor")]
+position = Vector2(0, 13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/T0/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala3/T0"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/T0"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="RL" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1940, 566)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(-1, 0)
+distancia = 516.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/RL"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("17_maquina_esquer")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/RL"]
+z_index = -3
+texture_filter = 1
+position = Vector2(-250, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("25_raio_aviso_ban")
+hframes = 4
+visible = false
+flip_h = true
+
+[node name="Feixe" type="Area2D" parent="Sala3/RL" node_paths=PackedStringArray("source")]
+position = Vector2(8, 0)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/RL/Feixe"]
+shape = SubResource("Rect_10x236")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/RL/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("26_raio_feixe_v23")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/RL" node_paths=PackedStringArray("actor")]
+position = Vector2(-13, 0)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/RL/Hurtbox"]
+shape = SubResource("Rect_22x44")
+
+[node name="Saude" type="Node" parent="Sala3/RL"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/RL"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="B1" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1174, 676)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, -1)
+distancia = 472.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/B1"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("27_maquina_cima")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/B1"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, -228)
+scale = Vector2(2, 2)
+texture = ExtResource("23_raio_aviso_fai")
+hframes = 4
+visible = false
+flip_v = true
+
+[node name="Feixe" type="Area2D" parent="Sala3/B1" node_paths=PackedStringArray("source")]
+position = Vector2(0, 8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/B1/Feixe"]
+shape = SubResource("Rect_172x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/B1/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("24_raio_feixe_h17")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/B1" node_paths=PackedStringArray("actor")]
+position = Vector2(0, -13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/B1/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala3/B1"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/B1"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="B3" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1518, 676)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, -1)
+distancia = 472.0
+destrutivel = true
+reforcada = true
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/B3"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("28_maquina_cima_r")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/B3"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, -228)
+scale = Vector2(2, 2)
+texture = ExtResource("23_raio_aviso_fai")
+hframes = 4
+visible = false
+flip_v = true
+
+[node name="Feixe" type="Area2D" parent="Sala3/B3" node_paths=PackedStringArray("source")]
+position = Vector2(0, 8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/B3/Feixe"]
+shape = SubResource("Rect_172x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/B3/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("24_raio_feixe_h17")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/B3" node_paths=PackedStringArray("actor")]
+position = Vector2(0, -13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/B3/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala3/B3"]
+script = ExtResource("22_health_compone")
+max_health = 2
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/B3"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="LL" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(924, 566)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(1, 0)
+distancia = 516.0
+destrutivel = true
+reforcada = true
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/LL"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("29_maquina_direit")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/LL"]
+z_index = -3
+texture_filter = 1
+position = Vector2(250, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("25_raio_aviso_ban")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala3/LL" node_paths=PackedStringArray("source")]
+position = Vector2(-8, 0)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/LL/Feixe"]
+shape = SubResource("Rect_10x236")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/LL/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("26_raio_feixe_v23")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/LL" node_paths=PackedStringArray("actor")]
+position = Vector2(13, 0)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/LL/Hurtbox"]
+shape = SubResource("Rect_22x44")
+
+[node name="Saude" type="Node" parent="Sala3/LL"]
+script = ExtResource("22_health_compone")
+max_health = 2
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/LL"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="T4" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1690, 220)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, 1)
+distancia = 472.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/T4"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("18_maquina_baixo")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/T4"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, 228)
+scale = Vector2(2, 2)
+texture = ExtResource("23_raio_aviso_fai")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala3/T4" node_paths=PackedStringArray("source")]
+position = Vector2(0, -8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/T4/Feixe"]
+shape = SubResource("Rect_172x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/T4/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("24_raio_feixe_h17")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/T4" node_paths=PackedStringArray("actor")]
+position = Vector2(0, 13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/T4/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala3/T4"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/T4"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="LU" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(924, 330)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(1, 0)
+distancia = 516.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/LU"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("12_maquina_direit")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/LU"]
+z_index = -3
+texture_filter = 1
+position = Vector2(250, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("25_raio_aviso_ban")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala3/LU" node_paths=PackedStringArray("source")]
+position = Vector2(-8, 0)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/LU/Feixe"]
+shape = SubResource("Rect_10x236")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/LU/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("26_raio_feixe_v23")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/LU" node_paths=PackedStringArray("actor")]
+position = Vector2(13, 0)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/LU/Hurtbox"]
+shape = SubResource("Rect_22x44")
+
+[node name="Saude" type="Node" parent="Sala3/LU"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/LU"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="B5" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1862, 676)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, -1)
+distancia = 472.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/B5"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("27_maquina_cima")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/B5"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, -228)
+scale = Vector2(2, 2)
+texture = ExtResource("23_raio_aviso_fai")
+hframes = 4
+visible = false
+flip_v = true
+
+[node name="Feixe" type="Area2D" parent="Sala3/B5" node_paths=PackedStringArray("source")]
+position = Vector2(0, 8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/B5/Feixe"]
+shape = SubResource("Rect_172x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/B5/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("24_raio_feixe_h17")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/B5" node_paths=PackedStringArray("actor")]
+position = Vector2(0, -13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/B5/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala3/B5"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/B5"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="T2" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1346, 220)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(0, 1)
+distancia = 472.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/T2"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("18_maquina_baixo")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/T2"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, 228)
+scale = Vector2(2, 2)
+texture = ExtResource("23_raio_aviso_fai")
+hframes = 4
+visible = false
+
+[node name="Feixe" type="Area2D" parent="Sala3/T2" node_paths=PackedStringArray("source")]
+position = Vector2(0, -8)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/T2/Feixe"]
+shape = SubResource("Rect_172x10")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/T2/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("24_raio_feixe_h17")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/T2" node_paths=PackedStringArray("actor")]
+position = Vector2(0, 13)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/T2/Hurtbox"]
+shape = SubResource("Rect_44x22")
+
+[node name="Saude" type="Node" parent="Sala3/T2"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/T2"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="RU" type="Node2D" parent="Sala3" node_paths=PackedStringArray("corpo", "aviso", "feixe", "feixe_forma", "feixe_imagem", "explosao", "hurtbox", "saude")]
+position = Vector2(1940, 330)
+script = ExtResource("11_camara_maquina")
+tempo_aviso = 1
+tempo_clarao = 0.4
+tempo_varredura = 2
+tempo_pausa = 1.6
+direcao = Vector2(-1, 0)
+distancia = 516.0
+destrutivel = true
+reforcada = false
+dano_minimo = 40
+corpo = NodePath("Corpo")
+aviso = NodePath("Aviso")
+feixe = NodePath("Feixe")
+feixe_forma = NodePath("Feixe/Forma")
+feixe_imagem = NodePath("Feixe/Imagem")
+explosao = NodePath("Explosao")
+hurtbox = NodePath("Hurtbox")
+saude = NodePath("Saude")
+
+[node name="Corpo" type="Sprite2D" parent="Sala3/RU"]
+z_index = -5
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("17_maquina_esquer")
+hframes = 6
+
+[node name="Aviso" type="Sprite2D" parent="Sala3/RU"]
+z_index = -3
+texture_filter = 1
+position = Vector2(-250, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("25_raio_aviso_ban")
+hframes = 4
+visible = false
+flip_h = true
+
+[node name="Feixe" type="Area2D" parent="Sala3/RU" node_paths=PackedStringArray("source")]
+position = Vector2(8, 0)
+z_index = 5
+visible = false
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("14_hitbox")
+damage = 120
+active_on_start = false
+one_hit_per_target = false
+tick_interval = 0.15
+source = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/RU/Feixe"]
+shape = SubResource("Rect_10x236")
+disabled = true
+
+[node name="Imagem" type="Sprite2D" parent="Sala3/RU/Feixe"]
+z_index = 0
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("26_raio_feixe_v23")
+hframes = 4
+
+[node name="Hurtbox" type="Area2D" parent="Sala3/RU" node_paths=PackedStringArray("actor")]
+position = Vector2(-13, 0)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("21_hurtbox")
+actor = NodePath("..")
+
+[node name="Forma" type="CollisionShape2D" parent="Sala3/RU/Hurtbox"]
+shape = SubResource("Rect_22x44")
+
+[node name="Saude" type="Node" parent="Sala3/RU"]
+script = ExtResource("22_health_compone")
+max_health = 1
+
+[node name="Explosao" type="Sprite2D" parent="Sala3/RU"]
+z_index = 6
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("16_maquina_explos")
+hframes = 5
+visible = false
+
+[node name="Portas" type="Node2D" parent="."]
+
+[node name="Porta1" type="Node2D" parent="Portas" node_paths=PackedStringArray("sprite", "colisao", "contador")]
+position = Vector2(672, 208)
+script = ExtResource("30_camara_porta")
+aberta_ao_iniciar = true
+tex_trancada = ExtResource("31_porta_h_tranca")
+tex_aberta = ExtResource("32_porta_h_aberta")
+sprite = NodePath("Sprite2D")
+colisao = NodePath("Corpo/Colisao")
+contador = NodePath("Contador")
+
+[node name="Sprite2D" type="Sprite2D" parent="Portas/Porta1"]
+z_index = -4
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("31_porta_h_tranca")
+
+[node name="Corpo" type="StaticBody2D" parent="Portas/Porta1"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Colisao" type="CollisionShape2D" parent="Portas/Porta1/Corpo"]
+shape = SubResource("Rect_96x16")
+
+[node name="Contador" type="Label" parent="Portas/Porta1"]
+z_index = -3
+position = Vector2(-14, -11)
+size = Vector2(28, 22)
+theme = ExtResource("33_main_theme")
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "0"
+
+[node name="Porta2" type="Node2D" parent="Portas" node_paths=PackedStringArray("sprite", "colisao", "contador")]
+position = Vector2(828, 448)
+script = ExtResource("30_camara_porta")
+aberta_ao_iniciar = false
+tex_trancada = ExtResource("34_porta_v_tranca")
+tex_aberta = ExtResource("35_porta_v_aberta")
+sprite = NodePath("Sprite2D")
+colisao = NodePath("Corpo/Colisao")
+contador = NodePath("Contador")
+
+[node name="Sprite2D" type="Sprite2D" parent="Portas/Porta2"]
+z_index = -4
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("34_porta_v_tranca")
+
+[node name="Corpo" type="StaticBody2D" parent="Portas/Porta2"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Colisao" type="CollisionShape2D" parent="Portas/Porta2/Corpo"]
+shape = SubResource("Rect_16x96")
+
+[node name="Contador" type="Label" parent="Portas/Porta2"]
+z_index = -3
+position = Vector2(-14, -11)
+size = Vector2(28, 22)
+theme = ExtResource("33_main_theme")
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "1"
+
+[node name="PortaFinal" type="Node2D" parent="Portas" node_paths=PackedStringArray("sprite", "colisao", "contador")]
+position = Vector2(2004, 448)
+script = ExtResource("30_camara_porta")
+aberta_ao_iniciar = false
+tex_trancada = ExtResource("34_porta_v_tranca")
+tex_aberta = ExtResource("35_porta_v_aberta")
+sprite = NodePath("Sprite2D")
+colisao = NodePath("Corpo/Colisao")
+contador = NodePath("Contador")
+
+[node name="Sprite2D" type="Sprite2D" parent="Portas/PortaFinal"]
+z_index = -4
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("34_porta_v_tranca")
+
+[node name="Corpo" type="StaticBody2D" parent="Portas/PortaFinal"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Colisao" type="CollisionShape2D" parent="Portas/PortaFinal/Corpo"]
+shape = SubResource("Rect_16x96")
+
+[node name="Contador" type="Label" parent="Portas/PortaFinal"]
+z_index = -3
+position = Vector2(-14, -11)
+size = Vector2(28, 22)
+theme = ExtResource("33_main_theme")
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "10"
+
+[node name="Gatilhos" type="Node2D" parent="."]
+
+[node name="EntradaSala1" type="Area2D" parent="Gatilhos"]
+position = Vector2(96, 64)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Colisao" type="CollisionShape2D" parent="Gatilhos/EntradaSala1"]
+shape = SubResource("Rect_160x96")
+
+[node name="EntradaSala2" type="Area2D" parent="Gatilhos"]
+position = Vector2(672, 336)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Colisao" type="CollisionShape2D" parent="Gatilhos/EntradaSala2"]
+shape = SubResource("Rect_96x48")
+
+[node name="EntradaSala3" type="Area2D" parent="Gatilhos"]
+position = Vector2(948, 448)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Colisao" type="CollisionShape2D" parent="Gatilhos/EntradaSala3"]
+shape = SubResource("Rect_48x96")
+
+[node name="Saida" type="Area2D" parent="Gatilhos"]
+position = Vector2(2116, 448)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Colisao" type="CollisionShape2D" parent="Gatilhos/Saida"]
+shape = SubResource("Rect_64x96")
+
+[node name="Player" parent="." instance=ExtResource("36_Turing")]
+position = Vector2(96, 64)
+dash_speed = 560.0
+dash_duration = 0.3
+dash_cooldown = 1.0
+iframes_duration = 0.34
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = 0
+limit_top = 0
+limit_right = 2172
+limit_bottom = 700
+
+[node name="HUD" parent="." instance=ExtResource("37_hud")]
+
+[node name="HudCamara" type="CanvasLayer" parent="." node_paths=PackedStringArray("objetivo", "maquinas", "aviso")]
+layer = 11
+script = ExtResource("38_camara_hud")
+objetivo = NodePath("Raiz/Objetivo")
+maquinas = NodePath("Raiz/Maquinas")
+aviso = NodePath("Raiz/Aviso")
+
+[node name="Raiz" type="Control" parent="HudCamara"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("33_main_theme")
+
+[node name="Objetivo" type="Label" parent="HudCamara/Raiz"]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 18
+text = "Atravesse o corredor."
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 4
+
+[node name="Maquinas" type="Label" parent="HudCamara/Raiz"]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 360.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 18
+text = "Máquinas 0/10"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 4
+
+[node name="Aviso" type="Label" parent="HudCamara/Raiz"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -232.0
+offset_bottom = -196.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+vertical_alignment = 1
+text = ""
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 4
+
+[node name="Depuracao" type="CanvasLayer" parent="." node_paths=PackedStringArray("colisoes", "linhas", "rotulo")]
+layer = 20
+script = ExtResource("39_camara_debug")
+colisoes = NodePath("../Colisoes")
+linhas = NodePath("Linhas")
+rotulo = NodePath("Rotulo")
+
+[node name="Linhas" type="Node2D" parent="Depuracao"]
+script = ExtResource("40_camara_debug_l")
+visible = false
+
+[node name="Rotulo" type="Label" parent="Depuracao"]
+visible = false
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 900.0
+offset_bottom = 420.0
+theme_override_font_sizes/font_size = 13
+text = "F3"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 4
+
+[node name="Pause" parent="." instance=ExtResource("41_pause")]
