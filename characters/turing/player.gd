@@ -55,8 +55,8 @@ const PROJECTILE_PREWARM: int = 6
 const MELEE_SAFETY_MARGIN: float = 0.25
 
 @export_group("Status")
-@export var hp_maximo: int = 100  # Vida máxima base do jogador.
-@export var hp: int = 100  # Vida atual (começa cheia).
+@export var hp_maximo: int = 1000  # Vida máxima base do jogador.
+@export var hp: int = 1000  # Vida atual (começa cheia).
 
 @export_group("Regeneração")
 ## Segundos seguidos sem receber dano para a regeneração começar.
@@ -749,7 +749,7 @@ func _criar_indicador_de_mira() -> void:
 
 ## Câmera que segue o player com zoom (só no celular; no PC fica como a cena já define).
 func _configurar_camera() -> void:
-	if Platform.is_mobile:  # Câmera de seguimento só no celular (no PC a cena já tem a sua).
+	if Platform.is_mobile():  # Câmera de seguimento só no celular (no PC a cena já tem a sua).
 		FollowCamera.attach_to(self, Platform.camera_zoom)
 
 

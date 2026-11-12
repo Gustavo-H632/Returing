@@ -80,13 +80,13 @@ func drop_target() -> void:
 
 ## O jogador entrou no alcance do golpe corpo a corpo.
 func _on_attack_range_body_entered(body: Node2D) -> void:
-	if CombatUtils.is_player(body):  # Só o jogador conta.
+	if CombatUtils.is_enemy_target(body):  # Só o jogador (ou outro alvo dos inimigos) conta.
 		target_in_attack_range = true  # Liga o aviso.
 
 
 ## O jogador saiu do alcance do golpe.
 func _on_attack_range_body_exited(body: Node2D) -> void:
-	if CombatUtils.is_player(body):  # Só o jogador conta.
+	if CombatUtils.is_enemy_target(body):  # Só o jogador (ou outro alvo dos inimigos) conta.
 		target_in_attack_range = false  # Desliga o aviso.
 
 
@@ -94,7 +94,7 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 
 ## O jogador entrou na Range 2: lança uma onda de choque na direção dele.
 func _on_range2_body_entered(body: Node2D) -> void:
-	if CombatUtils.is_player(body):  # Só o jogador conta.
+	if CombatUtils.is_enemy_target(body):  # Só o jogador (ou outro alvo dos inimigos) conta.
 		_launch_wave(body.global_position)  # Lança a onda.
 
 
@@ -102,7 +102,7 @@ func _on_range2_body_entered(body: Node2D) -> void:
 # Basta estar no grupo do jogador (ele pode estar saindo da cena).
 func _on_range2_body_exited(body: Node2D) -> void:
 	# Sair da Range 2 também lança uma onda.
-	if CombatUtils.is_valid(body) and body.is_in_group(CombatUtils.GROUP_PLAYER):
+	if CombatUtils.is_valid(body) and (body.is_in_group(CombatUtils.GROUP_PLAYER) or body.is_in_group(CombatUtils.GROUP_ENEMY_TARGET)):
 		_launch_wave(body.global_position)
 
 

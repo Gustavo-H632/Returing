@@ -69,13 +69,13 @@ func get_projectile_origin() -> Vector2:
 
 ## O jogador entrou na área do ataque em área.
 func _on_melee_range_body_entered(body: Node2D) -> void:
-	if CombatUtils.is_player(body):  # Só o jogador conta.
+	if CombatUtils.is_enemy_target(body):  # Só o jogador (ou outro alvo dos inimigos) conta.
 		target_in_melee_range = true  # Liga o aviso.
 
 
 ## O jogador saiu da área do ataque em área.
 func _on_melee_range_body_exited(body: Node2D) -> void:
-	if CombatUtils.is_player(body):  # Só o jogador conta.
+	if CombatUtils.is_enemy_target(body):  # Só o jogador (ou outro alvo dos inimigos) conta.
 		target_in_melee_range = false  # Desliga o aviso.
 
 

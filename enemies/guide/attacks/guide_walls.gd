@@ -14,6 +14,8 @@ extends StaticBody2D
 @export_range(0.0, 8.0, 0.5) var border_width: float = 2.0  # Largura da borda.
 ## Tempo do surgir e do sumir.
 @export_range(0.05, 3.0, 0.05) var fade_time: float = 0.5
+## Ladrilho das paredes (opcional: sem textura usa `fill_color`). Repete-se pelo retângulo de cada parede.
+@export var wall_texture: Texture2D
 
 var _rects: Array[Rect2] = []  # Retângulos das paredes (para desenhar).
 var _tween: Tween = null  # Animação de fade.
@@ -79,6 +81,9 @@ func _fade_to(alpha: float) -> void:
 ## Desenha as paredes: preenchimento e borda.
 func _draw() -> void:
 	for rect: Rect2 in _rects:  # Cada parede.
-		draw_rect(rect, fill_color)  # Preenchimento.
+		if wall_texture != null:  # Com sprite: ladrilho repetido.
+			draw_texture_rect(wall_texture, rect, true)
+		else:
+			draw_rect(rect, fill_color)  # Preenchimento.
 		if border_width > 0.0:  # Borda opcional.
 			draw_rect(rect, border_color, false, border_width)

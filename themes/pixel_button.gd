@@ -24,6 +24,8 @@ var _tween: Tween = null  # Animação atual.
 
 ## Prepara o botão: remove o estilo de foco do tema e liga os sinais que atualizam o visual.
 func _ready() -> void:
+	if Platform.is_mobile():  # alvo de toque confortável (~48 dp); no computador nada muda
+		custom_minimum_size.y = maxf(custom_minimum_size.y, Platform.MIN_TOUCH)
 	# O destaque de foco é feito por este script; o estilo "focus" do tema ficaria por cima do "pressed".
 	add_theme_stylebox_override(&"focus", StyleBoxEmpty.new())  # Foco invisível no tema.
 	_update_pivot()  # Pivô no centro (para crescer a partir do meio).

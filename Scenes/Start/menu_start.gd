@@ -6,7 +6,6 @@ extends Control
 @onready var _stars: TextureRect = $Stars  # Fundo de estrelas.
 @onready var _title: TextureRect = $Center/Column/Title  # Título do jogo.
 @onready var _column: Control = $Center/Column  # Coluna central.
-@onready var _hint: Control = $Center/Column/Hint  # Dica.
 @onready var _menu_panel: Control = $Center/Column/MenuPanel  # Painel dos botões.
 @onready var _buttons: Control = $Center/Column/MenuPanel/Buttons  # Botões da página principal.
 # Primeiro botão (começa com o foco).
@@ -22,6 +21,7 @@ func _ready() -> void:
 	# As imagens são brancas: tinge com a paleta (nada de branco puro na tela).
 	_stars.modulate = Palette.TEXT_DIM  # Estrelas esmaecidas.
 	_title.modulate = Palette.TEXT  # Título na cor do texto.
+	SafeArea.fit($Center)  # Celular: o menu fica centralizado na área segura (fora do notch e das barras).
 	_settings = SettingsPanel.new()  # Cria a página de configurações.
 	_settings.visible = false  # Começa escondida.
 	_menu_panel.add_child(_settings)  # Entra no painel.
@@ -52,12 +52,11 @@ func _show_main_page() -> void:
 
 
 ## Alterna a página visível da caixa (false = principal, true = configurações).
-## Nas configurações o logo e a dica saem para a caixa caber na tela.
+## Nas configurações o logo sai para a caixa caber na tela.
 func _set_page(settings: bool) -> void:
 	_buttons.visible = not settings  # Botões só na página principal.
 	_settings.visible = settings  # Configurações só na página de configurações.
 	_title.visible = not settings  # Título só na página principal.
-	_hint.visible = not settings  # Dica só na página principal.
 
 
 ## Fade rápido (<= 0,2 s) do conteúdo ao abrir o menu.

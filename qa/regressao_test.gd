@@ -129,7 +129,8 @@ func _regressao_fim_duplicado_e_entrada_no_hud() -> void:
 	EventBus.scene_change_requested.connect(_anota_cena)  # Anota pedidos de troca de cena.
 	EventBus.level_completed.emit("")  # Fim avisado.
 	EventBus.level_completed.emit("")  # Fim avisado de novo.
-	await get_tree().create_timer(0.35, true, false, true).timeout  # Espera a tela abrir.
+	await get_tree().create_timer(0.35, true, false, true).timeout  # Passou o atraso antigo da tela final.
+	EventBus.cutscene_finished.emit()  # Simula o fim da cutscene final (a tela de resultado espera por ela).
 	await _frames(3)
 	# Só uma tela.
 	_confere(_telas().size() == 1, "R3: duas notificações de fim abrem uma tela só (abriu %d)" % _telas().size())

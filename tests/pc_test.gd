@@ -54,7 +54,7 @@ func _run() -> void:
 	_player.causou_dano.connect(func(_alvo: Node, q: int) -> void: _hits.append(q))
 
 	print("-- Valores base do PC")  # Valores base do PC.
-	check(not Platform.is_mobile, "Platform.is_mobile = false")
+	check(not Platform.is_mobile(), "Platform.is_mobile() = false")
 	check(not MobileControls.ativo, "MobileControls inativo")
 	check(is_equal_approx(_player.scale.x, 1.0), "player no tamanho original")
 	check(get_viewport().get_camera_2d() == null, "Fase2 sem câmera nova (como antes)")

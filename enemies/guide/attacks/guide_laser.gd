@@ -13,6 +13,18 @@ const WARNING_WIDTH_FACTOR: float = 0.6
 const WARNING_PULSE_SPEED: float = 14.0
 ## Brilho do núcleo em relação à largura.
 const CORE_WIDTH_FACTOR: float = 0.4
+## Quadros por segundo das animações em sprite.
+const SPRITE_FPS: float = 10.0
+## Altura (px do asset) de cada ponta do feixe e do trecho de corpo que se repete (guide_laser_feixe.png).
+const BEAM_CAP_H: float = 5.0
+const BEAM_BODY_H: float = 40.0
+const SHEET_FRAMES: int = 4  # Quadros das duas sheets.
+
+@export_group("Sprites (opcional: sem textura desenha as linhas de antes)")
+## Aviso: tira de 4 quadros (6 x 16 cada) repetida ao longo do raio.
+@export var warning_sheet: Texture2D
+## Feixe: 4 quadros de 10 x 50 (ponta de cima, corpo de 40 que se repete, ponta de baixo).
+@export var beam_sheet: Texture2D
 
 var _phase: Phase = Phase.WARNING  # Fase atual.
 var _direction: Vector2 = Vector2.RIGHT  # Direção da varredura.
@@ -60,6 +72,8 @@ func _physics_process(delta: float) -> void:
 				arm(_damage)  # Liga a hitbox.
 			queue_redraw()  # Redesenha o pisca.
 		Phase.SWEEP:  # Fase de varredura.
+			if beam_sheet != null:  # Com sprite, o feixe anima: redesenha a cada quadro.
+				queue_redraw()
 			var step: float = minf(_speed * delta, _travel_left)  # Passo do quadro (o último é encurtado).
 			global_position += _direction * step  # Anda na direção da varredura.
 			_travel_left -= step  # Desconta a distância.
@@ -69,6 +83,12 @@ func _physics_process(delta: float) -> void:
 
 ## Desenha o aviso piscando (fino) ou o raio sólido com pontas redondas e núcleo claro.
 func _draw() -> void:
+	if _phase == Phase.WARNING and warning_sheet != null:
+		_draw_warning_sprite()
+		return
+	if _phase == Phase.SWEEP and beam_sheet != null:
+		_draw_beam_sprite()
+		return
 	var half: float = _length * 0.5  # Metade do comprimento.
 	var from := Vector2(0.0, -half)  # Ponta de cima.
 	var to := Vector2(0.0, half)  # Ponta de baixo.
@@ -82,3 +102,37 @@ func _draw() -> void:
 	draw_circle(from, _thickness * 0.5, COLOR_SWEEP)  # Ponta de cima arredondada.
 	draw_circle(to, _thickness * 0.5, COLOR_SWEEP)  # Ponta de baixo arredondada.
 	draw_line(from, to, COLOR_CORE, _thickness * CORE_WIDTH_FACTOR)  # Núcleo brilhante.
+
+
+## Aviso em sprite: traço tracejado que corre ao longo do raio, piscando como antes.
+func _draw_warning_sprite() -> void:
+	var half: float = _length * 0.5
+	var pulse: float = 0.5 + 0.5 * sin(_elapsed * WARNING_PULSE_SPEED)
+	var tint := Color(1.0, 1.0, 1.0, 0.5 + 0.5 * pulse)
+	var frame_w: float = float(warning_sheet.get_width()) / float(SHEET_FRAMES)
+	var tile_h: float = float(warning_sheet.get_height())
+	var frame: int = int(_elapsed * SPRITE_FPS) % SHEET_FRAMES
+	var y: float = -half
+	while y < half:
+		var h: float = minf(tile_h, half - y)
+		draw_texture_rect_region(warning_sheet, Rect2(-frame_w * 0.5, y, frame_w, h),
+				Rect2(frame_w * float(frame), 0.0, frame_w, h), tint)
+		y += tile_h
+
+
+## Feixe em sprite: ponta, corpo repetido e ponta (a espessura é a do sprite: 10 px = a da hitbox).
+func _draw_beam_sprite() -> void:
+	var half: float = _length * 0.5
+	var frame_w: float = float(beam_sheet.get_width()) / float(SHEET_FRAMES)
+	var frame: int = int(_elapsed * SPRITE_FPS) % SHEET_FRAMES
+	var sx: float = frame_w * float(frame)
+	var y: float = -half
+	while y < half:
+		var h: float = minf(BEAM_BODY_H, half - y)
+		draw_texture_rect_region(beam_sheet, Rect2(-frame_w * 0.5, y, frame_w, h),
+				Rect2(sx, BEAM_CAP_H, frame_w, h))
+		y += BEAM_BODY_H
+	draw_texture_rect_region(beam_sheet, Rect2(-frame_w * 0.5, -half - BEAM_CAP_H, frame_w, BEAM_CAP_H),
+			Rect2(sx, 0.0, frame_w, BEAM_CAP_H))
+	draw_texture_rect_region(beam_sheet, Rect2(-frame_w * 0.5, half, frame_w, BEAM_CAP_H),
+			Rect2(sx, BEAM_CAP_H + BEAM_BODY_H, frame_w, BEAM_CAP_H))

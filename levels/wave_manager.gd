@@ -60,7 +60,7 @@ func _ready() -> void:
 				# Avisa no console.
 				push_warning("WaveManager: a onda %d está vazia no Inspector." % (_waves.size() + 1))
 			continue
-		_waves.append(wave)  # Guarda a onda.
+		_waves.append(Ondas.escalar_cenas(wave))  # Guarda a onda, já com o multiplicador de inimigos (autoload Ondas).
 	if not _collect_spawn_points():  # Sem pontos de nascimento não há como começar.
 		return
 

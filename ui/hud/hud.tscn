@@ -79,6 +79,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("8_theme")
 
 [node name="Background" type="ColorRect" parent="Root/GameOverPanel"]
 layout_mode = 1
@@ -134,11 +135,13 @@ visible = false
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Tentar de novo"
+script = ExtResource("9_pixel_button")
 
 [node name="GameOverMenuButton" type="Button" parent="Root/GameOverPanel/GameOverBox"]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Menu principal"
+script = ExtResource("9_pixel_button")
 
 [node name="LevelCompletePanel" type="PanelContainer" parent="Root"]
 visible = false

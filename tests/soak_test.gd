@@ -61,8 +61,8 @@ func _run() -> void:
 			player.hp_maximo = 100000
 			player.hp = 100000
 	var t_end: int = Time.get_ticks_msec() + int(seconds * 1000.0)  # Hora de terminar.
-	var aim_c: Vector2 = mc._rest_aim()  # Centro do analógico de mira.
-	var mv_c: Vector2 = mc._rest_move()  # Centro do analógico de movimento.
+	var aim_c: Vector2 = mc.control_center(&"aim")  # Centro do analógico de mira.
+	var mv_c: Vector2 = mc.control_center(&"move")  # Centro do analógico de movimento.
 	var move_down := false  # Dedo do movimento está apertado?
 	var ticks := 0  # Contador de quadros.
 	while Time.get_ticks_msec() < t_end:  # Repete até acabar o tempo.
@@ -93,12 +93,12 @@ func _run() -> void:
 				await get_tree().physics_frame
 			touch(2, aim_c + a, false)
 		elif r2 < 0.04:  # Trocar de arma.
-			var wb: Vector2 = mc._button_center(&"weapon")
+			var wb: Vector2 = mc.control_center(&"weapon")
 			touch(3, wb, true)
 			await get_tree().physics_frame
 			touch(3, wb, false)
 		elif r2 < 0.06:  # Dash.
-			var db: Vector2 = mc._button_center(&"dash")
+			var db: Vector2 = mc.control_center(&"dash")
 			touch(4, db, true)
 			await get_tree().physics_frame
 			touch(4, db, false)

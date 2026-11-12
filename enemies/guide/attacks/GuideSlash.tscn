@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://enemies/guide/attacks/guide_slash.gd" id="1_attack"]
 [ext_resource type="Script" uid="uid://c28hqbjsfdsos" path="res://common/combat/hitbox.gd" id="2_hitbox"]
+[ext_resource type="Texture2D" path="res://sprites/Enemies/Attacks/guide_slash_aviso.png" id="3_aviso"]
+[ext_resource type="Texture2D" path="res://sprites/Enemies/Attacks/guide_slash_corte.png" id="4_corte"]
 
 [sub_resource type="CircleShape2D" id="Shape_hit"]
 radius = 84.0
@@ -12,6 +14,8 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource("1_attack")
+windup_sheet = ExtResource("3_aviso")
+active_sheet = ExtResource("4_corte")
 hitbox = NodePath("Hitbox")
 hit_shape = NodePath("Hitbox/CollisionShape2D")
 

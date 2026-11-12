@@ -13,7 +13,7 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_stars"]
 blend_mode = 1
 
-[node name="Menu_Start" type="Control" unique_id=918492111]
+[node name="Menu_Start" type="Control" unique_id=1531913551]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,7 @@ grow_vertical = 2
 theme = ExtResource("1_theme")
 script = ExtResource("2_menu")
 
-[node name="Backdrop" type="Panel" parent="." unique_id=1366413294]
+[node name="Backdrop" type="Panel" parent="." unique_id=1146507809]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,7 +33,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"BackdropPanel"
 
-[node name="Stars" type="TextureRect" parent="." unique_id=2071667107]
+[node name="Stars" type="TextureRect" parent="." unique_id=823590880]
 material = SubResource("CanvasItemMaterial_stars")
 layout_mode = 1
 anchors_preset = 15
@@ -46,7 +46,7 @@ texture = ExtResource("3_stars")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Scanlines" type="ColorRect" parent="." unique_id=71557516]
+[node name="Scanlines" type="ColorRect" parent="." unique_id=1272567894]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,7 +56,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_scanlines")
 
-[node name="Center" type="CenterContainer" parent="." unique_id=251282821]
+[node name="Center" type="CenterContainer" parent="." unique_id=1744888442]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -64,51 +64,45 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Column" type="VBoxContainer" parent="Center" unique_id=2115557916]
+[node name="Column" type="VBoxContainer" parent="Center" unique_id=1200652741]
 layout_mode = 2
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="Title" type="TextureRect" parent="Center/Column" unique_id=598541491]
+[node name="Title" type="TextureRect" parent="Center/Column" unique_id=1260839090]
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("5_title")
 stretch_mode = 5
 
-[node name="MenuPanel" type="PanelContainer" parent="Center/Column" unique_id=170159837]
+[node name="MenuPanel" type="PanelContainer" parent="Center/Column" unique_id=43048065]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Buttons" type="VBoxContainer" parent="Center/Column/MenuPanel" unique_id=1571742186]
+[node name="Buttons" type="VBoxContainer" parent="Center/Column/MenuPanel" unique_id=114746101]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 
-[node name="Start_button" type="Button" parent="Center/Column/MenuPanel/Buttons" unique_id=197784697]
+[node name="Start_button" type="Button" parent="Center/Column/MenuPanel/Buttons" unique_id=1975083230]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Iniciar"
 script = ExtResource("6_start")
 
-[node name="Settings_button" type="Button" parent="Center/Column/MenuPanel/Buttons" unique_id=915518192]
+[node name="Settings_button" type="Button" parent="Center/Column/MenuPanel/Buttons" unique_id=1566747429]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Configurações"
 script = ExtResource("9_pixel_button")
 
-[node name="Quit_button" type="Button" parent="Center/Column/MenuPanel/Buttons" unique_id=1964524588]
+[node name="Quit_button" type="Button" parent="Center/Column/MenuPanel/Buttons" unique_id=1429671944]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_type_variation = &"DangerButton"
 text = "Sair"
 script = ExtResource("7_quit")
 
-[node name="Hint" type="Label" parent="Center/Column" unique_id=505078837]
-layout_mode = 2
-theme_type_variation = &"HintLabel"
-text = "W / S ou setas para navegar  -  Enter para confirmar"
-horizontal_alignment = 1
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1919247056]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=826377707]
 stream = ExtResource("8_music")
 autoplay = true
 bus = &"Music"

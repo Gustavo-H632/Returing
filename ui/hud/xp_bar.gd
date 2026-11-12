@@ -276,6 +276,8 @@ func _kill(tween: Tween) -> void:
 ## última (o comprimento é o do bloco, espaço entre elas incluído), onde quer que elas estejam.
 ## Alinha a barra à direita do bloco de vida e carga (topo na primeira, base na última).
 func _align_to_health_block() -> void:
+	if Platform.is_mobile() and get_parent() != null and get_parent().get_parent() is GameHUD:
+		return  # No celular quem posiciona é o MobileControls (layout editável, dentro da área segura).
 	await get_tree().process_frame  # deixa o SpriteBar e o MobileControls acertarem as barras antes
 	await get_tree().process_frame
 	var parent: Node = get_parent()  # Pai da barra.

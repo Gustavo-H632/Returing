@@ -278,6 +278,9 @@ func _construir() -> void:
 	_raiz.theme = Palette.load_theme()  # Tema dos menus.
 	add_child(_raiz)
 	_raiz.resized.connect(_reposicionar)  # Refaz o posicionamento ao redimensionar.
+	if Platform.is_mobile():
+		Platform.safe_area_changed.connect(_reposicionar)
+		tree_exiting.connect(func() -> void: Platform.safe_area_changed.disconnect(_reposicionar))
 
 	var fundo := ColorRect.new()  # Fundo.
 	fundo.color = Palette.BG
@@ -820,17 +823,34 @@ func _nova_linha(rotulo: String, detalhe: String, pontos: int, tipo: StringName 
 
 ## Centraliza a coluna e a reduz o quanto precisar para caber (16:9, 4:3 e ultra-wide).
 ## Centraliza a coluna e a reduz o quanto precisar para caber em qualquer proporção de tela (16:9, 4:3, ultra-wide).
+var _ajustes_de_toque: int = 0  # Profundidade do reajuste dos botões (evita laço).
+
+
 func _reposicionar() -> void:
 	if _raiz == null or _coluna == null:  # Sem raiz ou coluna: nada a fazer.
 		return
 	var area: Vector2 = _raiz.size  # Área disponível.
+	var origem: Vector2 = Vector2.ZERO
+	if Platform.is_mobile():  # Celular: tudo dentro da área segura (notch, barras).
+		var segura: Rect2 = Platform.get_safe_rect()
+		origem = segura.position
+		area = segura.size
 	var tamanho: Vector2 = _coluna.get_combined_minimum_size()  # Tamanho mínimo da coluna.
 	tamanho.x = maxf(tamanho.x, LARGURA_COLUNA)  # Largura mínima.
 	_coluna.size = tamanho  # Tamanho da coluna.
 	# Escala que cabe na tela.
 	var escala: float = minf(1.0, minf((area.x - 2.0 * MARGEM_TELA) / tamanho.x, (area.y - 2.0 * MARGEM_TELA) / tamanho.y))
 	escala = maxf(escala, 0.1)  # Nunca menor que 10%.
+	if Platform.is_mobile() and _botao_jogar != null:  # o alvo de toque continua com o tamanho mínimo NA TELA
+		var alvo: float = Platform.MIN_TOUCH / escala
+		if not is_equal_approx(_botao_jogar.custom_minimum_size.y, alvo) and _ajustes_de_toque < 4:
+			_ajustes_de_toque += 1
+			_botao_jogar.custom_minimum_size.y = alvo
+			_botao_menu.custom_minimum_size.y = alvo
+			_reposicionar()
+			_ajustes_de_toque -= 1
+			return
 	_coluna.pivot_offset = Vector2.ZERO  # Pivô no canto.
 	_coluna.scale = Vector2.ONE * escala  # Escala.
-	_posicao_base = (area - tamanho * escala) * 0.5  # Centraliza.
+	_posicao_base = origem + (area - tamanho * escala) * 0.5  # Centraliza.
 	_coluna.position = _posicao_base  # Posição.

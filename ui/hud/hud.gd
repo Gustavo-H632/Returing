@@ -52,6 +52,9 @@ func _ready() -> void:
 	if not _valid:  # HUD inválida: não faz nada.
 		return
 
+	# Celular: botões de fim de fase/game over dentro da área segura (os fundos continuam cobrindo a tela toda).
+	SafeArea.fit(game_over_panel.get_node_or_null(^"GameOverBox") as Control)
+	SafeArea.fit(complete_panel)
 	game_over_panel.hide()  # Esconde o game over.
 	complete_panel.hide()  # Esconde a fase concluída.
 	if charge_bar != null:  # Barra de carga vazia.
@@ -101,6 +104,9 @@ func _on_player_charge_changed(ratio: float) -> void:
 func _on_level_completed(next_scene: String) -> void:
 	_next_scene = next_scene  # Guarda a próxima cena.
 	var has_next: bool = not next_scene.is_empty()  # Existe próxima fase?
+	if not has_next:  # Última fase: a cutscene final assume a tela e a HUD some.
+		visible = false
+		return
 	continue_button.visible = has_next  # "Continuar" só se há próxima fase.
 	if complete_label != null:  # Título só se há próxima fase.
 		complete_label.visible = has_next  # Título.

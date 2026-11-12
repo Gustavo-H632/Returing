@@ -21,7 +21,7 @@ const ARROWS_COLUMN_WIDTH: float = 133.0
 const MAX_SLOTS: int = 3
 const SLOT_SEPARATION: int = UiPalette.UNIT
 ## No celular a faixa compacta desce (px) para ficar abaixo do botão de pausa.
-const MOBILE_COMPACT_TOP: float = 70.0
+const MOBILE_COMPACT_TOP: float = 72.0
 ## Margem inferior do painel de comando no celular (centralizado, entre os analógicos).
 const MOBILE_PANEL_BOTTOM: int = 24
 ## Transparência das linhas que não combinam com o que foi digitado.
@@ -34,7 +34,7 @@ const FOOTER_PC: String = "ENTER confirma  -  BACKSPACE apaga  -  CTRL cancela"
 const CHEAT_ARROW_SIZE: float = 10.0
 const CHEAT_ARROW_GAP: float = 3.0
 const CHEAT_SLOT_GAP: int = 3
-const HINT_MOBILE: String = "Toque em CMD e digite as setas"  # Dica de como ativar no celular.
+const HINT_MOBILE: String = "Toque no botão de comando e incline o celular"  # Dica de como ativar no celular.
 # Aviso quando não há habilidades.
 const NOTICE_NO_ABILITIES: String = "Sem habilidades ainda: suba de nível"
 ## Quanto tempo (s) o aviso substitui a dica.
@@ -53,6 +53,7 @@ var _entries: Dictionary = {}
 
 ## Prepara a HUD: ocupa a tela toda sem bloquear cliques e cria o painel e a faixa compacta.
 func _ready() -> void:
+	add_to_group(&"mobile_layout_listeners")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # Cobre a tela inteira.
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # a HUD nunca bloqueia cliques do jogo
 	theme = UiPalette.load_theme()  # Tema do jogo.
@@ -104,7 +105,7 @@ func _build_panel() -> void:
 ## Painel no canto inferior direito (longe das barras de vida e XP); no celular, no centro de baixo.
 ## Posiciona o painel: embaixo à direita no PC; no celular, centralizado embaixo.
 func _place_panel() -> void:
-	if Platform.is_mobile:
+	if Platform.is_mobile():
 		_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE, MOBILE_PANEL_BOTTOM)
 	else:
 		_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, UiPalette.SAFE_MARGIN)
@@ -119,7 +120,7 @@ func _build_compact() -> void:
 	_compact.minimum_size_changed.connect(_place_compact)  # Reposiciona quando o tamanho mínimo muda.
 	_hint = Label.new()  # Dica.
 	_hint.theme_type_variation = &"HintLabel"
-	_hint.text = HINT_MOBILE if Platform.is_mobile else HINT_PC  # Texto conforme a plataforma.
+	_hint.text = HINT_MOBILE if Platform.is_mobile() else HINT_PC  # Texto conforme a plataforma.
 	_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# Contorno para ler sobre o jogo.
 	_hint.add_theme_color_override(&"font_outline_color", UiPalette.OUTLINE)
@@ -128,23 +129,31 @@ func _build_compact() -> void:
 	_hint.minimum_size_changed.connect(_place_compact)
 
 
-## Faixa compacta no canto inferior direito; no celular (analógicos embaixo), no topo, abaixo da pausa.
-## Posiciona a faixa compacta e a dica: embaixo à direita no PC; no celular, no topo abaixo do botão de pausa.
+## Faixa compacta no canto inferior direito; no celular, dentro da região do quadro de comandos (abaixo
+## do botão de pausa), acompanhando o layout.
 func _place_compact() -> void:
-	if Platform.is_mobile:
-		_compact.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, UiPalette.SAFE_MARGIN)
-		_compact.position.y += MOBILE_COMPACT_TOP  # mexe na posição sem mudar o tamanho
+	if Platform.is_mobile():
+		var rect: Rect2 = MobileControls.control_rect(MobileLayout.BOARD)
+		var left: float = rect.end.x - 8.0 - _compact.size.x
+		_compact.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		_compact.position = Vector2(left, rect.position.y + MOBILE_COMPACT_TOP)
 	else:
 		_compact.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, UiPalette.SAFE_MARGIN)
 	# A dica fica junto dos slots (acima deles; no celular, abaixo).
 	# Altura ocupada pelos slots e pela colinha.
-	var slot_band: float = CooldownSlot.SLOT_SIZE + CHEAT_ARROW_SIZE + CHEAT_SLOT_GAP + UiPalette.UNIT
-	if Platform.is_mobile:
-		_hint.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, UiPalette.SAFE_MARGIN)
-		_hint.position.y += MOBILE_COMPACT_TOP + slot_band
+	var slot_band: float = CooldownSlot.TOUCH_SLOT_SIZE + CHEAT_ARROW_SIZE + CHEAT_SLOT_GAP + UiPalette.UNIT if Platform.is_mobile() 			else CooldownSlot.SLOT_SIZE + CHEAT_ARROW_SIZE + CHEAT_SLOT_GAP + UiPalette.UNIT
+	if Platform.is_mobile():
+		_hint.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		var hint_x: float = MobileControls.control_rect(MobileLayout.BOARD).end.x - 8.0 - _hint.size.x
+		_hint.position = Vector2(hint_x, _compact.position.y + slot_band)
 	else:
 		_hint.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, UiPalette.SAFE_MARGIN)
 		_hint.position.y -= slot_band
+
+
+## O layout do celular mudou: reposiciona a faixa de habilidades.
+func on_mobile_layout_changed() -> void:
+	_place_compact()
 
 
 ## Recria as linhas do painel e os slots compactos.
@@ -162,7 +171,7 @@ func _rebuild() -> void:
 	for i: int in range(_abilities.abilities.size(), MAX_SLOTS):  # slots vazios, discretos
 		_compact.add_child(_make_slot_column(CooldownSlot.new(), null))
 	# No PC mostra o rodapé com as teclas.
-	if not _abilities.abilities.is_empty() and not Platform.is_mobile:
+	if not _abilities.abilities.is_empty() and not Platform.is_mobile():
 		var footer: Label = Label.new()
 		footer.theme_type_variation = &"HintLabel"
 		footer.text = FOOTER_PC
@@ -292,7 +301,7 @@ func _on_command_unavailable(motivo: StringName) -> void:
 	await get_tree().create_timer(NOTICE_TIME, false).timeout
 	if token == _notice_token:  # Só apaga se ninguém criou um aviso mais novo.
 		_notice_active = false  # Aviso acabou.
-		_hint.text = HINT_MOBILE if Platform.is_mobile else HINT_PC  # Volta a dica normal.
+		_hint.text = HINT_MOBILE if Platform.is_mobile() else HINT_PC  # Volta a dica normal.
 		_refresh_visibility()
 
 
@@ -306,7 +315,7 @@ func _on_command_mode_changed(active: bool) -> void:
 ## Mostra o painel no modo comando e a faixa compacta fora dele; a dica some depois do primeiro uso.
 func _refresh_visibility() -> void:
 	var active: bool = _abilities != null and _abilities.command_active  # Modo comando aberto?
-	_panel.visible = active and not _entries.is_empty()  # Painel só com habilidades.
+	_panel.visible = active and not _entries.is_empty() and not Platform.is_mobile()  # Painel só com habilidades (no celular, o quadro de comandos faz esse papel).
 	_compact.visible = not active  # Faixa compacta quando o modo está fechado.
 	# Dica: aviso ativo ou jogador ainda não usou o modo.
 	_hint.visible = not active and (_notice_active or (not _entries.is_empty() and not RunState.command_hint_seen))

@@ -10,6 +10,14 @@ enum Phase { CHARGING, IMPACT }  # Fases do aviso: carregando ou impacto.
 @export var impact_duration: float = 0.15  # Duração do impacto.
 @export var pulse_amount: float = 0.06  # Intensidade do pulso do círculo.
 
+@export_group("Sprites (opcional: sem textura desenha o círculo de antes)")
+## Aviso: spritesheet horizontal; cada quadro mostra o progresso da carga (0 a 100 %).
+@export var warning_sheet: Texture2D
+## Impacto: spritesheet horizontal; os quadros passam durante `impact_duration`.
+@export var impact_sheet: Texture2D
+@export_range(1, 32) var warning_frames: int = 6  # Quadros da sheet de aviso.
+@export_range(1, 32) var impact_frames: int = 5  # Quadros da sheet de impacto.
+
 ## Hitbox filha e a forma dela.
 @export var hitbox: Hitbox
 @export var hitbox_shape: CollisionShape2D  # Forma da hitbox (recebe o raio do aviso).
@@ -20,6 +28,8 @@ var source: Node = null
 var _phase: Phase = Phase.CHARGING  # Fase atual.
 var _time_left: float = 1.0  # Tempo restante da fase.
 var _visual_scale: float = 1.0  # Escala visual do círculo (pulsa).
+var _charge_total: float = 1.0  # Duração total da carga (para o quadro do aviso).
+var _impact_total: float = 0.15  # Duração total do impacto (para o quadro do impacto).
 
 
 ## Raio próprio (a forma é do telegraph, não da cena) e hitbox desligada.
@@ -42,6 +52,7 @@ func launch(center: Vector2, charge_time: float, damage: int, from_source: Node)
 	source = from_source  # Quem criou.
 	_phase = Phase.CHARGING  # Começa carregando.
 	_time_left = maxf(charge_time, 0.0)  # Tempo de carga.
+	_charge_total = maxf(charge_time, 0.001)  # Guarda a duração para animar o aviso.
 	_visual_scale = 1.0  # Escala inicial.
 	if hitbox != null:  # Hitbox existe.
 		hitbox.configure(damage, true)  # Um acerto por alvo.
@@ -69,6 +80,8 @@ func _physics_process(delta: float) -> void:
 			if _time_left <= 0.0:  # Acabou a carga: impacto.
 				_impact()
 		Phase.IMPACT:
+			if impact_sheet != null:  # Com sprite, o impacto também precisa redesenhar a cada quadro.
+				queue_redraw()
 			if _time_left <= 0.0:  # Fim do impacto.
 				# Garante o dano em quem ficou dentro
 				hitbox.pulse(false)  # Garante o dano em quem ficou dentro.
@@ -78,8 +91,25 @@ func _physics_process(delta: float) -> void:
 ## Desenha o círculo.
 ## Desenha o círculo de aviso (ou de impacto).
 func _draw() -> void:
+	var sheet: Texture2D = warning_sheet if _phase == Phase.CHARGING else impact_sheet
+	if sheet != null:  # Com sprite: desenha o quadro (sem círculo).
+		_draw_sheet_frame(sheet)
+		return
 	var color := warning_color if _phase == Phase.CHARGING else impact_color  # Cor da fase atual.
 	draw_circle(Vector2.ZERO, radius * _visual_scale, color)  # Círculo com o pulso aplicado.
+
+
+## Desenha o quadro da spritesheet pelo progresso da fase, do tamanho exato do círculo de dano.
+func _draw_sheet_frame(sheet: Texture2D) -> void:
+	var charging: bool = _phase == Phase.CHARGING
+	var frames: int = warning_frames if charging else impact_frames
+	var total: float = _charge_total if charging else _impact_total
+	var progress: float = clampf(1.0 - _time_left / total, 0.0, 1.0)
+	var index: int = clampi(int(progress * float(frames)), 0, frames - 1)
+	var frame_w: float = float(sheet.get_width()) / float(frames)
+	var source := Rect2(frame_w * float(index), 0.0, frame_w, float(sheet.get_height()))
+	var dest := Rect2(Vector2(-radius, -radius), Vector2(radius * 2.0, radius * 2.0))
+	draw_texture_rect_region(sheet, dest, source)
 
 
 ## Liga a hitbox no impacto.
@@ -87,6 +117,7 @@ func _draw() -> void:
 func _impact() -> void:
 	_phase = Phase.IMPACT  # Fase de impacto.
 	_time_left = impact_duration  # Duração do impacto.
+	_impact_total = maxf(impact_duration, 0.001)  # Guarda a duração para animar o impacto.
 	_visual_scale = 1.0  # Tamanho normal.
 	# Liga a hitbox: acerta quem está dentro
 	hitbox.set_active(true)  # Liga a hitbox para acertar quem está dentro.

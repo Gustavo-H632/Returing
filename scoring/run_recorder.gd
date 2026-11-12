@@ -14,6 +14,8 @@ var _fase_concluida: bool = false
 var _config: ScoreConfig = null  # Configuração da pontuação.
 ## Quiz da fase (só existe na Fase 2).
 var _quiz: QuizScreen = null
+## True depois que a tela final foi agendada (avisos repetidos de fim não abrem duas telas).
+var _final_agendada: bool = false
 
 
 ## Dá um nome estável ao nó (ele é criado por código).
@@ -88,15 +90,21 @@ func _on_level_completed(next_scene: String) -> void:
 
 
 ## Só aqui a pontuação é calculada (durante o jogo nada é calculado nem exibido).
-## Calcula a pontuação uma única vez, grava o recorde e agenda a tela final depois do letreiro "FIM DE JOGO".
+## Calcula a pontuação uma única vez, grava o recorde e agenda a tela final (depois da cutscene final, se a fase tiver uma).
 func _finalizar_run() -> void:
+	if _final_agendada:  # Já agendada: avisos repetidos não abrem outra tela.
+		return
+	_final_agendada = true
 	RunStats.finalizar()  # Encerra a contagem.
 	# Calcula os pontos a partir dos números brutos.
 	var resultado: ScoreResult = ScoreCalculator.calcular(RunStats.capturar(), _config)
 	# Compara com o recorde local.
 	var recorde: Dictionary = HighScoreStore.registrar(resultado.total, resultado.rank, RunStats.tempo_s)
-	# Depois do letreiro "FIM DE JOGO" da HUD; timer de jogo (respeita a pausa).
-	# Timer de jogo (respeita a pausa).
+	# Fase com cutscene final (grupo "final_cutscene"): a tela de resultado só abre quando ela termina.
+	if get_tree().has_group(FinalCutscene.GROUP):
+		EventBus.cutscene_finished.connect(_abrir_tela_final.bind(resultado, recorde), CONNECT_ONE_SHOT)
+		return
+	# Sem cutscene: timer de jogo (respeita a pausa).
 	var timer: SceneTreeTimer = CombatUtils.game_timer(self, _config.atraso_tela_final_s)
 	if timer != null:  # Só se foi criado.
 		timer.timeout.connect(_abrir_tela_final.bind(resultado, recorde))  # Abre a tela final com o resultado.

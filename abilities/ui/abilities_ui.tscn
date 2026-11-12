@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://abilities/ui/abilities_ui.gd" id="1_ui"]
 [ext_resource type="Script" path="res://abilities/ui/command_hud.gd" id="2_hud"]
 [ext_resource type="PackedScene" path="res://abilities/ui/level_up_menu.tscn" id="4_menu"]
 [ext_resource type="Script" path="res://abilities/ui/touch_command_pad.gd" id="5_pad"]
 [ext_resource type="PackedScene" path="res://abilities/ui/build_menu.tscn" id="6_build"]
+[ext_resource type="Script" path="res://mobile/command_board.gd" id="7_board"]
 
 [node name="AbilitiesUI" type="CanvasLayer"]
 layer = 11
@@ -15,6 +16,9 @@ script = ExtResource("2_hud")
 
 [node name="TouchPad" type="Control" parent="."]
 script = ExtResource("5_pad")
+
+[node name="CommandBoard" type="Control" parent="."]
+script = ExtResource("7_board")
 
 [node name="LevelUpMenu" parent="." instance=ExtResource("4_menu")]
 

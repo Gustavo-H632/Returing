@@ -1,0 +1,29 @@
+# Paleta do Returing (extraída de ui/theme/*.png, sprites/HUD/*.png e themes/palette.gd)
+# Contorno e base dos assets pixel art
+#020202  contorno preto (1 px nas molduras, barras e botões)
+#07070c  fundo escuro da moldura dourada (panel_gold)
+#1f1c2e  fundo escuro dos botões (btn_normal)
+# Dourado (molduras, botões, destaque)
+#b8841a  dourado escuro (sombra da moldura)
+#fed232  dourado principal
+#fee286  dourado claro (brilho)
+# Neutros
+#fefefe  branco
+#e6e6e6  cinza claro (fundo do ícone das barras)
+#c2c2c2  cinza médio
+# Vida (vermelho) e carga/escudo (azul)
+#f62626  vermelho
+#fe6a6a  vermelho claro
+#86befe  azul
+#d6fefe  azul muito claro
+# Caixa marrom dos diálogos (themes/palette.gd)
+#14100C  fundo da tela
+#221A13  caixas e painéis
+#2E2319  elementos elevados
+#5A4326  bordas
+#EBDDBA  texto
+#F2A93B  acento (hover/foco)
+# Botões de toque do celular (referencia mobile_layout.png): cinza translúcido, traço branco
+#9e9e9e  preenchimento (50% de opacidade)
+#d9d9d9  anel (50% de opacidade)
+#ffffff  ícones

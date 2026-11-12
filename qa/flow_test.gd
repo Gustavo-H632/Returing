@@ -105,7 +105,10 @@ func _rodar() -> void:
 	_confere(RunStats.finalizada, "Fase 3: a run foi finalizada")  # Run finalizada.
 	# Tempo da fase registrado.
 	_confere(RunStats.tempos_por_fase.size() == 2, "Fase 3: tempo da fase registrado")
-	await get_tree().create_timer(0.6, true, false, true).timeout  # Espera a tela abrir.
+	await get_tree().create_timer(0.6, true, false, true).timeout  # Passou o atraso antigo da tela final.
+	# A Fase 3 tem cutscene final: a tela de resultado só abre quando ela termina.
+	_confere(_tela() == null, "Fase 3: a tela final espera a cutscene final")
+	EventBus.cutscene_finished.emit()  # Simula o fim da cutscene final.
 	await _frames(3)  # Espera 3 quadros.
 	var tela: ResultScreen = _tela()  # Tela final.
 	_confere(tela != null, "Fase 3: a tela final abriu")  # A tela abriu.

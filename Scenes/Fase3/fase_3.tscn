@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://djsypmo5os1oh" path="res://levels/wave_manager.gd" id="9_wave"]
 [ext_resource type="PackedScene" uid="uid://rckqti68uekn" path="res://Scenes/Fase3/ArenaFloor.tscn" id="10_floor"]
 [ext_resource type="AudioStream" uid="uid://djr5jxpmtyve0" path="res://Sounds/Musics/BossMusic.wav" id="12_6quob"]
+[ext_resource type="Texture2D" path="res://assets/arena/arena_chefao.png" id="90_arena_chefao"]
+[ext_resource type="PackedScene" path="res://Scenes/Final/FinalCutscene.tscn" id="91_final"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6quob"]
 texture = ExtResource("2_hwqjs")
@@ -1863,8 +1865,15 @@ size = Vector2(32, 720)
 [node name="Fase_3" type="Node2D" unique_id=555477377]
 
 [node name="ArenaFloor" parent="." unique_id=785079919 instance=ExtResource("10_floor")]
+visible = false
+
+[node name="ArenaChefao" type="Sprite2D" parent="."]
+texture_filter = 1
+centered = false
+texture = ExtResource("90_arena_chefao")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1857872201]
+visible = false
 position = Vector2(131, 335)
 tile_map_data = PackedByteArray("AAA4APX/AAAoADEAAAA4APb/AAAoADIAAAA5APT/AAApADAAAAA5APX/AAApADEAAAA5APb/AAApADIAAAA6APT/AAAqADAAAAA6APX/AAAqADEAAAA6APb/AAAqADIAAAA4AA0AAAAoADEAAAA4AA4AAAAoADIAAAA5AAwAAAApADAAAAA5AA0AAAApADEAAAA5AA4AAAApADIAAAA6AAwAAAAqADAAAAA6AA0AAAAqADEAAAA6AA4AAAAqADIAAAD9/w0AAAAoADEAAAD9/w4AAAAoADIAAAD+/wwAAAApADAAAAD+/w0AAAApADEAAAD+/w4AAAApADIAAAD//wwAAAAqADAAAAD//w0AAAAqADEAAAD//w4AAAAqADIAAAD+//X/AAAoADEAAAD+//b/AAAoADIAAAD///T/AAApADAAAAD///X/AAApADEAAAD///b/AAApADIAAAAAAPT/AAAqADAAAAAAAPX/AAAqADEAAAAAAPb/AAAqADIAAAD+//f/AAAoADMAAAD///f/AAApADMAAAAAAPf/AAAqADMAAAD9/w8AAAAoADMAAAD+/w8AAAApADMAAAD//w8AAAAqADMAAAA4AA8AAAAoADMAAAA5AA8AAAApADMAAAA6AA8AAAAqADMAAAA4APf/AAAoADMAAAA5APf/AAApADMAAAA6APf/AAAqADMAAAA=")
 tile_set = SubResource("TileSet_y0my6")
@@ -1914,6 +1923,8 @@ boss_kind = &"guide"
 [node name="HUD" parent="." unique_id=1775704810 instance=ExtResource("3_hud")]
 
 [node name="Pause" parent="." unique_id=1594420123 instance=ExtResource("1_pause")]
+
+[node name="FinalCutscene" parent="." instance=ExtResource("91_final")]
 
 [node name="Bounds" type="StaticBody2D" parent="." unique_id=223415220]
 collision_mask = 0

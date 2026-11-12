@@ -7,6 +7,8 @@ const GROUP_PLAYER: StringName = &"player"
 const GROUP_ENEMY: StringName = &"enemy"
 const GROUP_HURTBOX: StringName = &"hurtbox"
 const GROUP_HITBOX: StringName = &"hitbox"
+## Corpos que os inimigos também podem atacar além do jogador (ex.: o portal da fase de defesa).
+const GROUP_ENEMY_TARGET: StringName = &"enemy_target"
 
 ## Camadas de física (iguais às nomeadas em Project Settings).
 const LAYER_WORLD: int = 1
@@ -44,6 +46,14 @@ static func is_player(obj: Variant) -> bool:
 		return false
 	var node: Node = obj
 	return node.is_in_group(GROUP_PLAYER)  # O jogador é identificado pelo grupo.
+
+
+## True se é o player vivo OU outro alvo dos inimigos (grupo `enemy_target`, ex.: o portal da defesa).
+## Os sensores de alcance dos inimigos usam esta checagem, então o mesmo código de ataque serve aos dois alvos.
+static func is_enemy_target(obj: Variant) -> bool:
+	if is_player(obj):
+		return true
+	return is_alive(obj) and obj is Node and (obj as Node).is_in_group(GROUP_ENEMY_TARGET)
 
 
 ## True se o ator reporta estar morto.

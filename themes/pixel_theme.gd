@@ -78,7 +78,7 @@ func _load_font(paths: PackedStringArray) -> Font:
 		font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED  # Sem posição por subpixel.
 		return font  # Achou.
 	# Nenhuma encontrada: avisa.
-	push_warning("PixelTheme: fonte não encontrada (%s). Usando a fonte padrão; veja res://assets/fonts/LEIAME.md." % paths[0])
+	push_warning("PixelTheme: fonte não encontrada (%s). Usando a fonte padrão." % paths[0])
 	return null  # Usa a fonte padrão.
 
 

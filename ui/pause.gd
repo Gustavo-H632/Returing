@@ -28,6 +28,8 @@ var _previous_mouse_mode: Input.MouseMode = Input.MOUSE_MODE_VISIBLE  # Modo do 
 ## True só quando foi ESTE menu que pausou a árvore.
 var _paused_by_menu: bool = false
 var _tween: Tween = null  # Animação do painel.
+var _editor: MobileHudEditor = null  # Celular: editor de HUD (arrastar e redimensionar os controles).
+var _edit_button: PixelButton = null  # Celular: botão "Editar controles".
 
 
 ## Prepara o menu: camada acima da HUD, escuto a tecla com o jogo pausado e liga os botões.
@@ -36,6 +38,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS  # continua ouvindo a tecla com o jogo pausado
 	visible = false  # Começa escondido.
 	_dim.color = Palette.dim_color()  # Fundo escurecido.
+	SafeArea.fit($Root/Center)  # Celular: o menu fica centralizado na área segura (fora do notch e das barras).
 	_settings = SettingsPanel.new()  # Cria a página de configurações.
 	_settings.visible = false  # Começa escondida.
 	_panel.add_child(_settings)  # Entra no painel.
@@ -45,6 +48,8 @@ func _ready() -> void:
 	_settings_button.pressed.connect(_show_settings_page)  # Configurações.
 	_reset_button.pressed.connect(_on_reset_pressed)  # Reiniciar a fase.
 	_exit_button.pressed.connect(_on_menu_pressed)  # Voltar ao menu.
+	if Platform.is_mobile():  # Só no celular: tela para editar o layout dos controles.
+		_build_editor_entry()
 
 
 ## Ao sair da cena, se este menu pausou o jogo, despausa e devolve o mouse.
@@ -58,6 +63,8 @@ func _exit_tree() -> void:
 ## Dentro das configurações, a mesma tecla volta para a página principal em vez de fechar.
 ## Trata a tecla de pausa (alterna) e o cancelar (só fecha). Pausas de outras telas são respeitadas.
 func _unhandled_input(event: InputEvent) -> void:
+	if _editor != null and _editor.is_open:  # O editor de HUD cuida de si mesmo.
+		return
 	var toggles: bool = event.is_action_pressed(ACTION_PAUSE)  # A tecla de pausa alterna.
 	# Cancelar só fecha o menu aberto.
 	var closes: bool = _paused_by_menu and event.is_action_pressed(ACTION_CANCEL)
@@ -149,3 +156,34 @@ func _animate(opening: bool) -> void:
 	else:
 		_tween.tween_property(_root, ^"modulate:a", 0.0, close_time)  # Fechamento: fade-out.
 		_tween.tween_callback(func() -> void: visible = false)  # Ao fim, esconde.
+
+
+# --- Editor de HUD (só no celular) ---
+
+## Cria o botão "Editar controles" na página principal e o editor de HUD.
+func _build_editor_entry() -> void:
+	_editor = MobileHudEditor.new()
+	_editor.name = "MobileHudEditor"
+	add_child(_editor)
+	_editor.closed.connect(_on_editor_closed)
+	_edit_button = PixelButton.new()
+	_edit_button.name = "EditControlsButton"
+	_edit_button.text = "Editar controles"
+	_main_page.add_child(_edit_button)
+	_main_page.move_child(_edit_button, _settings_button.get_index() + 1)
+	_edit_button.pressed.connect(open_hud_editor)
+
+
+## Abre o editor de HUD por cima do menu de pausa.
+func open_hud_editor() -> void:
+	if _editor == null:
+		return
+	_root.visible = false
+	_editor.open()
+
+
+## O editor fechou: mostra o menu de pausa de novo.
+func _on_editor_closed(_saved: bool) -> void:
+	_root.visible = true
+	if _edit_button != null:
+		_edit_button.grab_focus()

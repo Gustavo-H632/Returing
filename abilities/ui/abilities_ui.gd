@@ -5,7 +5,8 @@ extends CanvasLayer
 ## (sem pausa, quiz ou Player morto); level-ups durante pausa ficam na fila.
 
 @onready var _command_hud: CommandHud = $CommandHud  # HUD da faixa de habilidades e do modo comando.
-@onready var _touch_pad: TouchCommandPad = $TouchPad  # Botões de toque do modo comando (só no celular).
+@onready var _touch_pad: TouchCommandPad = $TouchPad  # Toque nos amuletos da faixa de habilidades (só no celular).
+@onready var _board: CommandBoard = $CommandBoard  # Quadro de comandos do celular (inclinação).
 @onready var _menu: LevelUpMenu = $LevelUpMenu  # Menu de escolha de habilidade ao subir de nível.
 @onready var _build_menu: BuildMenu = $BuildMenu  # Menu "SUA BUILD" (só leitura).
 
@@ -58,7 +59,8 @@ func _setup() -> void:
 		return
 	_catalog = _abilities.catalog  # Catálogo usado nas ofertas.
 	_command_hud.setup(_abilities)  # Liga a HUD às habilidades.
-	_touch_pad.setup(_abilities, _command_hud)  # Liga os botões de toque.
+	_touch_pad.setup(_abilities, _command_hud)  # Liga o toque nos amuletos.
+	_board.setup(_abilities)  # Liga o quadro de comandos do celular.
 	# Clicar num amuleto abre o menu de build.
 	CombatUtils.connect_once(_command_hud.slot_pressed, _on_slot_pressed)
 	# Tocar num amuleto (celular) abre o menu de build.

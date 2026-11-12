@@ -14,6 +14,9 @@ signal abilities_changed  # Avisa que a lista de habilidades mudou (aprendeu ou 
 ## O jogador apertou o Ctrl mas o modo não pode abrir por um motivo que ele precisa saber
 ## (`&"sem_habilidades"`). Estar em dash ou golpe não gera aviso: o modo abre ao terminar.
 signal command_unavailable(motivo: StringName)
+## Uma seta foi digitada no modo comando (teclado, toque ou inclinação). O quadro de comandos e o
+## tutorial do celular escutam este sinal.
+signal arrow_input(dir: int)
 
 ## Ctrl: abre o modo comando (aperta de novo para cancelar). Não precisa segurar.
 const ACTION_COMMAND: StringName = &"command_mode"
@@ -53,6 +56,9 @@ var _slowed: bool = false  # True se a câmera lenta está ligada.
 ## (não há Enter) e o modo fica aberto até tocar de novo.
 var _toggle_mode: bool = false
 var _setup_done: bool = false  # True depois que a configuração terminou.
+## Modo treino (tutorial do celular): o modo comando abre sem habilidades, sem câmera lenta, e as
+## setas só avisam `arrow_input` (não contam como erro).
+var practice: bool = false
 # Escala original da espada (os bônus multiplicam sobre ela).
 var _weapon_base_scale: Vector2 = Vector2.ONE
 ## Fração de vida roubada ainda não convertida em 1 unidade de vida.
@@ -152,7 +158,7 @@ func _input(event: InputEvent) -> void:
 ## livre para andar, esquivar e atacar enquanto o modo está aberto.
 func can_open_command_mode() -> bool:
 	# Precisa estar configurado, com habilidades e sem pausa.
-	if not _setup_done or _player == null or abilities.is_empty() or get_tree().paused:
+	if not _setup_done or _player == null or (abilities.is_empty() and not practice) or get_tree().paused:
 		return false
 	return not _player.esta_morto()  # E o jogador precisa estar vivo.
 
@@ -161,13 +167,15 @@ func can_open_command_mode() -> bool:
 func toggle_command_mode() -> void:
 	if command_active:
 		close_command_mode()
+	elif abilities.is_empty() and not practice and _setup_done:  # Sem habilidades: avisa a HUD.
+		command_unavailable.emit(&"sem_habilidades")
 	elif can_open_command_mode():
 		_open_command_mode(true)
 
 
 ## Celular: digita uma seta (valor de `AbilityData.Dir`) no modo comando.
 func press_arrow(dir: int) -> void:
-	if command_active:
+	if command_active and not get_tree().paused:
 		_on_arrow(dir)
 
 
@@ -176,7 +184,7 @@ func _open_command_mode(by_touch: bool = false) -> void:
 	_toggle_mode = by_touch  # Guarda se foi por toque.
 	command_active = true  # Marca como aberto.
 	_sequence.clear()  # Começa uma sequência nova.
-	if command_time_scale < 1.0:  # Câmera lenta ligada?
+	if command_time_scale < 1.0 and not practice:  # Câmera lenta ligada?
 		Engine.time_scale = command_time_scale  # Aplica a escala de tempo.
 		_slowed = true  # Lembra de devolver depois.
 	command_mode_changed.emit(true)  # Avisa a abertura.
@@ -207,6 +215,9 @@ func _on_player_died() -> void:
 
 ## Digitou uma seta: acrescenta à sequência, vê quem ainda combina e (no celular) dispara ao completar.
 func _on_arrow(dir: int) -> void:
+	arrow_input.emit(dir)  # Avisa a quem acompanha (quadro de comandos, tutorial).
+	if practice:  # Treino: só mostra a seta, sem habilidades para combinar.
+		return
 	_sequence.append(dir)  # Acrescenta a seta.
 	var candidatas: Array[AbilityData] = _candidates()  # Habilidades que ainda combinam.
 	if candidatas.is_empty():  # Nenhuma combina: erro.

@@ -126,6 +126,7 @@ func _ready() -> void:
 	if not _valid:  # Faltou algo: esconde e para.
 		hide()
 		return
+	_adapt_mobile()
 	if perguntas.is_empty():  # Sem perguntas no Inspector, usa as padrão.
 		perguntas = _build_default_questions()
 	# Preenchimento próprio (cada instância troca a cor sem afetar o tema compartilhado).
@@ -160,6 +161,8 @@ func _stop_countdown() -> void:
 
 ## A cada quadro atualiza o relógio na tela.
 func _process(_delta: float) -> void:
+	if Platform.is_mobile() and visible:  # sobe o conteúdo quando o teclado virtual aparece
+		position.y = -_keyboard_shift()
 	_refresh_countdown()
 
 
@@ -226,6 +229,46 @@ func _gui_input(event: InputEvent) -> void:
 
 
 # --- Fluxo das perguntas ---
+
+## Celular: campo e botão com tamanho de toque, tudo dentro da área segura (o painel de fundo cobre a tela toda)
+## e o conjunto sobe quando o teclado virtual aparece, para o campo nunca ficar escondido atrás dele.
+func _adapt_mobile() -> void:
+	if not Platform.is_mobile():
+		return
+	answer_input.offset_bottom = answer_input.offset_top + Platform.MIN_TOUCH
+	submit_button.offset_top = answer_input.offset_bottom + 12.0
+	submit_button.offset_bottom = submit_button.offset_top + Platform.MIN_TOUCH
+	# Pergunta, campo, botão e relógio vão para a faixa livre do alto (da direita das barras de status até a pausa),
+	# com quebra de linha; o painel de fundo continua cobrindo a tela toda.
+	var conteudo: Array[Control] = []
+	for no: Node in get_children():
+		if no is Control and not (no is Panel):
+			conteudo.append(no as Control)
+	var faixa: Control = SafeArea.band_region(self, SafeArea.Band.TOP, "Conteudo")
+	for c: Control in conteudo:
+		c.reparent(faixa, false)
+		if c is Label:
+			(c as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		elif c is RichTextLabel:  # usa a largura da faixa (até 600 px, como no computador)
+			c.anchor_left = 0.0
+			c.anchor_right = 1.0
+			c.offset_left = 8.0
+			c.offset_right = -8.0
+
+
+## Celular: quanto o conteúdo sobe (px lógicos) por causa do teclado virtual.
+func _keyboard_shift() -> float:
+	var window_h: float = float(get_tree().root.size.y)
+	if window_h <= 0.0:
+		return 0.0
+	if not DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD):
+		return 0.0
+	var keyboard: float = float(DisplayServer.virtual_keyboard_get_height()) * get_viewport_rect().size.y / window_h
+	if keyboard <= 0.0:
+		return 0.0
+	var bottom: float = submit_button.get_global_rect().end.y - position.y + 8.0
+	return clampf(bottom - (get_viewport_rect().size.y - keyboard), 0.0, answer_input.get_global_rect().position.y - position.y)
+
 
 ## Abre o quiz na primeira pergunta.
 func iniciar() -> void:

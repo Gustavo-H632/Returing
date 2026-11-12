@@ -38,7 +38,7 @@ var _pulse_tween: Tween = null  # Animação do pulso.
 
 ## Define o tamanho mínimo (maior no celular) e ignora cliques por padrão.
 func _init() -> void:
-	var side: float = TOUCH_SLOT_SIZE if Platform.is_mobile else SLOT_SIZE  # Tamanho conforme a plataforma.
+	var side: float = TOUCH_SLOT_SIZE if Platform.is_mobile() else SLOT_SIZE  # Tamanho conforme a plataforma.
 	custom_minimum_size = Vector2(side, side)  # Tamanho mínimo do slot.
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # Só slots com habilidade recebem clique.
 
