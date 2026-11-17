@@ -36,7 +36,7 @@ Procure no link do Google Drive o arquivo para Android, permita a instalação d
 ## Autores
 
 - **Gustavo Henrique**: líder do grupo, responsável pelas interfaces e efeitos sonoros;
-- **Alice Bettin**: responsável pela documentação e pelos desenhos dos cenários;
+- **Alice Bettin**: responsável pela documentação e pelos StoryBoard;
 - **Eduarda Moniz**: responsável pela construção do site e pelos desenhos dos cenários;
 - **Icaro Francioni**: responsável pelos códigos e pela programação;
 - **Ana Beatriz**: responsável pelos desenhos de todos os sprites.
