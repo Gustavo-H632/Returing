@@ -11,6 +11,12 @@ Returing é uma aventura indescritível em que você, jogador, assume o controle
 - **Android SDK**: adequação para mobile;
 - **dotpict**: criação dos sprites.
 
+## Versão Atual
+
+- **RETURING v5.2**
+- **Godot 4.7**
+- **GD Script**
+- 
 ## Instalação
 
 Todos os arquivos estão disponíveis no [Google Drive](https://drive.google.com/drive/u/1/folders/1NQpKEup4KyXYShkUSw1h4h0qpZFMBoE9).
