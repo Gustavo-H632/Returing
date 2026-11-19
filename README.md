@@ -55,6 +55,7 @@ Vocês foram parte crucial do projeto e, sem vocês, nada disso seria possível!
 
 - Em especial, à professora Claudia Myuki, uma grande amiga, responsável por grande parte das correções e ideias do projeto.
 
+---
 
 ### O passado é a única esperança para o futuro.
 
